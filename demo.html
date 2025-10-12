@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellSense AI - Demo</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        .animate-bounce { animation: bounce 1s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0.8,0,1,1); } 50% { transform: none; animation-timing-function: cubic-bezier(0,0,0.2,1); } }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+
+        // Demo data
+        const demoUser = {
+            profile: { firstName: 'John', lastName: 'Doe' },
+            email: 'demo@wellsense.ai'
+        };
+
+        const healthData = [
+            { name: 'Mon', steps: 8500, heartRate: 72, sleep: 7.5 },
+            { name: 'Tue', steps: 9200, heartRate: 75, sleep: 8.0 },
+            { name: 'Wed', steps: 7800, heartRate: 70, sleep: 6.5 },
+            { name: 'Thu', steps: 10500, heartRate: 78, sleep: 7.8 },
+            { name: 'Fri', steps: 9800, heartRate: 74, sleep: 8.2 },
+            { name: 'Sat', steps: 12000, heartRate: 76, sleep: 9.0 },
+            { name: 'Sun', steps: 6500, heartRate: 68, sleep: 8.5 },
+        ];
+
+        // Auth Context
+        const AuthContext = React.createContext();
+        const useAuth = () => React.useContext(AuthContext);
+
+        const AuthProvider = ({ children }) => {
+            const [user, setUser] = useState(null);
+            const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+            const login = async (credentials) => {
+                // Simulate login
+                setTimeout(() => {
+                    setUser(demoUser);
+                    setIsAuthenticated(true);
+                }, 1000);
+                return { success: true };
+            };
+
+            const logout = () => {
+                setUser(null);
+                setIsAuthenticated(false);
+            };
+
+            return (
+                <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+                    {children}
+                </AuthContext.Provider>
+            );
+        };
+
+        // Login Component
+        const LoginForm = () => {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [loading, setLoading] = useState(false);
+            const { login } = useAuth();
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                await login({ email, password });
+                setLoading(false);
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center p-4">
+                    <div className="w-full max-w-md">
+                        <div className="bg-white rounded-2xl shadow-xl p-8">
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <span className="text-white font-bold text-2xl">W</span>
+                                </div>
+                                <h2 className="text-3xl font-bold text-gray-900 mb-2">WellSense AI</h2>
+                                <p className="text-gray-600">Your intelligent health companion</p>
+                            </div>
+
+                            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                                <p className="text-blue-700 text-sm">
+                                    🎉 <strong>Demo Mode:</strong> Use any email and password to login!
+                                </p>
+                            </div>
+
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="demo@wellsense.ai"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        required
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="password123"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        required
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 disabled:opacity-50 transition-all duration-200"
+                                >
+                                    {loading ? (
+                                        <div className="flex items-center justify-center">
+                                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                            Signing In...
+                                        </div>
+                                    ) : (
+                                        'Sign In to Demo'
+                                    )}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Dashboard Component
+        const Dashboard = () => {
+            const { user, logout } = useAuth();
+
+            const statsCards = [
+                { title: 'Daily Steps', value: '9,847', change: '+12%', color: 'blue' },
+                { title: 'Heart Rate', value: '72 BPM', change: '-3%', color: 'red' },
+                { title: 'Sleep Quality', value: '8.2h', change: '+5%', color: 'purple' },
+                { title: 'Health Score', value: '85%', change: '+8%', color: 'green' },
+            ];
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+                    {/* Demo Banner */}
+                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2">
+                        <div className="flex items-center justify-center space-x-2 text-sm font-medium">
+                            <span className="animate-pulse">✨</span>
+                            <span>🎉 <strong>Demo Mode Active</strong> - Experience WellSense AI with simulated data!</span>
+                            <span className="animate-bounce">⚡</span>
+                        </div>
+                    </div>
+
+                    {/* Header */}
+                    <header className="bg-white shadow-lg border-b border-gray-200">
+                        <div className="flex items-center justify-between px-6 py-4">
+                            <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                                    <span className="text-white font-bold text-lg">W</span>
+                                </div>
+                                <h1 className="text-2xl font-bold text-gray-800">WellSense AI</h1>
+                            </div>
+
+                            <div className="flex items-center space-x-4">
+                                <div className="flex items-center space-x-2 bg-gray-100 rounded-lg px-3 py-2">
+                                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+                                        <span className="text-white font-medium text-sm">J</span>
+                                    </div>
+                                    <span className="text-sm font-medium text-gray-700">{user?.profile?.firstName}</span>
+                                </div>
+                                <button
+                                    onClick={logout}
+                                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div className="p-6">
+                        {/* Welcome Section */}
+                        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl p-6 text-white mb-6">
+                            <h1 className="text-3xl font-bold mb-2">Good morning, {user?.profile?.firstName}! 👋</h1>
+                            <p className="text-blue-100">You're doing great! Here's your health overview for today.</p>
+                        </div>
+
+                        {/* Stats Cards */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                            {statsCards.map((stat, index) => (
+                                <div key={stat.title} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                                            <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
+                                            <p className={`text-sm mt-1 ${stat.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                                                {stat.change} from yesterday
+                                            </p>
+                                        </div>
+                                        <div className={`p-3 rounded-lg bg-${stat.color}-50`}>
+                                            <div className={`w-6 h-6 bg-${stat.color}-600 rounded`}></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Features Grid */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* AI Chat */}
+                            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                                <div className="flex items-center space-x-2 mb-4">
+                                    <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <span className="text-purple-600">🤖</span>
+                                    </div>
+                                    <h3 className="text-lg font-semibold text-gray-900">AI Health Coach</h3>
+                                </div>
+                                <div className="space-y-3">
+                                    <div className="p-3 bg-gray-50 rounded-lg">
+                                        <p className="text-sm text-gray-700">
+                                            "Your sleep quality improved by 15% this week. Consider maintaining your current bedtime routine."
+                                        </p>
+                                    </div>
+                                    <div className="p-3 bg-blue-50 rounded-lg">
+                                        <p className="text-sm text-blue-800">
+                                            "Great job on exceeding your step goal 5 days this week! Your cardiovascular health is improving."
+                                        </p>
+                                    </div>
+                                    <button className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                                        Chat with AI Coach
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Health Goals */}
+                            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                                <div className="flex items-center space-x-2 mb-4">
+                                    <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <span className="text-green-600">🎯</span>
+                                    </div>
+                                    <h3 className="text-lg font-semibold text-gray-900">Today's Goals</h3>
+                                </div>
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm text-gray-600">Daily Steps</span>
+                                        <div className="flex items-center space-x-2">
+                                            <div className="w-24 bg-gray-200 rounded-full h-2">
+                                                <div className="bg-blue-500 h-2 rounded-full w-4/5"></div>
+                                            </div>
+                                            <span className="text-sm font-medium">8,500/10,000</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm text-gray-600">Water Intake</span>
+                                        <div className="flex items-center space-x-2">
+                                            <div className="w-24 bg-gray-200 rounded-full h-2">
+                                                <div className="bg-blue-500 h-2 rounded-full w-3/5"></div>
+                                            </div>
+                                            <span className="text-sm font-medium">6/8 glasses</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm text-gray-600">Active Minutes</span>
+                                        <div className="flex items-center space-x-2">
+                                            <div className="w-24 bg-gray-200 rounded-full h-2">
+                                                <div className="bg-green-500 h-2 rounded-full w-full"></div>
+                                            </div>
+                                            <span className="text-sm font-medium">30/30 min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Feature Showcase */}
+                        <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-4">🌟 WellSense AI Features</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div className="text-center p-4 bg-blue-50 rounded-lg">
+                                    <div className="text-3xl mb-2">📊</div>
+                                    <h4 className="font-semibold text-gray-900">Health Analytics</h4>
+                                    <p className="text-sm text-gray-600">Track and analyze your health metrics</p>
+                                </div>
+                                <div className="text-center p-4 bg-green-50 rounded-lg">
+                                    <div className="text-3xl mb-2">🤖</div>
+                                    <h4 className="font-semibold text-gray-900">AI Coach</h4>
+                                    <p className="text-sm text-gray-600">Personalized health guidance</p>
+                                </div>
+                                <div className="text-center p-4 bg-purple-50 rounded-lg">
+                                    <div className="text-3xl mb-2">👥</div>
+                                    <h4 className="font-semibold text-gray-900">Community</h4>
+                                    <p className="text-sm text-gray-600">Connect with health enthusiasts</p>
+                                </div>
+                                <div className="text-center p-4 bg-orange-50 rounded-lg">
+                                    <div className="text-3xl mb-2">🎯</div>
+                                    <h4 className="font-semibold text-gray-900">Goal Tracking</h4>
+                                    <p className="text-sm text-gray-600">Achieve your health objectives</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="mt-8 text-center text-gray-500 text-sm">
+                            <p>🎉 This is a demo of WellSense AI - Your Intelligent Health Companion</p>
+                            <p className="mt-2">Built with React, Node.js, and AI integration ready for OpenAI GPT-4</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Main App
+        const App = () => {
+            const { isAuthenticated } = useAuth();
+            return isAuthenticated ? <Dashboard /> : <LoginForm />;
+        };
+
+        // Render App
+        const root = createRoot(document.getElementById('root'));
+        root.render(
+            <AuthProvider>
+                <App />
+            </AuthProvider>
+        );
+    </script>
+</body>
+</html>

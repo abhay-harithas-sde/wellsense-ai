@@ -1,0 +1,138 @@
+{
+  "name": "wellsense-ai",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AI-driven health and wellness platform - Buildathon Submission",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite --host",
+    "start": "npm run dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "server": "cd server && npm start",
+    "server:dev": "cd server && npm run dev",
+    "start:full": "concurrently \"npm run server:dev\" \"npm run dev\"",
+    "install:all": "npm install && cd server && npm install",
+    "demo": "echo Starting WellSense AI in demo mode... && npm run dev",
+    "setup": "node setup.js",
+    "setup:openai": "node install-openai.js",
+    "setup:ai": "node setup-ai-integration.cjs",
+    "test:ai": "node test-ai-providers.cjs",
+    "test:all": "node run-comprehensive-tests.bat",
+    "validate": "node validate-setup.bat",
+    "db:setup": "cd server && node scripts/dbManager.js setup",
+    "db:migrate": "cd server && node scripts/migrate.js up",
+    "db:migrate:down": "cd server && node scripts/migrate.js down",
+    "db:migrate:status": "cd server && node scripts/migrate.js status",
+    "db:migrate:create": "cd server && node scripts/migrate.js create",
+    "db:seed": "cd server && node scripts/dbManager.js seed",
+    "db:seed:force": "cd server && node scripts/dbManager.js seed --force",
+    "db:reset": "cd server && node scripts/dbManager.js reset",
+    "db:status": "cd server && node scripts/dbManager.js status",
+    "db:backup": "cd server && node scripts/dbManager.js backup",
+    "db:restore": "cd server && node scripts/dbManager.js restore",
+    "db:health": "cd server && node scripts/dbManager.js health",
+    "db:test": "cd server && node scripts/testMigrations.js",
+    "db:test:perf": "cd server && node scripts/testMigrations.js --performance",
+    "db:init": "cd server && node scripts/initDatabase.js",
+    "deploy:frontend": "npm run build && echo Frontend built for deployment",
+    "deploy:full": "npm run build && cd server && npm install --production",
+    "health-check": "curl -f http://localhost:5000/api/health-check || echo 'Backend not running'",
+    "deploy": "node deploy.cjs",
+    "start:dev": "node start-dev.cjs",
+    "check:all": "npm run db:test && npm run health-check",
+    "system:check": "node system-check.cjs",
+    "final:check": "node final-check.cjs",
+    "postinstall": "echo 🎉 WellSense AI installation complete! Run 'npm run deploy' to deploy or 'npm run start:dev' for development."
+  },
+  "dependencies": {
+    "framer-motion": "^10.12.0",
+    "lucide-react": "^0.263.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "recharts": "^2.6.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.2.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "node-fetch": "^3.3.2",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.0",
+    "vite": "^4.3.9"
+  },
+  "keywords": [
+    "health",
+    "wellness",
+    "ai",
+    "healthcare",
+    "community",
+    "buildathon",
+    "react",
+    "nodejs",
+    "openai",
+    "anthropic",
+    "google-ai",
+    "fitness",
+    "nutrition",
+    "mental-health",
+    "telemedicine"
+  ],
+  "author": {
+    "name": "ARUWELL PRENEURS",
+    "email": "contact@aruwellpreneurs.com",
+    "url": "https://aruwellpreneurs.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aruwellpreneurs/wellsense-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aruwellpreneurs/wellsense-ai/issues"
+  },
+  "homepage": "https://wellsense-ai.com",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "buildathon": {
+    "submission": true,
+    "category": "Healthcare Technology",
+    "features": [
+      "Multi-Provider AI Integration",
+      "Comprehensive Health Tracking",
+      "Personalized Health Coaching",
+      "Community Social Features",
+      "Voice and Image Processing",
+      "Mental Wellness Support",
+      "Progressive Web Application",
+      "Real-time Communication"
+    ],
+    "technologies": [
+      "React 18",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "OpenAI GPT-4",
+      "Anthropic Claude",
+      "Google Gemini",
+      "Socket.io",
+      "Tailwind CSS",
+      "Framer Motion"
+    ],
+    "deployment": {
+      "demo": "npm run demo",
+      "production": "npm run build",
+      "fullstack": "npm run start:full"
+    }
+  }
+}

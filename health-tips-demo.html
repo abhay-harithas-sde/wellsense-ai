@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellSense AI - Health Tips & Videos Demo</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .5;
+            }
+        }
+
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+
+        // Demo health content data
+        const healthContent = [
+            {
+                id: 1,
+                type: 'video',
+                category: 'fitness',
+                title: '10-Minute Morning Workout for Beginners',
+                description: 'Start your day with energy! This beginner-friendly routine requires no equipment and can be done anywhere.',
+                duration: '10:32',
+                thumbnail: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+                author: 'Dr. Sarah Johnson',
+                views: 15420,
+                likes: 892,
+                difficulty: 'Beginner',
+                tags: ['morning', 'cardio', 'strength', 'no-equipment'],
+                aiRecommended: true,
+                personalizedReason: 'Based on your fitness level and morning routine preferences'
+            },
+            {
+                id: 2,
+                type: 'article',
+                category: 'nutrition',
+                title: 'The Science of Hydration: How Much Water Do You Really Need?',
+                description: 'Discover the optimal hydration formula based on your weight, activity level, and climate.',
+                readTime: '5 min read',
+                thumbnail: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop',
+                author: 'Nutritionist Mike Chen',
+                views: 8934,
+                likes: 567,
+                tags: ['hydration', 'health', 'science', 'daily-habits'],
+                aiRecommended: true,
+                personalizedReason: 'Matches your current hydration goals and weight loss journey'
+            },
+            {
+                id: 3,
+                type: 'video',
+                category: 'mental_health',
+                title: 'Guided Meditation for Better Sleep',
+                description: 'A calming 15-minute meditation to help you unwind and prepare for restful sleep.',
+                duration: '15:45',
+                thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop',
+                author: 'Mindfulness Coach Emma Davis',
+                views: 23156,
+                likes: 1234,
+                difficulty: 'All Levels',
+                tags: ['meditation', 'sleep', 'relaxation', 'mindfulness'],
+                aiRecommended: false,
+                personalizedReason: null
+            },
+            {
+                id: 4,
+                type: 'podcast',
+                category: 'wellness',
+                title: 'The Psychology of Habit Formation',
+                description: 'Learn how to build lasting healthy habits using science-backed strategies.',
+                duration: '28:15',
+                thumbnail: 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=300&fit=crop',
+                author: 'Dr. Alex Rivera',
+                views: 12890,
+                likes: 743,
+                tags: ['habits', 'psychology', 'behavior-change', 'motivation'],
+                aiRecommended: true,
+                personalizedReason: 'Aligns with your behavior coaching goals and consistency challenges'
+            },
+            {
+                id: 5,
+                type: 'article',
+                category: 'nutrition',
+                title: 'Meal Prep Mastery: 5 Healthy Recipes for Busy Professionals',
+                description: 'Time-saving meal prep strategies with nutritious recipes that support your health goals.',
+                readTime: '8 min read',
+                thumbnail: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop',
+                author: 'Chef Maria Rodriguez',
+                views: 19567,
+                likes: 1089,
+                tags: ['meal-prep', 'recipes', 'nutrition', 'time-saving'],
+                aiRecommended: true,
+                personalizedReason: 'Perfect for your busy schedule and weight management goals'
+            },
+            {
+                id: 6,
+                type: 'video',
+                category: 'fitness',
+                title: 'Desk Exercises to Combat Sitting All Day',
+                description: 'Simple exercises you can do at your desk to improve posture and reduce back pain.',
+                duration: '12:20',
+                thumbnail: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop',
+                author: 'Physical Therapist John Smith',
+                views: 34521,
+                likes: 1876,
+                difficulty: 'Beginner',
+                tags: ['desk-exercises', 'posture', 'office-health', 'stretching'],
+                aiRecommended: false,
+                personalizedReason: null
+            }
+        ];
+
+        const categories = [
+            { id: 'all', name: 'All Topics', color: 'gray' },
+            { id: 'fitness', name: 'Fitness', color: 'blue' },
+            { id: 'nutrition', name: 'Nutrition', color: 'green' },
+            { id: 'mental_health', name: 'Mental Health', color: 'purple' },
+            { id: 'wellness', name: 'Wellness', color: 'red' }
+        ];
+
+        const contentTypes = [
+            { id: 'all', name: 'All Content' },
+            { id: 'video', name: 'Videos' },
+            { id: 'article', name: 'Articles' },
+            { id: 'podcast', name: 'Podcasts' }
+        ];
+
+        const HealthTips = () => {
+            const [selectedCategory, setSelectedCategory] = useState('all');
+            const [searchQuery, setSearchQuery] = useState('');
+            const [contentType, setContentType] = useState('all');
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                setTimeout(() => setLoading(false), 1000);
+            }, []);
+
+            const filteredContent = healthContent.filter(item => {
+                const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+                const matchesType = contentType === 'all' || item.type === contentType;
+                const matchesSearch = searchQuery === '' ||
+                    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    item.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+
+                return matchesCategory && matchesType && matchesSearch;
+            });
+
+            const aiRecommendedContent = healthContent.filter(item => item.aiRecommended);
+
+            const handleLike = (contentId) => {
+                alert(`Liked content! 👍`);
+            };
+
+            const handleBookmark = (contentId) => {
+                alert(`Bookmarked for later! 🔖`);
+            };
+
+            const handleShare = (contentId) => {
+                alert('Content shared! 📤');
+            };
+
+            if (loading) {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-50 flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                            <p className="text-gray-600">Loading health tips and videos...</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-50 p-6">
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-green-600 to-teal-600 rounded-xl p-6 text-white mb-6">
+                        <div className="flex items-center space-x-3 mb-2">
+                            <div className="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+                                <span className="text-white font-bold">📚</span>
+                            </div>
+                            <h1 className="text-2xl font-bold">Health Tips & Videos</h1>
+                        </div>
+                        <p className="text-green-100">Personalized health content curated by AI for your wellness journey</p>
+                    </div>
+
+                    {/* AI Recommendations */}
+                    <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6 mb-6">
+                        <div className="flex items-center space-x-2 mb-4">
+                            <span className="text-purple-600 text-xl">🤖</span>
+                            <h3 className="text-lg font-semibold text-purple-900">AI Recommended for You</h3>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {aiRecommendedContent.slice(0, 3).map((item) => (
+                                <div key={item.id} className="bg-white rounded-lg p-4 shadow-sm border border-purple-200 hover:shadow-md transition-shadow">
+                                    <div className="relative mb-3">
+                                        <img
+                                            src={item.thumbnail}
+                                            alt={item.title}
+                                            className="w-full h-32 object-cover rounded-lg"
+                                        />
+                                        <div className="absolute top-2 right-2 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                                            AI Pick
+                                        </div>
+                                        {item.type === 'video' && (
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="bg-black bg-opacity-50 rounded-full p-3">
+                                                    <span className="text-white text-xl">▶️</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <h4 className="font-semibold text-gray-900 mb-2 line-clamp-2">{item.title}</h4>
+                                    <p className="text-sm text-purple-700 mb-2">{item.personalizedReason}</p>
+                                    <div className="flex items-center justify-between text-sm text-gray-600">
+                                        <span>{item.type === 'video' ? item.duration : item.readTime}</span>
+                                        <div className="flex items-center space-x-1">
+                                            <span>👍</span>
+                                            <span>{item.likes}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Search and Filters */}
+                    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6">
+                        <div className="flex flex-col md:flex-row gap-4 mb-6">
+                            {/* Search */}
+                            <div className="flex-1">
+                                <div className="relative">
+                                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+                                    <input
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder="Search health tips, videos, articles..."
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Content Type Filter */}
+                            <div className="flex space-x-2">
+                                {contentTypes.map((type) => (
+                                    <button
+                                        key={type.id}
+                                        onClick={() => setContentType(type.id)}
+                                        className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${contentType === type.id
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                            }`}
+                                    >
+                                        {type.name}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Category Filters */}
+                        <div className="flex flex-wrap gap-2">
+                            {categories.map((category) => (
+                                <button
+                                    key={category.id}
+                                    onClick={() => setSelectedCategory(category.id)}
+                                    className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${selectedCategory === category.id
+                                        ? `bg-${category.color}-100 text-${category.color}-700`
+                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        }`}
+                                >
+                                    {category.name}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Content Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                        {filteredContent.map((item) => (
+                            <div key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow">
+                                {/* Thumbnail */}
+                                <div className="relative">
+                                    <img
+                                        src={item.thumbnail}
+                                        alt={item.title}
+                                        className="w-full h-48 object-cover"
+                                    />
+                                    {item.aiRecommended && (
+                                        <div className="absolute top-3 left-3 bg-purple-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1">
+                                            <span>🤖</span>
+                                            <span>AI Pick</span>
+                                        </div>
+                                    )}
+                                    <div className="absolute top-3 right-3 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-xs">
+                                        {item.type === 'video' ? item.duration : item.readTime}
+                                    </div>
+                                    {item.type === 'video' && (
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <div className="bg-black bg-opacity-50 rounded-full p-4 hover:bg-opacity-70 transition-all cursor-pointer">
+                                                <span className="text-white text-2xl">▶️</span>
+                                            </div>
+                                        </div>
+                                    )}
+                                    {item.type === 'podcast' && (
+                                        <div className="absolute bottom-3 left-3 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1">
+                                            <span>🎧</span>
+                                            <span>Podcast</span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Content */}
+                                <div className="p-6">
+                                    <div className="flex items-center justify-between mb-2">
+                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.category === 'fitness' ? 'bg-blue-100 text-blue-700' :
+                                            item.category === 'nutrition' ? 'bg-green-100 text-green-700' :
+                                                item.category === 'mental_health' ? 'bg-purple-100 text-purple-700' :
+                                                    item.category === 'wellness' ? 'bg-red-100 text-red-700' :
+                                                        'bg-gray-100 text-gray-700'
+                                            }`}>
+                                            {item.category.replace('_', ' ')}
+                                        </span>
+                                        {item.difficulty && (
+                                            <span className="text-xs text-gray-500">{item.difficulty}</span>
+                                        )}
+                                    </div>
+
+                                    <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{item.title}</h3>
+                                    <p className="text-sm text-gray-600 mb-4 line-clamp-3">{item.description}</p>
+
+                                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                                        <span>by {item.author}</span>
+                                        <span>{item.views.toLocaleString()} views</span>
+                                    </div>
+
+                                    {/* Tags */}
+                                    <div className="flex flex-wrap gap-1 mb-4">
+                                        {item.tags.slice(0, 3).map((tag, index) => (
+                                            <span key={index} className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* Actions */}
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-3">
+                                            <button
+                                                onClick={() => handleLike(item.id)}
+                                                className="flex items-center space-x-1 text-gray-600 hover:text-red-600 transition-colors"
+                                            >
+                                                <span>👍</span>
+                                                <span className="text-sm">{item.likes}</span>
+                                            </button>
+                                            <button
+                                                onClick={() => handleBookmark(item.id)}
+                                                className="text-gray-600 hover:text-yellow-600 transition-colors"
+                                            >
+                                                <span>🔖</span>
+                                            </button>
+                                            <button
+                                                onClick={() => handleShare(item.id)}
+                                                className="text-gray-600 hover:text-blue-600 transition-colors"
+                                            >
+                                                <span>📤</span>
+                                            </button>
+                                        </div>
+                                        <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                                            {item.type === 'video' ? 'Watch' : item.type === 'podcast' ? 'Listen' : 'Read'}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Load More */}
+                    <div className="text-center">
+                        <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                            Load More Content
+                        </button>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="mt-8 text-center text-gray-500 text-sm">
+                        <p>🎉 WellSense AI Health Tips & Videos - Personalized content for your wellness journey</p>
+                        <p className="mt-2">AI-curated health content • Expert-verified tips • Community-driven recommendations</p>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render App
+        const root = createRoot(document.getElementById('root'));
+        root.render(<HealthTips />);
+    </script>
+</body>
+
+</html>

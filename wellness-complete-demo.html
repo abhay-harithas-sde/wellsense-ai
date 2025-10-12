@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellSense AI - Complete Wellness Platform Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .meditation-pulse { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .stats-card { transition: transform 0.3s ease; }
+        .stats-card:hover { transform: translateY(-5px); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white p-6">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl font-bold mb-2">🌟 WellSense AI Complete Wellness Platform</h1>
+            <p class="text-xl opacity-90">Your comprehensive health, meditation, and statistics dashboard</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg p-4 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex space-x-6">
+            <button onclick="showSection('statistics')" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">📊 Statistics</button>
+            <button onclick="showSection('meditation')" class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600">🧘 Meditation</button>
+            <button onclick="showSection('wellness')" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">😊 Mental Wellness</button>
+            <button onclick="showSection('openai')" class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">🤖 OpenAI Integration</button>
+        </div>
+    </nav>
+
+    <!-- Statistics Section -->
+    <section id="statistics" class="max-w-7xl mx-auto p-6">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+            📊 Health Statistics & Analytics
+        </h2>
+        
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="stats-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Current Weight</p>
+                        <p class="text-2xl font-bold text-gray-900">66.0 kg</p>
+                        <p class="text-green-600 text-sm">↗ +2.5% this month</p>
+                    </div>
+                    <div class="p-3 bg-blue-500 rounded-full">
+                        <span class="text-white text-xl">⚖️</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-card bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-medium">Heart Rate</p>
+                        <p class="text-2xl font-bold text-gray-900">72 bpm</p>
+                        <p class="text-red-600 text-sm">↘ -3.2% this week</p>
+                    </div>
+                    <div class="p-3 bg-red-500 rounded-full">
+                        <span class="text-white text-xl">❤️</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+    <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold mb-4">Weight Progress</h3>
+                <canvas id="weightChart" width="400" height="200"></canvas>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold mb-4">Activity Breakdown</h3>
+                <canvas id="activityChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- AI Insights -->
+        <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-blue-100">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">🤖 AI-Powered Insights</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-4">
+                    <h4 class="font-medium text-green-700 mb-2">🎯 Great Progress!</h4>
+                    <p class="text-sm text-gray-600">Your weight loss is on track. You've lost 4kg in 6 months!</p>
+                </div>
+                <div class="bg-white rounded-lg p-4">
+                    <h4 class="font-medium text-blue-700 mb-2">💪 Activity Boost</h4>
+                    <p class="text-sm text-gray-600">Your daily steps increased by 15% this month. Keep it up!</p>
+                </div>
+                <div class="bg-white rounded-lg p-4">
+                    <h4 class="font-medium text-purple-700 mb-2">😴 Sleep Quality</h4>
+                    <p class="text-sm text-gray-600">Your sleep improved by 30 minutes. This supports your goals!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meditation Section -->
+    <section id="meditation" class="max-w-7xl mx-auto p-6 hidden">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+            🧘 Meditation & Mindfulness Center
+        </h2>
+
+        <!-- Progress Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">🏆</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">7</h3>
+                <p class="text-gray-600">Day Streak</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">⏰</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">245</h3>
+                <p class="text-gray-600">Total Minutes</p>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-2xl">📈</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">7/7</h3>
+                <p class="text-gray-600">This Week</p>
+            </div>
+        </div>
+
+        <!-- Meditation Timer -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-8 text-center">
+            <div class="meditation-pulse w-64 h-64 mx-auto mb-8 relative">
+                <div class="w-full h-full bg-gradient-to-r from-purple-400 to-blue-500 rounded-full flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <div class="text-4xl font-bold mb-2" id="timerDisplay">10:00</div>
+                        <div class="text-sm">Mindfulness</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-center space-x-4 mb-6">
+                <button class="p-3 bg-gray-100 rounded-full hover:bg-gray-200">🔄</button>
+                <button onclick="toggleMeditation()" class="p-4 bg-blue-500 rounded-full hover:bg-blue-600 text-white text-xl">▶️</button>
+                <button class="p-3 bg-gray-100 rounded-full hover:bg-gray-200">🔊</button>
+            </div>
+
+            <!-- Ambient Sounds -->
+            <div class="mb-6">
+                <p class="text-sm font-medium text-gray-700 mb-3">Ambient Sounds</p>
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button class="px-3 py-2 bg-blue-500 text-white rounded-lg text-sm">🌧️ Rain</button>
+                    <button class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200">🌊 Ocean</button>
+                    <button class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200">🌲 Forest</button>
+                    <button class="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm hover:bg-gray-200">🤫 Silence</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Meditation Types -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-blue-500 rounded-full mr-4">
+                        <span class="text-white text-xl">🧠</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Mindfulness</h3>
+                        <p class="text-gray-600 text-sm">Focus on present moment</p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Duration:</p>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100">5m</button>
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100">10m</button>
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100">15m</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-green-500 rounded-full mr-4">
+                        <span class="text-white text-xl">💨</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Breathing</h3>
+                        <p class="text-gray-600 text-sm">Guided breathing exercises</p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Duration:</p>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-green-100">3m</button>
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-green-100">5m</button>
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-green-100">10m</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 bg-indigo-500 rounded-full mr-4">
+                        <span class="text-white text-xl">🌙</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Sleep</h3>
+                        <p class="text-gray-600 text-sm">Prepare for restful sleep</p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Duration:</p>
+                    <div class="flex gap-2">
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-indigo-100">10m</button>
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-indigo-100">15m</button>
+                        <button class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-indigo-100">20m</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold mb-6 flex items-center">
+                📅 Meditation Schedule
+                <button class="ml-auto px-3 py-2 bg-blue-500 text-white rounded-lg text-sm">+ Add Session</button>
+            </h3>
+            
+            <div class="space-y-4">
+                <div class="p-4 border-2 border-blue-200 bg-blue-50 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="p-2 bg-yellow-500 rounded-full mr-3">
+                                <span class="text-white">☀️</span>
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="font-medium">07:00</span>
+                                    <span class="text-sm text-gray-600">Energy Boost • 10m</span>
+                                </div>
+                                <div class="flex space-x-1 mt-1">
+                                    <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs">Mon</span>
+                                    <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs">Wed</span>
+                                    <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded text-xs">Fri</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="p-2 bg-blue-500 text-white rounded-full">🔔</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    <!-- 
+Mental Wellness Section -->
+    <section id="wellness" class="max-w-7xl mx-auto p-6 hidden">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+            😊 Mental Wellness Hub
+        </h2>
+
+        <!-- Mood Selector -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">How are you feeling today?</h3>
+            <div class="grid grid-cols-5 gap-3">
+                <button onclick="selectMood('excellent')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-green-500 hover:bg-green-50">
+                    <div class="text-3xl mb-2">😄</div>
+                    <p class="text-sm font-medium">Excellent</p>
+                </button>
+                <button onclick="selectMood('good')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50">
+                    <div class="text-3xl mb-2">😊</div>
+                    <p class="text-sm font-medium">Good</p>
+                </button>
+                <button onclick="selectMood('okay')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-yellow-500 hover:bg-yellow-50">
+                    <div class="text-3xl mb-2">😐</div>
+                    <p class="text-sm font-medium">Okay</p>
+                </button>
+                <button onclick="selectMood('poor')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-orange-500 hover:bg-orange-50">
+                    <div class="text-3xl mb-2">😟</div>
+                    <p class="text-sm font-medium">Poor</p>
+                </button>
+                <button onclick="selectMood('terrible')" class="p-4 border-2 border-gray-200 rounded-lg hover:border-red-500 hover:bg-red-50">
+                    <div class="text-3xl mb-2">😢</div>
+                    <p class="text-sm font-medium">Terrible</p>
+                </button>
+            </div>
+            
+            <div id="moodFeedback" class="mt-4 p-4 bg-blue-50 rounded-lg hidden">
+                <p class="text-sm text-blue-800">Thanks for sharing! Here are some personalized recommendations:</p>
+                <div class="mt-2 flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Breathing Exercise</span>
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Meditation</span>
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Talk to Someone</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wellness Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Stress Level</h3>
+                    <span class="text-orange-500">⚠️</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Low</span>
+                        <span>High</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-orange-500 h-2 rounded-full" style="width: 60%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600">Current level: 3/5</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Anxiety Level</h3>
+                    <span class="text-red-500">❤️</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Low</span>
+                        <span>High</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-red-500 h-2 rounded-full" style="width: 40%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600">Current level: 2/5</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Energy Level</h3>
+                    <span class="text-green-500">⚡</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span>Low</span>
+                        <span>High</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+                    </div>
+                    <p class="text-sm text-gray-600">Current level: 4/5</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Mood Chart -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h3 class="text-lg font-semibold mb-6">📈 Weekly Mood Trends</h3>
+            <div class="grid grid-cols-7 gap-2">
+                <div class="text-center">
+                    <div class="text-xs text-gray-600 mb-2">Mon</div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-2">
+                        <span class="text-xl">😊</span>
+                    </div>
+                    <div class="space-y-1 text-xs text-gray-500">
+                        <div>S: 2</div>
+                        <div>A: 1</div>
+                        <div>E: 4</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs text-gray-600 mb-2">Tue</div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-2">
+                        <span class="text-xl">😄</span>
+                    </div>
+                    <div class="space-y-1 text-xs text-gray-500">
+                        <div>S: 1</div>
+                        <div>A: 1</div>
+                        <div>E: 5</div>
+                    </div>
+                </div>
+                <!-- More days... -->
+            </div>
+            <div class="mt-4 text-xs text-gray-500 text-center">
+                S = Stress, A = Anxiety, E = Energy (1-5 scale)
+            </div>
+        </div>
+
+        <!-- Quick Relief Techniques -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <h3 class="text-lg font-semibold mb-6 flex items-center">
+                🎯 Quick Relief Techniques
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-300 cursor-pointer">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-medium">4-7-8 Breathing</h4>
+                        <span class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">2 min</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Inhale for 4, hold for 7, exhale for 8</p>
+                </div>
+                
+                <div class="p-4 border border-gray-200 rounded-lg hover:border-green-300 cursor-pointer">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-medium">5-4-3-2-1 Grounding</h4>
+                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">3 min</span>
+                    </div>
+                    <p class="text-sm text-gray-600">5 things you see, 4 you hear, 3 you touch...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mental Health Resources -->
+        <div class="bg-gradient-to-r from-red-50 to-pink-50 rounded-xl p-6 border border-red-100">
+            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                ℹ️ Mental Health Resources
+            </h3>
+            <p class="text-sm text-gray-600 mb-6">
+                If you're experiencing a mental health crisis, these resources are available 24/7.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg p-4">
+                    <div class="flex items-center mb-3">
+                        <div class="p-2 bg-red-500 rounded-full mr-3">
+                            <span class="text-white">📞</span>
+                        </div>
+                        <h4 class="font-medium">Crisis Hotline</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">24/7 mental health crisis support</p>
+                    <p class="text-sm font-medium">988</p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4">
+                    <div class="flex items-center mb-3">
+                        <div class="p-2 bg-blue-500 rounded-full mr-3">
+                            <span class="text-white">💬</span>
+                        </div>
+                        <h4 class="font-medium">Text Support</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Text-based crisis counseling</p>
+                    <p class="text-sm font-medium">Text HOME to 741741</p>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4">
+                    <div class="flex items-center mb-3">
+                        <div class="p-2 bg-green-500 rounded-full mr-3">
+                            <span class="text-white">👥</span>
+                        </div>
+                        <h4 class="font-medium">Online Therapy</h4>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-2">Professional counseling services</p>
+                    <p class="text-sm font-medium">Find therapists near you</p>
+                </div>
+            </div>
+        </div>
+    </section>    
+<!-- OpenAI Integration Section -->
+    <section id="openai" class="max-w-7xl mx-auto p-6 hidden">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+            🤖 OpenAI Integration Demo
+        </h2>
+
+        <!-- Connection Status -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="flex items-center space-x-2">
+                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                <div>
+                    <p class="font-medium">OpenAI Status: Connected</p>
+                    <p class="text-sm text-gray-600">Running in demo mode with simulated responses</p>
+                </div>
+                <button class="ml-auto px-3 py-1 bg-blue-500 text-white rounded text-sm">Refresh</button>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-gray-50 rounded-xl p-6 mb-6">
+            <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button onclick="startChat()" class="flex items-center justify-center px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                    💬 Start Chat Session
+                </button>
+                <button onclick="analyzeFood()" class="flex items-center justify-center px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                    🍎 Analyze Food (Demo)
+                </button>
+                <button onclick="generatePlan()" class="flex items-center justify-center px-4 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600">
+                    📋 Generate Health Plan
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="h-96 overflow-y-auto p-6" id="chatMessages">
+                <div class="text-center text-gray-500 mt-20">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <p class="text-lg">Start a chat session to begin</p>
+                    <p class="text-sm">Experience real-time AI health coaching</p>
+                </div>
+            </div>
+            
+            <div class="p-6 border-t bg-gray-50">
+                <div class="flex space-x-4">
+                    <input
+                        type="text"
+                        id="chatInput"
+                        placeholder="Ask me about your health, nutrition, or fitness..."
+                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <button onclick="sendMessage()" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        Send
+                    </button>
+                </div>
+                
+                <div class="flex items-center justify-between mt-4 text-sm text-gray-600">
+                    <div class="flex items-center space-x-4">
+                        <span>Session: demo_123</span>
+                        <span>Messages: 0</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xs">🎤 Voice input coming soon</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Features -->
+        <div class="mt-8 bg-blue-50 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-blue-900 mb-3">🚀 OpenAI Integration Features</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div>
+                    <h4 class="font-medium text-blue-800 mb-2">Available Features:</h4>
+                    <ul class="space-y-1 text-blue-700">
+                        <li>• Real-time chat with GPT-4</li>
+                        <li>• Streaming responses</li>
+                        <li>• Food image analysis</li>
+                        <li>• Personalized health plans</li>
+                        <li>• Nutrition advice</li>
+                        <li>• Workout recommendations</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium text-blue-800 mb-2">Setup Required:</h4>
+                    <ul class="space-y-1 text-blue-700">
+                        <li>• OpenAI API key</li>
+                        <li>• Backend server running</li>
+                        <li>• MongoDB connection</li>
+                        <li>• User authentication</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script>
+        // Global variables
+        let currentSection = 'statistics';
+        let meditationTimer = null;
+        let meditationTime = 600; // 10 minutes in seconds
+        let isPlaying = false;
+
+        // Show section function
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            // Show selected section
+            document.getElementById(section).classList.remove('hidden');
+            currentSection = section;
+            
+            // Update navigation buttons
+            document.querySelectorAll('nav button').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'bg-purple-600', 'bg-green-600', 'bg-orange-600');
+                btn.classList.add('hover:bg-blue-600', 'hover:bg-purple-600', 'hover:bg-green-600', 'hover:bg-orange-600');
+            });
+            
+            // Highlight active button
+            event.target.classList.add('bg-opacity-80');
+        }
+
+        // Initialize charts
+        function initCharts() {
+            // Weight Chart
+            const weightCtx = document.getElementById('weightChart');
+            if (weightCtx) {
+                new Chart(weightCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Weight (kg)',
+                            data: [70, 68.5, 67.2, 66.8, 66.5, 66.0],
+                            borderColor: '#3B82F6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Activity Chart
+            const activityCtx = document.getElementById('activityChart');
+            if (activityCtx) {
+                new Chart(activityCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Walking', 'Running', 'Cycling', 'Swimming', 'Other'],
+                        datasets: [{
+                            data: [45, 25, 15, 10, 5],
+                            backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444']
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            }
+        }
+
+        // Meditation functions
+        function toggleMeditation() {
+            isPlaying = !isPlaying;
+            const button = event.target;
+            
+            if (isPlaying) {
+                button.textContent = '⏸️';
+                startMeditationTimer();
+            } else {
+                button.textContent = '▶️';
+                pauseMeditationTimer();
+            }
+        }
+
+        function startMeditationTimer() {
+            meditationTimer = setInterval(() => {
+                if (meditationTime > 0) {
+                    meditationTime--;
+                    updateTimerDisplay();
+                } else {
+                    // Timer finished
+                    isPlaying = false;
+                    clearInterval(meditationTimer);
+                    document.querySelector('#meditation button[onclick="toggleMeditation()"]').textContent = '▶️';
+                    alert('🎉 Meditation session complete! Great job!');
+                }
+            }, 1000);
+        }
+
+        function pauseMeditationTimer() {
+            clearInterval(meditationTimer);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(meditationTime / 60);
+            const seconds = meditationTime % 60;
+            const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timerDisplay').textContent = display;
+        }
+
+        // Mood selection
+        function selectMood(mood) {
+            // Remove previous selections
+            document.querySelectorAll('#wellness button[onclick^="selectMood"]').forEach(btn => {
+                btn.classList.remove('border-green-500', 'bg-green-50', 'border-blue-500', 'bg-blue-50', 
+                                   'border-yellow-500', 'bg-yellow-50', 'border-orange-500', 'bg-orange-50',
+                                   'border-red-500', 'bg-red-50');
+                btn.classList.add('border-gray-200');
+            });
+            
+            // Highlight selected mood
+            event.target.closest('button').classList.remove('border-gray-200');
+            
+            const colors = {
+                excellent: ['border-green-500', 'bg-green-50'],
+                good: ['border-blue-500', 'bg-blue-50'],
+                okay: ['border-yellow-500', 'bg-yellow-50'],
+                poor: ['border-orange-500', 'bg-orange-50'],
+                terrible: ['border-red-500', 'bg-red-50']
+            };
+            
+            event.target.closest('button').classList.add(...colors[mood]);
+            
+            // Show feedback
+            document.getElementById('moodFeedback').classList.remove('hidden');
+        }
+
+        // OpenAI functions
+        function startChat() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="flex justify-start mb-4">
+                    <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-gray-100 text-gray-800">
+                        <div class="flex items-center mb-2">
+                            <span class="text-xs font-medium">🤖 AI Health Coach</span>
+                        </div>
+                        <div>Hello! I'm your AI health coach. I'm here to help you with your health and wellness journey. How can I assist you today?</div>
+                        <div class="text-xs opacity-70 mt-1">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Add user message
+            chatMessages.innerHTML += `
+                <div class="flex justify-end mb-4">
+                    <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-blue-500 text-white">
+                        <div>${message}</div>
+                        <div class="text-xs opacity-70 mt-1">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                </div>
+            `;
+
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "That's a great question! Based on your health profile, I recommend focusing on consistency with your current routine. Small, sustainable changes often lead to the best long-term results.",
+                    "I understand your concern. Let's work together to create a personalized plan that fits your lifestyle. What's your biggest challenge right now?",
+                    "Excellent progress! Your dedication to your health journey is inspiring. Here are some suggestions to help you reach your next milestone...",
+                    "Based on your recent activity data, I notice some positive trends. Your sleep quality has improved, which directly supports your fitness goals."
+                ];
+                
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                
+                chatMessages.innerHTML += `
+                    <div class="flex justify-start mb-4">
+                        <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-gray-100 text-gray-800">
+                            <div class="flex items-center mb-2">
+                                <span class="text-xs font-medium">🤖 AI Health Coach</span>
+                            </div>
+                            <div>${randomResponse}</div>
+                            <div class="text-xs opacity-70 mt-1">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    </div>
+                `;
+                
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1000);
+
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function analyzeFood() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML += `
+                <div class="flex justify-start mb-4">
+                    <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-gray-100 text-gray-800">
+                        <div class="flex items-center mb-2">
+                            <span class="text-xs font-medium">🍎 Food Analysis</span>
+                        </div>
+                        <div><strong>🍽️ Food Analysis Results:</strong><br><br>
+                        I can see this appears to be a healthy, balanced meal with good portion sizes. The combination of lean protein, complex carbohydrates, and vegetables provides excellent nutritional value.<br><br>
+                        <strong>Nutritional Info:</strong><br>
+                        • Calories: ~450<br>
+                        • Protein: 28g<br>
+                        • Carbs: 35g<br>
+                        • Fat: 12g</div>
+                        <div class="text-xs opacity-70 mt-1">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function generatePlan() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML += `
+                <div class="flex justify-start mb-4">
+                    <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-gray-100 text-gray-800">
+                        <div class="flex items-center mb-2">
+                            <span class="text-xs font-medium">📋 Health Plan Generator</span>
+                        </div>
+                        <div><strong>🎯 Personalized Health Plan:</strong><br><br>
+                        Based on your profile and goals, here's your customized plan:<br><br>
+                        <strong>Daily Targets:</strong><br>
+                        • Calories: 2,200<br>
+                        • Protein: 120g<br>
+                        • Steps: 10,000<br>
+                        • Sleep: 7-8 hours<br><br>
+                        <strong>Weekly Schedule:</strong><br>
+                        • 3x strength training<br>
+                        • 2x cardio sessions<br>
+                        • Daily meditation: 10 min</div>
+                        <div class="text-xs opacity-70 mt-1">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Enter key support for chat
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatInput = document.getElementById('chatInput');
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+            }
+            
+            // Initialize charts
+            initCharts();
+        });
+    </script>
+</body>
+</html>
