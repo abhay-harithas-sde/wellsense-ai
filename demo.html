@@ -52,11 +52,13 @@
 
             const login = async (credentials) => {
                 // Simulate login
-                setTimeout(() => {
-                    setUser(demoUser);
-                    setIsAuthenticated(true);
-                }, 1000);
-                return { success: true };
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        setUser(demoUser);
+                        setIsAuthenticated(true);
+                        resolve({ success: true });
+                    }, 1000);
+                });
             };
 
             const logout = () => {
