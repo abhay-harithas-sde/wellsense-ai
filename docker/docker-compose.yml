@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (Primary)
+  postgres:
+    image: postgres:15-alpine
+    container_name: wellsense-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wellsense_ai
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Abhay#1709"
+      POSTGRES_HOST_AUTH_METHOD: trust
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    networks:
+      - wellsense-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d wellsense_ai"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MongoDB Database (Alternative/Additional)
+  mongodb:
+    image: mongo:7.0
+    container_name: wellsense-mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: "Abhay#1709"
+      MONGO_INITDB_DATABASE: wellsense_ai
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongodb/init:/docker-entrypoint-initdb.d
+    networks:
+      - wellsense-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for Caching and Sessions
+  redis:
+    image: redis:7-alpine
+    container_name: wellsense-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - wellsense-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # pgAdmin for PostgreSQL Management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: wellsense-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@wellsense.ai
+      PGADMIN_DEFAULT_PASSWORD: "Abhay#1709"
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - wellsense-network
+    depends_on:
+      - postgres
+
+  # MongoDB Express for MongoDB Management
+  mongo-express:
+    image: mongo-express:latest
+    container_name: wellsense-mongo-express
+    restart: unless-stopped
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "Abhay#1709"
+      ME_CONFIG_MONGODB_URL: mongodb://admin:Abhay%231709@mongodb:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: "Abhay#1709"
+    ports:
+      - "8081:8081"
+    networks:
+      - wellsense-network
+    depends_on:
+      - mongodb
+
+volumes:
+  postgres_data:
+    driver: local
+  mongodb_data:
+    driver: local
+  redis_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  wellsense-network:
+    driver: bridge

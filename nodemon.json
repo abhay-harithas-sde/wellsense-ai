@@ -1,0 +1,24 @@
+{
+  "watch": [
+    "god-server.js",
+    "lib/**/*.js",
+    "routes/**/*.js",
+    "automations/**/*.js",
+    ".env"
+  ],
+  "ignore": [
+    "node_modules/**",
+    "dist/**",
+    "*.log"
+  ],
+  "ext": "js,cjs,json",
+  "delay": "1000",
+  "verbose": true,
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "events": {
+    "restart": "echo 🔄 JOD Server restarting due to file changes...",
+    "start": "echo ✅ JOD Server started successfully!"
+  }
+}

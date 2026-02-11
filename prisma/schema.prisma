@@ -1,0 +1,518 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  username          String?  @unique
+  firstName         String?
+  lastName          String?
+  dateOfBirth       DateTime?
+  gender            Gender?
+  phoneNumber       String?
+  profileImage      String?
+  
+  // Physical measurements with unit support
+  heightCm          Float?   // Height in centimeters (primary storage)
+  height            Float?   // Height alias for backward compatibility (same as heightCm)
+  heightFt          Float?   // Height in feet (calculated field)
+  heightIn          Float?   // Height in inches (calculated field)
+  
+  // Weight tracking
+  weight            Float?   // Current weight in kg
+  weightLbs         Float?   // Current weight in lbs (calculated)
+  
+  // Health metrics
+  age               Int?     // Age in years
+  bmi               Float?   // Body Mass Index
+  bmiCategory       String?  // BMI category (underweight, normal, overweight, obese)
+  
+  // Authentication
+  passwordHash      String?
+  googleId          String?  @unique
+  microsoftId       String?  @unique
+  facebookId        String?  @unique
+  appleId           String?  @unique
+  
+  // Account status
+  isActive          Boolean  @default(true)
+  isVerified        Boolean  @default(false)
+  emailVerifiedAt   DateTime?
+  phoneVerifiedAt   DateTime?
+  
+  // Preferences
+  preferredUnits    UnitSystem @default(METRIC)
+  timezone          String?    @default("UTC")
+  language          String?    @default("en")
+  location          String?
+  bio               String?
+  
+  // Privacy settings
+  profileVisibility ProfileVisibility @default(PRIVATE)
+  shareHealthData   Boolean    @default(false)
+  
+  // Timestamps
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  lastLoginAt       DateTime?
+  
+  // Relations
+  healthRecords     HealthRecord[]
+  weightRecords     WeightRecord[]
+  exerciseRecords   ExerciseRecord[]
+  nutritionRecords  NutritionRecord[]
+  mentalHealthRecords MentalHealthRecord[]
+  goals             Goal[]
+  chatSessions      ChatSession[]
+  communityPosts    CommunityPost[]
+  consultations     Consultation[]
+  
+  @@map("users")
+}
+model HealthRecord {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Vital signs
+  bloodPressureSystolic   Int?
+  bloodPressureDiastolic  Int?
+  heartRate              Int?
+  temperature            Float?  // Celsius
+  temperatureF           Float?  // Fahrenheit (calculated)
+  oxygenSaturation       Float?
+  bloodSugar             Float?  // mg/dL
+  
+  // Measurements
+  bmi                    Float?
+  bodyFatPercentage      Float?
+  muscleMass             Float?
+  
+  // Symptoms and notes
+  symptoms               String[]
+  notes                  String?
+  mood                   Int?     // 1-10 scale
+  energyLevel            Int?     // 1-10 scale
+  sleepHours             Float?
+  sleepQuality           Int?     // 1-10 scale
+  
+  // Metadata
+  recordedAt             DateTime @default(now())
+  source                 DataSource @default(MANUAL)
+  deviceId               String?
+  
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  
+  @@map("health_records")
+}
+
+model WeightRecord {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Weight with unit support
+  weightKg        Float    // Weight in kilograms (primary storage)
+  weightLbs       Float?   // Weight in pounds (calculated field)
+  
+  // Body composition (optional)
+  bodyFatPercentage Float?
+  muscleMass        Float?
+  waterPercentage   Float?
+  boneMass          Float?
+  visceralFat       Float?
+  
+  // Metadata
+  recordedAt      DateTime @default(now())
+  source          DataSource @default(MANUAL)
+  deviceId        String?
+  notes           String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("weight_records")
+}
+
+model ExerciseRecord {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Exercise details
+  exerciseType    ExerciseType
+  name            String
+  duration        Int      // minutes
+  caloriesBurned  Int?
+  distance        Float?   // kilometers
+  distanceMiles   Float?   // miles (calculated)
+  
+  // Intensity and performance
+  intensity       ExerciseIntensity
+  heartRateAvg    Int?
+  heartRateMax    Int?
+  steps           Int?
+  
+  // Strength training specific
+  sets            Int?
+  reps            Int?
+  weightKg        Float?   // Weight used in kg
+  weightLbs       Float?   // Weight used in lbs (calculated)
+  
+  // Location and conditions
+  location        String?
+  weather         String?
+  temperature     Float?
+  
+  notes           String?
+  recordedAt      DateTime @default(now())
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("exercise_records")
+}
+
+model NutritionRecord {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Meal information
+  mealType        MealType
+  foodName        String
+  brand           String?
+  servingSize     Float
+  servingUnit     String
+  
+  // Nutritional values (per serving)
+  calories        Float
+  protein         Float    // grams
+  carbohydrates   Float    // grams
+  fat             Float    // grams
+  fiber           Float?   // grams
+  sugar           Float?   // grams
+  sodium          Float?   // mg
+  
+  // Micronutrients (optional)
+  vitaminC        Float?   // mg
+  vitaminD        Float?   // IU
+  calcium         Float?   // mg
+  iron            Float?   // mg
+  
+  // Water intake
+  waterIntakeMl   Float?   // milliliters
+  waterIntakeOz   Float?   // fluid ounces (calculated)
+  
+  notes           String?
+  recordedAt      DateTime @default(now())
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("nutrition_records")
+}
+
+model MentalHealthRecord {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Mood and mental state
+  mood            Int      // 1-10 scale
+  anxiety         Int?     // 1-10 scale
+  stress          Int?     // 1-10 scale
+  depression      Int?     // 1-10 scale
+  energy          Int?     // 1-10 scale
+  focus           Int?     // 1-10 scale
+  
+  // Sleep
+  sleepHours      Float?
+  sleepQuality    Int?     // 1-10 scale
+  
+  // Activities
+  meditation      Int?     // minutes
+  journaling      Boolean? @default(false)
+  socialTime      Int?     // minutes
+  outdoorTime     Int?     // minutes
+  
+  // Symptoms and triggers
+  symptoms        String[]
+  triggers        String[]
+  copingStrategies String[]
+  
+  notes           String?
+  recordedAt      DateTime @default(now())
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("mental_health_records")
+}
+
+model Goal {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Goal details
+  title           String
+  description     String?
+  category        GoalCategory
+  targetValue     Float?
+  targetUnit      String?
+  currentValue    Float?   @default(0)
+  
+  // Timeline
+  startDate       DateTime @default(now())
+  targetDate      DateTime?
+  completedAt     DateTime?
+  
+  // Status
+  status          GoalStatus @default(ACTIVE)
+  priority        Priority   @default(MEDIUM)
+  
+  // Progress tracking
+  milestones      Json?    // Array of milestone objects
+  
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("goals")
+}
+
+model ChatSession {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Session details
+  title           String?
+  sessionType     ChatType @default(GENERAL)
+  
+  // AI Provider
+  aiProvider      AIProvider @default(OPENAI)
+  model           String?
+  
+  // Messages (stored as JSON)
+  messages        Json     // Array of message objects
+  
+  // Session metadata
+  startedAt       DateTime @default(now())
+  lastMessageAt   DateTime @default(now())
+  isActive        Boolean  @default(true)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("chat_sessions")
+}
+
+model CommunityPost {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Post content
+  title           String
+  content         String
+  category        PostCategory
+  tags            String[]
+  
+  // Media
+  images          String[] // URLs to images
+  
+  // Engagement
+  likes           Int      @default(0)
+  comments        Int      @default(0)
+  shares          Int      @default(0)
+  
+  // Moderation
+  isPublished     Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  moderationStatus ModerationStatus @default(APPROVED)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("community_posts")
+}
+
+model Consultation {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Consultation details
+  type            ConsultationType
+  specialization  String
+  duration        Int      // minutes
+  
+  // Scheduling
+  scheduledAt     DateTime
+  startedAt       DateTime?
+  endedAt         DateTime?
+  
+  // Professional details
+  professionalName String?
+  professionalId   String?
+  
+  // Session data
+  notes           String?
+  prescription    String?
+  followUpDate    DateTime?
+  
+  // Status
+  status          ConsultationStatus @default(SCHEDULED)
+  
+  // Video call details
+  roomId          String?
+  recordingUrl    String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("consultations")
+}
+
+// Enums
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum UnitSystem {
+  METRIC      // kg, cm, celsius
+  IMPERIAL    // lbs, ft/in, fahrenheit
+  MIXED       // user preference per measurement
+}
+
+enum ProfileVisibility {
+  PUBLIC
+  FRIENDS
+  PRIVATE
+}
+
+enum DataSource {
+  MANUAL
+  DEVICE
+  API
+  IMPORT
+}
+
+enum ExerciseType {
+  CARDIO
+  STRENGTH
+  FLEXIBILITY
+  SPORTS
+  YOGA
+  PILATES
+  WALKING
+  RUNNING
+  CYCLING
+  SWIMMING
+  OTHER
+}
+
+enum ExerciseIntensity {
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+  DRINK
+}
+
+enum GoalCategory {
+  WEIGHT_LOSS
+  WEIGHT_GAIN
+  FITNESS
+  NUTRITION
+  MENTAL_HEALTH
+  SLEEP
+  HYDRATION
+  EXERCISE
+  OTHER
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  PAUSED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ChatType {
+  GENERAL
+  NUTRITION
+  FITNESS
+  MENTAL_HEALTH
+  MEDICAL
+  COACHING
+}
+
+enum AIProvider {
+  OPENAI
+  ANTHROPIC
+  GOOGLE
+  CUSTOM
+}
+
+enum PostCategory {
+  GENERAL
+  FITNESS
+  NUTRITION
+  MENTAL_HEALTH
+  SUCCESS_STORY
+  QUESTION
+  TIP
+  RECIPE
+}
+
+enum ModerationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FLAGGED
+}
+
+enum ConsultationType {
+  VIDEO_CALL
+  PHONE_CALL
+  CHAT
+  IN_PERSON
+}
+
+enum ConsultationStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}

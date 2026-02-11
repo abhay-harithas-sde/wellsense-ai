@@ -1,0 +1,236 @@
+/* WellSense AI - Responsive Utilities */
+
+/* Mobile-first responsive breakpoints */
+/* sm: 640px and up */
+/* md: 768px and up */
+/* lg: 1024px and up */
+/* xl: 1280px and up */
+/* 2xl: 1536px and up */
+
+/* Container utilities */
+.container-responsive {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-responsive {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: 56rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .container-narrow {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-narrow {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Grid utilities */
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6;
+}
+
+.grid-cards {
+  @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6;
+}
+
+/* Spacing utilities */
+.spacing-section {
+  @apply py-8 sm:py-12 lg:py-16;
+}
+
+.spacing-component {
+  @apply p-4 sm:p-6 lg:p-8;
+}
+
+/* Text utilities */
+.text-responsive-xl {
+  @apply text-2xl sm:text-3xl lg:text-4xl xl:text-5xl;
+}
+
+.text-responsive-lg {
+  @apply text-xl sm:text-2xl lg:text-3xl;
+}
+
+.text-responsive-md {
+  @apply text-lg sm:text-xl lg:text-2xl;
+}
+
+.text-responsive-sm {
+  @apply text-sm sm:text-base lg:text-lg;
+}
+
+/* Button utilities */
+.btn-responsive {
+  @apply px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-4 text-sm sm:text-base lg:text-lg;
+}
+
+.btn-icon-responsive {
+  @apply p-2 sm:p-3 lg:p-4;
+}
+
+/* Card utilities */
+.card-responsive {
+  @apply rounded-lg sm:rounded-xl lg:rounded-2xl p-4 sm:p-6 lg:p-8;
+}
+
+.card-compact {
+  @apply rounded-lg sm:rounded-xl p-3 sm:p-4 lg:p-6;
+}
+
+/* Modal utilities */
+.modal-responsive {
+  @apply w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-4;
+}
+
+.modal-wide {
+  @apply w-full max-w-md sm:max-w-lg lg:max-w-2xl xl:max-w-4xl mx-4;
+}
+
+/* Navigation utilities */
+.nav-item-responsive {
+  @apply px-3 py-2 sm:px-4 sm:py-3 lg:px-6 lg:py-4 text-sm sm:text-base;
+}
+
+/* Icon utilities */
+.icon-sm {
+  @apply w-4 h-4 sm:w-5 sm:h-5;
+}
+
+.icon-md {
+  @apply w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7;
+}
+
+.icon-lg {
+  @apply w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10;
+}
+
+/* Layout utilities */
+.sidebar-responsive {
+  @apply fixed left-0 top-16 sm:top-20 h-full w-64 sm:w-72 lg:w-64 z-40;
+}
+
+.main-content-responsive {
+  @apply flex-1 p-3 sm:p-4 lg:p-6 lg:ml-64 pt-20 sm:pt-24;
+}
+
+/* Form utilities */
+.form-input-responsive {
+  @apply w-full px-3 py-2 sm:px-4 sm:py-3 text-sm sm:text-base rounded-lg sm:rounded-xl;
+}
+
+.form-label-responsive {
+  @apply block text-sm sm:text-base font-medium mb-1 sm:mb-2;
+}
+
+/* Health metrics specific */
+.metric-card {
+  @apply bg-white/80 backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-lg border border-white/20;
+}
+
+.metric-value {
+  @apply text-2xl sm:text-3xl lg:text-4xl font-bold;
+}
+
+.metric-label {
+  @apply text-xs sm:text-sm text-gray-600 uppercase tracking-wider;
+}
+
+/* Chart utilities */
+.chart-container {
+  @apply w-full h-48 sm:h-64 lg:h-80;
+}
+
+.chart-responsive {
+  @apply w-full h-full;
+}
+
+/* Animation utilities for mobile */
+@media (prefers-reduced-motion: reduce) {
+  .motion-safe-only {
+    @apply transform-none;
+  }
+}
+
+/* Touch-friendly utilities */
+.touch-target {
+  @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+}
+
+.touch-friendly {
+  @apply p-3 sm:p-2 lg:p-3;
+}
+
+/* Accessibility utilities */
+.focus-visible-enhanced {
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
+}
+
+/* Print utilities */
+@media print {
+  .print-hidden {
+    @apply hidden;
+  }
+  
+  .print-visible {
+    @apply block;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .high-contrast-border {
+    @apply border-2 border-black;
+  }
+  
+  .high-contrast-text {
+    @apply text-black;
+  }
+}
+
+/* Dark mode utilities (for future implementation) */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-bg {
+    @apply bg-gray-900;
+  }
+  
+  .dark-mode-text {
+    @apply text-white;
+  }
+}

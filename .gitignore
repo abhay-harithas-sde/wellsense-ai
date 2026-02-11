@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.test.local
+
+# Build output
+dist/
+build/
+.vite/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.openai-usage.json
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma
+prisma/.env
+
+# Firebase
+firebase/firebase-service-account.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+docker/postgres/data/
+docker/mongodb/data/

@@ -1,0 +1,346 @@
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+// Dark mode removed - using light theme only
+import AnalyticsProvider from './components/analytics/AnalyticsProvider';
+import Header from './components/layout/Header';
+import Sidebar from './components/layout/Sidebar';
+import Dashboard from './pages/Dashboard';
+import NotificationSystem from './components/ui/NotificationSystem';
+import UpdateNotification from './components/ui/UpdateNotification';
+import AutoUpdateManager from './components/AutoUpdateManager';
+import FloatingActionButton from './components/ui/FloatingActionButton';
+import AIFeatureDemo from './pages/AIFeatureDemo';
+import HealthMetrics from './pages/HealthMetrics';
+import WeightTracker from './pages/WeightTracker';
+import AINutrition from './pages/AINutrition';
+import AICoaching from './pages/AICoaching';
+import HealthTips from './pages/HealthTips';
+import AIInsights from './pages/AIInsights';
+import CommunityHealth from './pages/CommunityHealth';
+import Community from './pages/Community';
+import Profile from './pages/Profile';
+import AuthPage from './pages/AuthPage';
+import AuthCallback from './pages/AuthCallback';
+import ConsultationPage from './pages/ConsultationPage';
+import DemoBanner from './components/demo/DemoBanner';
+import OpenAIDemo from './components/ai/OpenAIDemo';
+import UserStatistics from './pages/UserStatistics';
+import MeditationCenter from './pages/MeditationCenter';
+import MentalWellness from './pages/MentalWellness';
+import DiagnosticPage from './components/DiagnosticPage';
+import ProfileCompletionChecker from './components/profile/ProfileCompletionChecker';
+import './App.css';
+
+// Initialize auto-update service
+import autoUpdateService from './services/autoUpdateService';
+
+// Enhanced theme configuration
+const theme = {
+  colors: {
+    primary: {
+      50: '#eff6ff',
+      100: '#dbeafe',
+      500: '#3b82f6',
+      600: '#2563eb',
+      700: '#1d4ed8',
+      900: '#1e3a8a'
+    },
+    secondary: {
+      50: '#f0f9ff',
+      100: '#e0f2fe',
+      500: '#06b6d4',
+      600: '#0891b2',
+      700: '#0e7490'
+    },
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    gradient: {
+      primary: 'from-blue-600 via-purple-600 to-indigo-700',
+      secondary: 'from-cyan-500 via-blue-500 to-indigo-600',
+      accent: 'from-purple-500 via-pink-500 to-red-500'
+    }
+  }
+};
+
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+            <span className="text-white font-bold text-2xl">W</span>
+          </div>
+          <p className="text-gray-600">Loading WellSense AI...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return isAuthenticated ? children : <Navigate to="/auth" replace />;
+};
+
+// Main App Layout - Responsive for all devices
+const AppLayout = ({ children }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile only - desktop sidebar always visible
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  return (
+    <ProfileCompletionChecker>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+        {/* Animated background elements - responsive */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-20 -right-20 sm:-top-40 sm:-right-40 w-40 h-40 sm:w-80 sm:h-80 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute -bottom-20 -left-20 sm:-bottom-40 sm:-left-40 w-40 h-40 sm:w-80 sm:h-80 bg-gradient-to-tr from-cyan-400/20 to-blue-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 sm:w-96 sm:h-96 bg-gradient-to-r from-purple-400/10 to-pink-600/10 rounded-full blur-3xl animate-pulse delay-500"></div>
+        </div>
+        
+        <DemoBanner />
+        <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+        <NotificationSystem enableDemoNotifications={import.meta.env.VITE_ENABLE_DEMO_NOTIFICATIONS === 'true'} />
+        <UpdateNotification />
+        <FloatingActionButton />
+        
+        {/* Responsive layout container */}
+        <div className="flex relative z-10">
+          <Sidebar 
+            isOpen={isSidebarOpen} 
+            onClose={() => setIsSidebarOpen(false)}
+            sidebarCollapsed={sidebarCollapsed}
+            toggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+          />
+          
+          {/* Mobile overlay */}
+          {isSidebarOpen && (
+            <div 
+              className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+              onClick={() => setIsSidebarOpen(false)}
+            />
+          )}
+          
+          {/* Main content - responsive margins with sidebar awareness */}
+          <main className={`flex-1 p-3 sm:p-4 lg:p-6 pt-20 sm:pt-24 lg:pt-28 transition-all duration-300 ${
+            sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'
+          }`}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative max-w-full"
+            >
+              {children}
+            </motion.div>
+          </main>
+        </div>
+      </div>
+    </ProfileCompletionChecker>
+  );
+};
+
+// App Routes Component
+const AppRoutes = () => {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <Routes>
+      <Route 
+        path="/diagnostic" 
+        element={<DiagnosticPage />} 
+      />
+      <Route 
+        path="/auth" 
+        element={isAuthenticated ? <Navigate to="/" replace /> : <AuthPage />} 
+      />
+      <Route 
+        path="/auth/callback" 
+        element={<AuthCallback />} 
+      />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Dashboard />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/ai-demo"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <AIFeatureDemo />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/openai-demo"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <OpenAIDemo />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/health-metrics"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <HealthMetrics />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/weight-tracker"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <WeightTracker />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/ai-nutrition"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <AINutrition />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/ai-coaching"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <AICoaching />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/health-tips"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <HealthTips />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/ai-insights"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <AIInsights />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/community-health"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <CommunityHealth />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/community"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Community />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/statistics"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <UserStatistics />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/meditation-center"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <MeditationCenter />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/mental-wellness"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <MentalWellness />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/consultation"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <ConsultationPage />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <AppLayout>
+              <Profile />
+            </AppLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+};
+
+function App() {
+  try {
+    return (
+      <AuthProvider>
+        <Router>
+          <AnalyticsProvider>
+            <AppRoutes />
+          </AnalyticsProvider>
+          <AutoUpdateManager />
+        </Router>
+      </AuthProvider>
+    );
+  } catch (error) {
+    console.error('App initialization error:', error);
+    return <DiagnosticPage />;
+  }
+}
+
+export default App;
