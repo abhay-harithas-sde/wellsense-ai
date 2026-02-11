@@ -57,3 +57,6 @@ temp/
 # Docker
 docker/postgres/data/
 docker/mongodb/data/
+
+# Kiro IDE
+.kiro/
