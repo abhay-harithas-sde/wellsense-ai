@@ -9,6 +9,16 @@ yarn.lock
 .env.production
 .env.test.local
 
+# SSL Certificates (NEVER commit these!)
+ssl/*.key
+ssl/*.crt
+ssl/*.pem
+ssl/*.p12
+ssl/*.pfx
+*.key
+*.crt
+*.pem
+
 # Build output
 dist/
 build/
