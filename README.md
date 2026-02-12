@@ -49,8 +49,6 @@ cp .env.example .env
 ### 3. Start
 ```bash
 npm start
-# or
-start-god.bat
 ```
 
 ### 4. Access
@@ -72,6 +70,26 @@ start-god.bat
 | **[🔄 Migration Guide](GOD_MIGRATION_GUIDE.md)** | Migrate from old servers | Upgrading from v1 |
 | **[🏗️ Architecture](GOD_ARCHITECTURE.md)** | System design & flow | Understanding structure |
 | **[📊 Summary](GOD_SERVER_SUMMARY.md)** | Implementation details | Technical overview |
+| **[🤖 AI Training Guide](docs/AI_TRAINING_GUIDE.md)** | Train AI with your data | Personalizing AI advice |
+| **[⚡ AI Quick Start](QUICK_START_AI_TRAINING.md)** | Train AI in 3 steps | Fast AI personalization |
+
+---
+
+## 🤖 AI Training
+
+Train the AI with your personalized diet chart:
+
+```bash
+node scripts/train-diet-ai.js "path/to/your-diet-chart.xlsx"
+```
+
+The AI will learn your:
+- ✅ Meal plans and timings
+- ✅ Food preferences and portions
+- ✅ Nutritional targets
+- ✅ Dietary guidelines
+
+**Learn more:** [AI Training Guide](docs/AI_TRAINING_GUIDE.md) | [Quick Start](QUICK_START_AI_TRAINING.md)
 
 ---
 
@@ -252,7 +270,6 @@ Access management tools:
 ```
 .
 ├── god-server.js              # Main unified server
-├── start-god.bat             # Windows startup script
 ├── package.json              # Root configuration
 │
 ├── lib/                      # Core library modules

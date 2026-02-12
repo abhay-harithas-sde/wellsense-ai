@@ -1,0 +1,2760 @@
+{
+  "version": "1.0.0",
+  "createdAt": "2026-02-12T03:57:47.171Z",
+  "source": "Customized Diet Chart",
+  "userProfile": {
+    "name": "Abhay Harithas",
+    "source": "Customized Diet Chart"
+  },
+  "mealPlans": [
+    {
+      "mealType": "breakfast",
+      "recommendedTime": "6am",
+      "items": [
+        {
+          "name": ".trs",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "Vegetabes to Eat",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "Cauliflower",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "ladies finger",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "brinjal",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "bitter gourd",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "bottle gourd",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "snake gourd",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "ridge gourd",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "broccoli",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "garkins",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "drumsticks",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "capsicum",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        },
+        {
+          "name": "cabbage",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "6am"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "breakfast",
+      "recommendedTime": "7.30am",
+      "items": [
+        {
+          "name": "s",
+          "quantity": "1 ltr",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "కాలీఫ్లవర్",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "బెండ కాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "వంగ మొక్క",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "కాకరకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "సొరకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "పాముకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "బీరకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "బ్రోకలీ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "దొండకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "ములక్కాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "గొడుగు మిరప",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "కేబ్బాజి)",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "Things to avoid",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "all fruits",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "rice",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "wheat",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "all kinds of sauces",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "ketchep",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "all kinds of sweets",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "rice",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        },
+        {
+          "name": "wheat based products",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7.30am"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "breakfast",
+      "recommendedTime": "8.30am",
+      "items": [
+        {
+          "name": "Supplements - daily",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "Multi cartone",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "2",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "Vitamin Cvitamin D3",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "Iron",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": ")",
+          "quantity": "2",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "probotics",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "Protein in take",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "all green leafy vegetables",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "chilli",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "ginger",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "garlic",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "lemon",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "onion",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "tomato",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "cucumber",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "coconut",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "sugar",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "honey4",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "jaggery",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "milk",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "breakfast",
+      "recommendedTime": "8.30am",
+      "items": [
+        {
+          "name": "s",
+          "quantity": "1 scoop",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "0",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "పచ్చి మిరపకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "అల్లం",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "వెల్లుల్లి",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "నిమ్మకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "ఉల్లిపాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "టమోటా",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "దోసకాయ",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        },
+        {
+          "name": "కొబ్బరి",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8.30am"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "mid-morning",
+      "recommendedTime": "9.30am to 10am",
+      "items": [
+        {
+          "name": "1/2  keera",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "mid-morning",
+          "time": "9.30am to 10am"
+        },
+        {
+          "name": "s",
+          "quantity": "2.5 spoon",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "mid-morning",
+          "time": "9.30am to 10am"
+        },
+        {
+          "name": "veg curry",
+          "quantity": "200 gms",
+          "calories": 100,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "mid-morning",
+          "time": "9.30am to 10am"
+        },
+        {
+          "name": "veg(paneer)",
+          "quantity": "100 gm",
+          "calories": 50,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "mid-morning",
+          "time": "9.30am to 10am"
+        },
+        {
+          "name": "half Coconut.",
+          "quantity": "1 medium",
+          "calories": 150,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "mid-morning",
+          "time": "9.30am to 10am"
+        },
+        {
+          "name": "6",
+          "quantity": "3",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "mid-morning",
+          "time": "9.30am to 10am"
+        },
+        {
+          "name": "3",
+          "quantity": "798911346",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "mid-morning",
+          "time": "9.30am to 10am"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 300,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "lunch",
+      "recommendedTime": "12.00pm to 1.00pm",
+      "items": [
+        {
+          "name": "to drink with  0.5 lemon",
+          "quantity": "1 ltr",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "12.00pm to 1.00pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "lunch",
+      "recommendedTime": "1pm to 2pm",
+      "items": [
+        {
+          "name": "to drink with  0.5 lemon",
+          "quantity": "1 ltr",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "Non - Veg (protein foods)",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "of chicken",
+          "quantity": "100 gms",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "of mutton",
+          "quantity": "100 gms",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "of fish",
+          "quantity": "100 gms",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "of prawns",
+          "quantity": "100 gms",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "Vegetables to avoid",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "all dals",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "all sauce",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "ground nuts",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "soya chunks",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "raddish",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        },
+        {
+          "name": "carrot",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "lunch",
+          "time": "1pm to 2pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "general",
+      "recommendedTime": "2pm to 3.30pm",
+      "items": [
+        {
+          "name": "to drink 0.5 lemon",
+          "quantity": "1 ltr",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "s",
+          "quantity": "20 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "s",
+          "quantity": "25 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "s",
+          "quantity": "20 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "s",
+          "quantity": "20 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "Potatoes",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "Beetroot",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "tunip",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "sweet potato",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "peas",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "beans",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "yellow pumpkin",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "tamarind",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        },
+        {
+          "name": "కారెట్",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "2pm to 3.30pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "snack",
+      "recommendedTime": "4pm",
+      "items": [
+        {
+          "name": "s",
+          "quantity": "2 scoop",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "0",
+          "quantity": "2",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "snack",
+      "recommendedTime": "4pm",
+      "items": [
+        {
+          "name": "Supplements - daily",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "Multi cartone",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "Vitamin C",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "2",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "vitamin D3",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "Iron",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "Veg (protein foods)",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "of paneer",
+          "quantity": "100 gms",
+          "calories": 250,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "coconut (397gm)",
+          "quantity": "1 medium",
+          "calories": 150,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "of mushrooms",
+          "quantity": "100 gms",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "of Tofu",
+          "quantity": "100 gms",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        },
+        {
+          "name": "of seeds",
+          "quantity": "6 spoons",
+          "calories": 300,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 700,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "snack",
+      "recommendedTime": "4.30pm to 5.00pm",
+      "items": [
+        {
+          "name": "-  100g  veg (paneer)",
+          "quantity": "2",
+          "calories": 1,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4.30pm to 5.00pm"
+        },
+        {
+          "name": "8",
+          "quantity": "1",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4.30pm to 5.00pm"
+        },
+        {
+          "name": "s",
+          "quantity": "18 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4.30pm to 5.00pm"
+        },
+        {
+          "name": "s",
+          "quantity": "13 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4.30pm to 5.00pm"
+        },
+        {
+          "name": "s",
+          "quantity": "8 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4.30pm to 5.00pm"
+        },
+        {
+          "name": "s",
+          "quantity": "8 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4.30pm to 5.00pm"
+        },
+        {
+          "name": "s",
+          "quantity": "3 gm",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "snack",
+          "time": "4.30pm to 5.00pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 1,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "breakfast",
+      "recommendedTime": "7pm to 8pm",
+      "items": [
+        {
+          "name": "to drink 0.5 lemon",
+          "quantity": "1 ltr",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "7pm to 8pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "breakfast",
+      "recommendedTime": "8pm to 9pm",
+      "items": [
+        {
+          "name": "to drink 0.5 lemon",
+          "quantity": "0.7 ltr",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "breakfast",
+          "time": "8pm to 9pm"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    },
+    {
+      "mealType": "general",
+      "recommendedTime": "Total",
+      "items": [
+        {
+          "name": "Protein intake",
+          "quantity": "",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "Total"
+        },
+        {
+          "name": "4",
+          "quantity": "8",
+          "calories": 0,
+          "protein": 0,
+          "carbs": 0,
+          "fat": 0,
+          "mealType": "general",
+          "time": "Total"
+        }
+      ],
+      "totalNutrition": {
+        "calories": 0,
+        "protein": 0,
+        "carbs": 0,
+        "fat": 0
+      }
+    }
+  ],
+  "guidelines": [
+    "Follow meal timings consistently for better metabolism",
+    "Drink 8-10 glasses of water throughout the day",
+    "Include protein in every meal for satiety",
+    "Choose whole grains over refined carbohydrates",
+    "Add colorful vegetables for micronutrients",
+    "Limit processed foods and added sugars",
+    "Practice portion control",
+    "Eat slowly and mindfully"
+  ],
+  "foodDatabase": [
+    {
+      "name": ".trs",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "s",
+      "quantity": "1 ltr",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "Supplements - daily",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "Multi cartone",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "2",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "Vitamin Cvitamin D3",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "Iron",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": ")",
+      "quantity": "2",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "probotics",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "s",
+      "quantity": "1 scoop",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "1/2  keera",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "mid-morning",
+      "time": "9.30am to 10am"
+    },
+    {
+      "name": "s",
+      "quantity": "2.5 spoon",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "mid-morning",
+      "time": "9.30am to 10am"
+    },
+    {
+      "name": "veg curry",
+      "quantity": "200 gms",
+      "calories": 100,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "mid-morning",
+      "time": "9.30am to 10am"
+    },
+    {
+      "name": "veg(paneer)",
+      "quantity": "100 gm",
+      "calories": 50,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "mid-morning",
+      "time": "9.30am to 10am"
+    },
+    {
+      "name": "half Coconut.",
+      "quantity": "1 medium",
+      "calories": 150,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "mid-morning",
+      "time": "9.30am to 10am"
+    },
+    {
+      "name": "to drink with  0.5 lemon",
+      "quantity": "1 ltr",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "12.00pm to 1.00pm"
+    },
+    {
+      "name": "to drink with  0.5 lemon",
+      "quantity": "1 ltr",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "to drink 0.5 lemon",
+      "quantity": "1 ltr",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "s",
+      "quantity": "2 scoop",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "Supplements - daily",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "Multi cartone",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "Vitamin C",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "2",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "vitamin D3",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "Iron",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "-  100g  veg (paneer)",
+      "quantity": "2",
+      "calories": 1,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4.30pm to 5.00pm"
+    },
+    {
+      "name": "to drink 0.5 lemon",
+      "quantity": "1 ltr",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7pm to 8pm"
+    },
+    {
+      "name": "to drink 0.5 lemon",
+      "quantity": "0.7 ltr",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8pm to 9pm"
+    },
+    {
+      "name": "Protein intake",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "Total"
+    },
+    {
+      "name": "Protein in take",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "0",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "6",
+      "quantity": "3",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "mid-morning",
+      "time": "9.30am to 10am"
+    },
+    {
+      "name": "0",
+      "quantity": "2",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "8",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4.30pm to 5.00pm"
+    },
+    {
+      "name": "4",
+      "quantity": "8",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "Total"
+    },
+    {
+      "name": "Vegetabes to Eat",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "Non - Veg (protein foods)",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "Veg (protein foods)",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "Cauliflower",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "కాలీఫ్లవర్",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "all green leafy vegetables",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "of chicken",
+      "quantity": "100 gms",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "s",
+      "quantity": "20 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "of paneer",
+      "quantity": "100 gms",
+      "calories": 250,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "s",
+      "quantity": "18 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4.30pm to 5.00pm"
+    },
+    {
+      "name": "ladies finger",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "బెండ కాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "chilli",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "పచ్చి మిరపకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "of mutton",
+      "quantity": "100 gms",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "s",
+      "quantity": "25 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "coconut (397gm)",
+      "quantity": "1 medium",
+      "calories": 150,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "s",
+      "quantity": "13 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4.30pm to 5.00pm"
+    },
+    {
+      "name": "brinjal",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "వంగ మొక్క",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "ginger",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "అల్లం",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "of fish",
+      "quantity": "100 gms",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "s",
+      "quantity": "20 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "of mushrooms",
+      "quantity": "100 gms",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "s",
+      "quantity": "8 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4.30pm to 5.00pm"
+    },
+    {
+      "name": "bitter gourd",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "కాకరకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "garlic",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "వెల్లుల్లి",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "of prawns",
+      "quantity": "100 gms",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "s",
+      "quantity": "20 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "of Tofu",
+      "quantity": "100 gms",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "s",
+      "quantity": "8 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4.30pm to 5.00pm"
+    },
+    {
+      "name": "bottle gourd",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "సొరకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "lemon",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "నిమ్మకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "of seeds",
+      "quantity": "6 spoons",
+      "calories": 300,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4pm"
+    },
+    {
+      "name": "s",
+      "quantity": "3 gm",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "snack",
+      "time": "4.30pm to 5.00pm"
+    },
+    {
+      "name": "snake gourd",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "పాముకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "onion",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "ఉల్లిపాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "ridge gourd",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "బీరకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "tomato",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "టమోటా",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "3",
+      "quantity": "798911346",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "mid-morning",
+      "time": "9.30am to 10am"
+    },
+    {
+      "name": "broccoli",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "బ్రోకలీ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "cucumber",
+      "quantity": "1",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "దోసకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "garkins",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "దొండకాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "drumsticks",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "ములక్కాయ",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "coconut",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "కొబ్బరి",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "capsicum",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "గొడుగు మిరప",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "cabbage",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "6am"
+    },
+    {
+      "name": "కేబ్బాజి)",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "Things to avoid",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "Vegetables to avoid",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "all fruits",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "sugar",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "all dals",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "Potatoes",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "rice",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "honey4",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "all sauce",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "Beetroot",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "wheat",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "jaggery",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "ground nuts",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "tunip",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "all kinds of sauces",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "ketchep",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "milk",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "8.30am"
+    },
+    {
+      "name": "soya chunks",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "all kinds of sweets",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "sweet potato",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "rice",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "wheat based products",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "breakfast",
+      "time": "7.30am"
+    },
+    {
+      "name": "raddish",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "peas",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "beans",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "yellow pumpkin",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "tamarind",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    },
+    {
+      "name": "carrot",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "lunch",
+      "time": "1pm to 2pm"
+    },
+    {
+      "name": "కారెట్",
+      "quantity": "",
+      "calories": 0,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0,
+      "mealType": "general",
+      "time": "2pm to 3.30pm"
+    }
+  ],
+  "nutritionTargets": {
+    "daily": {
+      "calories": 1001,
+      "protein": 0,
+      "carbs": 0,
+      "fat": 0
+    },
+    "perMeal": {
+      "breakfast": 300,
+      "lunch": 350,
+      "snack": 100,
+      "dinner": 250
+    }
+  },
+  "aiPrompts": {
+    "systemPrompt": "You are a personalized nutrition AI trained on a customized diet plan. \n    \nYour knowledge includes:\n- Specific meal plans with timing and portions\n- Detailed nutritional information for each food item\n- Personalized recommendations based on user profile\n- Evidence-based nutrition guidelines\n\nWhen providing advice:\n1. Reference the trained meal plans and food database\n2. Consider user's specific nutritional targets\n3. Suggest alternatives from the food database\n4. Maintain consistency with the customized diet chart\n5. Provide practical, actionable recommendations",
+    "exampleQueries": [
+      "What should I eat for breakfast?",
+      "How many calories should I consume daily?",
+      "Can you suggest a high-protein snack?",
+      "What are good alternatives for lunch?",
+      "How can I meet my protein goals?"
+    ],
+    "responseTemplates": {
+      "mealSuggestion": "Based on your customized diet plan, I recommend: [meal items]. This provides [calories] kcal with [protein]g protein, [carbs]g carbs, and [fat]g fat.",
+      "nutritionAdvice": "Your daily target is [calories] kcal. Focus on: [key recommendations].",
+      "foodAlternative": "Instead of [food], you can try: [alternatives] which have similar nutritional value."
+    }
+  }
+}

@@ -260,7 +260,7 @@ async function testConnections() {
       console.log('1. Ensure Docker containers are running: docker-compose ps');
       console.log('2. Check container logs: docker-compose logs');
       console.log('3. Verify .env file has correct connection strings');
-      console.log('4. Run Docker setup: docker\\docker-complete-setup.bat\n');
+      console.log('4. Run Docker setup: cd docker && docker-compose up -d\n');
       process.exit(1);
     }
 

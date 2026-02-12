@@ -17,36 +17,23 @@ Download from: https://www.docker.com/products/docker-desktop
 
 ## 🚀 Quick Start
 
-### Option 1: Complete Automated Setup (Recommended)
+### Complete Setup
 
 ```bash
 cd docker
-docker-complete-setup.bat
+docker-compose up -d
 ```
 
-This script will:
-1. Check prerequisites
-2. Stop existing containers
-3. Create required directories
-4. Pull Docker images
-5. Start all containers
-6. Wait for services to be ready
-7. Test all connections
-8. Setup Prisma schema
-9. Display connection details
+This will:
+1. Pull Docker images
+2. Create required directories
+3. Start all containers
+4. Initialize databases
+5. Setup health checks
 
-### Option 2: Manual Setup
+Wait 30-60 seconds for services to be ready, then test connections:
 
 ```bash
-cd docker
-
-# Start containers
-docker-compose up -d
-
-# Wait for services (30-60 seconds)
-timeout /t 30
-
-# Test connections
 node test-docker-connections.js
 ```
 
@@ -114,33 +101,16 @@ The `docker-compose.yml` file defines all services. Key features:
 - **Network isolation** with bridge network
 - **Init scripts** for database setup
 
-## 📝 Available Scripts
+## 📝 Available Commands
 
-### Setup Scripts
+### Test Connections
 
 ```bash
-# Complete setup with verification
-docker-complete-setup.bat
-
-# Basic setup
-docker-setup.bat
-
-# Test connections
+cd docker
 node test-docker-connections.js
 ```
 
-### Management Scripts
-
-```bash
-# Interactive management menu
-docker-management.bat
-
-# Health check
-docker-health-check.bat
-
-# Database status
-docker-db-status.bat
-```
+This tests all database connections and health checks.
 
 ### Docker Compose Commands
 
@@ -188,7 +158,7 @@ This tests:
 #### PostgreSQL
 ```bash
 # Connect to PostgreSQL
-docker exec -it wellsense-postgres psql -U postgres -d wellsense_ai
+docker exec -it wellsense-ai-postgres psql -U postgres -d wellsense_ai
 
 # Test query
 SELECT version();
@@ -203,7 +173,7 @@ SELECT version();
 #### MongoDB
 ```bash
 # Connect to MongoDB
-docker exec -it wellsense-mongodb mongosh -u admin -p "Abhay#1709" --authenticationDatabase admin wellsense_ai
+docker exec -it wellsense-ai-mongodb mongosh -u admin -p "Abhay#1709" --authenticationDatabase admin wellsense_ai
 
 # Test query
 db.version()
@@ -218,7 +188,7 @@ exit
 #### Redis
 ```bash
 # Connect to Redis
-docker exec -it wellsense-redis redis-cli
+docker exec -it wellsense-ai-redis redis-cli
 
 # Test
 PING
@@ -269,18 +239,14 @@ Opens at http://localhost:5555
 #### PostgreSQL Backup
 ```bash
 # Manual backup
-docker exec wellsense-postgres pg_dump -U postgres wellsense_ai > backup.sql
-
-# Using management script
-docker-management.bat
-# Select option 7 (Backup databases)
+docker exec wellsense-ai-postgres pg_dump -U postgres wellsense_ai > backup.sql
 ```
 
 #### MongoDB Backup
 ```bash
 # Manual backup
-docker exec wellsense-mongodb mongodump --db wellsense_ai --out /tmp/backup
-docker cp wellsense-mongodb:/tmp/backup ./mongodb_backup
+docker exec wellsense-ai-mongodb mongodump --db wellsense_ai --out /tmp/backup
+docker cp wellsense-ai-mongodb:/tmp/backup ./mongodb_backup
 ```
 
 ### Restore
@@ -288,18 +254,14 @@ docker cp wellsense-mongodb:/tmp/backup ./mongodb_backup
 #### PostgreSQL Restore
 ```bash
 # Manual restore
-docker exec -i wellsense-postgres psql -U postgres -d wellsense_ai < backup.sql
-
-# Using management script
-docker-management.bat
-# Select option 8 (Restore databases)
+docker exec -i wellsense-ai-postgres psql -U postgres -d wellsense_ai < backup.sql
 ```
 
 #### MongoDB Restore
 ```bash
 # Manual restore
-docker cp ./mongodb_backup wellsense-mongodb:/tmp/restore
-docker exec wellsense-mongodb mongorestore --db wellsense_ai /tmp/restore/wellsense_ai
+docker cp ./mongodb_backup wellsense-ai-mongodb:/tmp/restore
+docker exec wellsense-ai-mongodb mongorestore --db wellsense_ai /tmp/restore/wellsense_ai
 ```
 
 ## 🔍 Monitoring
@@ -311,7 +273,7 @@ docker exec wellsense-mongodb mongorestore --db wellsense_ai /tmp/restore/wellse
 docker ps
 
 # View WellSense containers only
-docker ps --filter "name=wellsense"
+docker ps --filter "name=wellsense-ai"
 
 # Detailed status
 docker-compose ps
@@ -370,8 +332,8 @@ docker-compose up -d
 # Wait for services to be ready
 timeout /t 30
 
-# Check health
-docker-health-check.bat
+# Check container status
+docker-compose ps
 
 # Restart services
 docker-compose restart
@@ -548,7 +510,7 @@ docker system prune -a --volumes
 
 If you encounter issues:
 
-1. Run health check: `docker-health-check.bat`
+1. Check container status: `docker-compose ps`
 2. Check logs: `docker-compose logs`
 3. Test connections: `node test-docker-connections.js`
 4. Review this guide
@@ -562,7 +524,7 @@ Before starting development:
 
 - [ ] Docker Desktop installed and running
 - [ ] Containers started: `docker-compose up -d`
-- [ ] Services healthy: `docker-health-check.bat`
+- [ ] Services healthy: `docker-compose ps`
 - [ ] Connections tested: `node test-docker-connections.js`
 - [ ] .env file updated with connection strings
 - [ ] Prisma schema pushed: `npm run db:migrate`

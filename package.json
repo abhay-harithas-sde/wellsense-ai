@@ -20,14 +20,14 @@
     "db:studio": "npx prisma studio",
     "db:validate": "npx prisma validate",
     "db:reset": "npx prisma migrate reset",
-    "docker:setup": "cd docker && docker-complete-setup.bat",
     "docker:test": "cd docker && node test-docker-connections.js",
     "docker:up": "cd docker && docker-compose up -d",
     "docker:down": "cd docker && docker-compose down",
     "docker:restart": "cd docker && docker-compose restart",
     "docker:logs": "cd docker && docker-compose logs -f",
     "docker:status": "cd docker && docker-compose ps",
-    "docker:health": "cd docker && docker-health-check.bat"
+    "health:check": "node scripts/health-check-all.js",
+    "fix:all": "npm run db:generate && npm run health:check"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
@@ -50,13 +50,14 @@
     "lucide-react": "^0.563.0",
     "mongodb": "^7.1.0",
     "multer": "^2.0.2",
-    "openai": "^6.18.0",
+    "openai": "^6.21.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.13.0",
     "recharts": "^3.7.0",
     "redis": "^5.10.0",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.3",

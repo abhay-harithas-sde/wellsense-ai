@@ -1,10 +1,10 @@
-version: '3.8'
+name: wellsense-ai
 
 services:
   # PostgreSQL Database (Primary)
   postgres:
     image: postgres:15-alpine
-    container_name: wellsense-postgres
+    container_name: wellsense-ai-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: wellsense_ai
@@ -28,7 +28,7 @@ services:
   # MongoDB Database (Alternative/Additional)
   mongodb:
     image: mongo:7.0
-    container_name: wellsense-mongodb
+    container_name: wellsense-ai-mongodb
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
@@ -50,7 +50,7 @@ services:
   # Redis for Caching and Sessions
   redis:
     image: redis:7-alpine
-    container_name: wellsense-redis
+    container_name: wellsense-ai-redis
     restart: unless-stopped
     ports:
       - "6379:6379"
@@ -67,7 +67,7 @@ services:
   # pgAdmin for PostgreSQL Management
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: wellsense-pgadmin
+    container_name: wellsense-ai-pgadmin
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@wellsense.ai
@@ -85,7 +85,7 @@ services:
   # MongoDB Express for MongoDB Management
   mongo-express:
     image: mongo-express:latest
-    container_name: wellsense-mongo-express
+    container_name: wellsense-ai-mongo-express
     restart: unless-stopped
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: admin
