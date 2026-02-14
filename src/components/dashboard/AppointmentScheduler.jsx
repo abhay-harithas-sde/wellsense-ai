@@ -432,15 +432,24 @@ const AppointmentScheduler = ({ clients }) => {
               <h3 className="text-lg font-semibold">Quick Actions</h3>
             </div>
             <div className="p-6 space-y-3">
-              <button className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <button 
+                onClick={() => alert('Schedule a new appointment')}
+                className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 Schedule Appointment
               </button>
-              <button className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+              <button 
+                onClick={() => alert('Send appointment reminders to clients')}
+                className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              >
                 <Bell className="h-4 w-4 mr-2" />
                 Send Reminders
               </button>
-              <button className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
+              <button 
+                onClick={() => alert('View all appointments')}
+                className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              >
                 <Calendar className="h-4 w-4 mr-2" />
                 View All Appointments
               </button>
@@ -517,10 +526,16 @@ const AppointmentScheduler = ({ clients }) => {
                     {apt.status}
                   </span>
                   <div className="flex space-x-2">
-                    <button className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg">
+                    <button 
+                      onClick={() => alert('Edit appointment')}
+                      className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg"
+                    >
                       <Edit className="h-4 w-4" />
                     </button>
-                    <button className="p-2 text-red-600 hover:bg-red-100 rounded-lg">
+                    <button 
+                      onClick={() => alert('Delete appointment')}
+                      className="p-2 text-red-600 hover:bg-red-100 rounded-lg"
+                    >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>

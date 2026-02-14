@@ -678,7 +678,13 @@ const HealthTips = () => {
                   </button>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm flex items-center space-x-1">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openYouTubeVideo(video.videoId);
+                    }}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm flex items-center space-x-1"
+                  >
                     <Play className="w-4 h-4" />
                     <span>Watch</span>
                   </button>
@@ -794,7 +800,10 @@ const HealthTips = () => {
                     <Share2 className="w-4 h-4" />
                   </button>
                 </div>
-                <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
+                <button 
+                  onClick={() => alert(`${item.type === 'video' ? 'Watch' : item.type === 'podcast' ? 'Listen to' : 'Read'} ${item.title}`)}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                >
                   {item.type === 'video' ? 'Watch' : item.type === 'podcast' ? 'Listen' : 'Read'}
                 </button>
               </div>
@@ -805,7 +814,10 @@ const HealthTips = () => {
 
       {/* Load More */}
       <div className="text-center">
-        <button className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+        <button 
+          onClick={() => alert('Load more health content')}
+          className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+        >
           Load More Content
         </button>
       </div>

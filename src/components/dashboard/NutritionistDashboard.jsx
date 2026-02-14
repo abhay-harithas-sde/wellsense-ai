@@ -150,11 +150,17 @@ const NutritionistDashboard = () => {
               <p className="text-gray-600">Manage your clients and track their progress</p>
             </div>
             <div className="flex items-center space-x-4">
-              <button className="relative p-2 text-gray-600 hover:text-gray-900">
+              <button 
+                onClick={() => alert('View notifications')}
+                className="relative p-2 text-gray-600 hover:text-gray-900"
+              >
                 <Bell className="h-6 w-6" />
                 <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
               </button>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+              <button 
+                onClick={() => alert('Schedule a new appointment')}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+              >
                 <Calendar className="h-4 w-4 mr-2" />
                 Schedule Appointment
               </button>
@@ -304,7 +310,10 @@ const NutritionistDashboard = () => {
                       <option value="on_track">On Track</option>
                       <option value="needs_attention">Needs Attention</option>
                     </select>
-                    <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center">
+                    <button 
+                      onClick={() => alert('Export client data')}
+                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center"
+                    >
                       <Download className="h-4 w-4 mr-2" />
                       Export
                     </button>
@@ -377,10 +386,16 @@ const NutritionistDashboard = () => {
                           </div>
 
                           <div className="flex space-x-2">
-                            <button className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg">
+                            <button 
+                              onClick={() => alert('Message client')}
+                              className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg"
+                            >
                               <MessageCircle className="h-4 w-4" />
                             </button>
-                            <button className="p-2 text-green-600 hover:bg-green-100 rounded-lg">
+                            <button 
+                              onClick={() => alert('View client activity')}
+                              className="p-2 text-green-600 hover:bg-green-100 rounded-lg"
+                            >
                               <Activity className="h-4 w-4" />
                             </button>
                           </div>

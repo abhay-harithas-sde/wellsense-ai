@@ -299,7 +299,10 @@ const AINutrition = () => {
               </>
             )}
           </button>
-          <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-2">
+          <button 
+            onClick={() => alert('Scan food photo for nutritional analysis')}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+          >
             <Camera className="w-4 h-4" />
             <span>Scan Photo</span>
           </button>
@@ -470,7 +473,10 @@ const AINutrition = () => {
                     </div>
                   ))}
                 </div>
-                <button className="w-full mt-3 px-3 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm">
+                <button 
+                  onClick={() => alert('View more meal options')}
+                  className="w-full mt-3 px-3 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm"
+                >
                   View More Options
                 </button>
               </div>
@@ -526,15 +532,23 @@ const AINutrition = () => {
             <Plus className="w-6 h-6 text-green-600 mx-auto mb-2" />
             <span className="text-sm font-medium text-green-700">Log Meal</span>
           </button>
-          <button className="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors text-center">
+          <button className="p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors text-center"
+            onClick={() => alert('Log water intake')}
+          >
             <Droplets className="w-6 h-6 text-blue-600 mx-auto mb-2" />
             <span className="text-sm font-medium text-blue-700">Log Water</span>
           </button>
-          <button className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors text-center">
+          <button 
+            onClick={() => alert('Set nutrition goals')}
+            className="p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors text-center"
+          >
             <Target className="w-6 h-6 text-purple-600 mx-auto mb-2" />
             <span className="text-sm font-medium text-purple-700">Set Goals</span>
           </button>
-          <button className="p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors text-center">
+          <button 
+            onClick={() => alert('Recipe feature: Get detailed recipes with step-by-step instructions and nutritional information.')}
+            className="p-4 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors text-center"
+          >
             <Star className="w-6 h-6 text-yellow-600 mx-auto mb-2" />
             <span className="text-sm font-medium text-yellow-700">Get Recipe</span>
           </button>

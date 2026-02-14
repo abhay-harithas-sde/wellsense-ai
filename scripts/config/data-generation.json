@@ -1,0 +1,122 @@
+{
+  "users": {
+    "count": 10,
+    "minAge": 18,
+    "maxAge": 70,
+    "genderDistribution": {
+      "MALE": 0.45,
+      "FEMALE": 0.45,
+      "OTHER": 0.1
+    }
+  },
+  "healthMetrics": {
+    "recordsPerUser": 10,
+    "daysBack": 30,
+    "vitalRanges": {
+      "bloodPressureSystolic": { "min": 110, "max": 140 },
+      "bloodPressureDiastolic": { "min": 70, "max": 90 },
+      "heartRate": { "min": 60, "max": 100 },
+      "temperature": { "min": 36.1, "max": 37.2 },
+      "oxygenSaturation": { "min": 95, "max": 100 },
+      "bloodSugar": { "min": 70, "max": 120 }
+    }
+  },
+  "weightRecords": {
+    "recordsPerUser": 10,
+    "daysBack": 30,
+    "ranges": {
+      "weightKg": { "min": 50, "max": 120 },
+      "bodyFatPercentage": { "min": 15, "max": 30 },
+      "muscleMass": { "min": 30, "max": 50 }
+    }
+  },
+  "exerciseRecords": {
+    "recordsPerUser": 10,
+    "daysBack": 30,
+    "types": [
+      "CARDIO",
+      "STRENGTH",
+      "FLEXIBILITY",
+      "YOGA",
+      "WALKING",
+      "RUNNING",
+      "CYCLING",
+      "SWIMMING"
+    ],
+    "intensities": ["LOW", "MODERATE", "HIGH"],
+    "durationRange": { "min": 15, "max": 90 }
+  },
+  "nutritionRecords": {
+    "recordsPerUser": 10,
+    "daysBack": 7,
+    "mealTypes": ["BREAKFAST", "LUNCH", "DINNER", "SNACK"],
+    "calorieRanges": {
+      "BREAKFAST": { "min": 300, "max": 600 },
+      "LUNCH": { "min": 400, "max": 800 },
+      "DINNER": { "min": 400, "max": 800 },
+      "SNACK": { "min": 100, "max": 300 }
+    }
+  },
+  "mentalHealthRecords": {
+    "recordsPerUser": 10,
+    "daysBack": 30,
+    "moodRange": { "min": 1, "max": 10 },
+    "sleepRange": { "min": 5, "max": 9 }
+  },
+  "goals": {
+    "goalsPerUser": 3,
+    "categories": [
+      "WEIGHT_LOSS",
+      "FITNESS",
+      "NUTRITION",
+      "MENTAL_HEALTH",
+      "SLEEP",
+      "EXERCISE"
+    ],
+    "statuses": ["ACTIVE", "COMPLETED", "PAUSED"]
+  },
+  "communityPosts": {
+    "count": 10,
+    "categories": [
+      "GENERAL",
+      "FITNESS",
+      "NUTRITION",
+      "MENTAL_HEALTH",
+      "SUCCESS_STORY",
+      "QUESTION",
+      "TIP",
+      "RECIPE"
+    ],
+    "engagementRanges": {
+      "likes": { "min": 0, "max": 50 },
+      "comments": { "min": 0, "max": 20 },
+      "shares": { "min": 0, "max": 10 }
+    }
+  },
+  "consultations": {
+    "recordsPerUser": 5,
+    "types": ["VIDEO_CALL", "PHONE_CALL", "CHAT"],
+    "specializations": [
+      "General Physician",
+      "Nutritionist",
+      "Fitness Trainer",
+      "Mental Health Counselor",
+      "Cardiologist",
+      "Endocrinologist"
+    ],
+    "durationRange": { "min": 15, "max": 60 },
+    "statuses": ["COMPLETED", "SCHEDULED"]
+  },
+  "chatSessions": {
+    "sessionsPerUser": 3,
+    "messagesPerSession": { "min": 5, "max": 15 },
+    "types": ["GENERAL", "NUTRITION", "FITNESS", "MENTAL_HEALTH"],
+    "providers": ["OPENAI"]
+  },
+  "validation": {
+    "noPlaceholderText": true,
+    "realisticValues": true,
+    "consistentRelationships": true,
+    "minRecordsPerEntity": 10
+  }
+}

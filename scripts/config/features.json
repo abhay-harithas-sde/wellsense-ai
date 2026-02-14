@@ -1,0 +1,124 @@
+{
+  "featureSet": [
+    {
+      "id": "authentication",
+      "name": "Authentication",
+      "description": "Google OAuth login flow and session management",
+      "enabled": true,
+      "priority": "critical",
+      "endpoints": [
+        "/api/auth/google",
+        "/api/auth/session",
+        "/api/auth/logout"
+      ]
+    },
+    {
+      "id": "aiHealthAssistant",
+      "name": "AI Health Assistant",
+      "description": "AI-powered health chatbot with OpenAI integration",
+      "enabled": true,
+      "priority": "critical",
+      "endpoints": [
+        "/api/chat"
+      ],
+      "testQueries": [
+        "What should I eat for breakfast?",
+        "How can I lose weight?",
+        "What exercises are good for beginners?"
+      ]
+    },
+    {
+      "id": "healthMetrics",
+      "name": "Health Metrics Tracking",
+      "description": "Log and visualize health data (weight, vitals, exercise)",
+      "enabled": true,
+      "priority": "critical",
+      "endpoints": [
+        "/api/health/metrics",
+        "/api/health/weight",
+        "/api/health/vitals"
+      ]
+    },
+    {
+      "id": "aiRecommendations",
+      "name": "AI Recommendations",
+      "description": "AI-generated nutrition and fitness plans",
+      "enabled": true,
+      "priority": "critical",
+      "endpoints": [
+        "/api/nutrition/plan",
+        "/api/fitness/plan"
+      ]
+    },
+    {
+      "id": "communityFeatures",
+      "name": "Community Features",
+      "description": "Community posts, engagement, and social features",
+      "enabled": true,
+      "priority": "high",
+      "endpoints": [
+        "/api/community/posts",
+        "/api/community/create",
+        "/api/community/engage"
+      ]
+    },
+    {
+      "id": "mentalWellness",
+      "name": "Mental Wellness Tracking",
+      "description": "Mood tracking, stress levels, and mental health monitoring",
+      "enabled": true,
+      "priority": "medium",
+      "endpoints": [
+        "/api/wellness/mood",
+        "/api/wellness/tracking"
+      ]
+    },
+    {
+      "id": "videoConsultations",
+      "name": "Video Consultations",
+      "description": "Video consultation history and records",
+      "enabled": true,
+      "priority": "medium",
+      "endpoints": [
+        "/api/consultations/history"
+      ]
+    }
+  ],
+  "userJourney": {
+    "steps": [
+      {
+        "feature": "authentication",
+        "duration": 30,
+        "description": "User logs in with Google OAuth"
+      },
+      {
+        "feature": "aiHealthAssistant",
+        "duration": 90,
+        "description": "User asks AI health assistant a question"
+      },
+      {
+        "feature": "healthMetrics",
+        "duration": 60,
+        "description": "User logs health metrics and views visualization"
+      },
+      {
+        "feature": "aiRecommendations",
+        "duration": 90,
+        "description": "User views AI-generated nutrition or fitness plan"
+      },
+      {
+        "feature": "communityFeatures",
+        "duration": 60,
+        "description": "User browses community posts"
+      }
+    ],
+    "totalDuration": 330,
+    "maxDuration": 300
+  },
+  "validation": {
+    "timeout": 5000,
+    "retries": 2,
+    "responseTimeThreshold": 5000,
+    "baseUrl": "http://localhost:3000"
+  }
+}

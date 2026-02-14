@@ -1,460 +1,288 @@
-# GOD (Ghar O Dev) - WellSense AI Platform
+# WellSense AI - Intelligent Health & Wellness Platform
 
-<div align="center">
+![WellSense AI Logo](./LOGO/L1.png)
 
-# 🌟 GOD Server
+## 🌟 Overview
 
-**Unified WellSense AI Platform**
+WellSense AI is a comprehensive health and wellness platform that combines artificial intelligence with personalized health tracking to help users achieve their fitness and wellness goals. The platform provides AI-powered nutrition advice, personalized fitness plans, mental wellness tracking, and a supportive community environment.
 
-*One Server to Rule Them All*
+## ✨ Key Features
 
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express-4.18-blue.svg)](https://expressjs.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Port](https://img.shields.io/badge/Port-3000-red.svg)](http://localhost:3000)
+- **AI Health Assistant**: Intelligent chatbot powered by OpenAI for personalized health advice
+- **Health Metrics Tracking**: Monitor weight, vitals, exercise, and body composition
+- **Personalized Nutrition Plans**: AI-generated meal plans tailored to your goals
+- **Fitness Planning**: Custom workout routines based on fitness level and objectives
+- **Mental Wellness Tracking**: Mood, stress, and sleep quality monitoring
+- **Video Consultations**: Connect with health professionals remotely
+- **Community Features**: Share progress, get support, and stay motivated
+- **Real-time Analytics**: Visualize your health journey with interactive charts
 
-</div>
+## 🛠️ Tech Stack
 
----
+### Frontend
+- **React 18** - Modern UI library
+- **Tailwind CSS** - Utility-first styling
+- **Recharts** - Data visualization
+- **React Router** - Client-side routing
 
-## 🎯 What is GOD?
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **Prisma** - Database ORM
 
-**GOD (Ghar O Dev)** is a unified server that consolidates the entire WellSense AI platform into a single, powerful application running on **Port 3000**.
+### Databases
+- **PostgreSQL** - Primary relational database (user data, health records)
+- **MongoDB** - Document store (fitness plans, community posts)
+- **Redis** - Caching and session management
 
-### Key Features
+### Authentication & Services
+- **Firebase Auth** - User authentication (Google OAuth)
+- **OpenAI API** - AI-powered health assistant
+- **WebRTC** - Video consultation capabilities
 
-✅ **Unified Architecture** - Frontend + Backend in one server  
-✅ **Fixed Port 3000** - Consistent, predictable deployment  
-✅ **Multi-Database** - PostgreSQL, MongoDB, Redis integrated  
-✅ **AI Integration** - OpenAI, Anthropic, Google AI with fallback  
-✅ **Authentication** - JWT + Google OAuth  
-✅ **Health Tracking** - Complete health records system  
-✅ **Production Ready** - Security, monitoring, graceful shutdown  
+### DevOps
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
 
----
+## 📋 Prerequisites
 
-## 🚀 Quick Start
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **Docker Desktop** ([Download](https://www.docker.com/products/docker-desktop))
+- **Git** (optional)
 
-### 1. Install
+## 🚀 Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/abhay-harithas-sde/wellsense-ai.git
+cd wellsense-ai
+```
+
+### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
-### 2. Configure
-```bash
-cp .env.example .env
-# Edit .env with your settings
-```
+### 3. Set Up Environment Variables
 
-### 3. Start
-```bash
-npm start
-```
-
-### 4. Access
-- **Frontend:** http://localhost:3000
-- **API:** http://localhost:3000/api
-- **Health:** http://localhost:3000/api/health
-
----
-
-## 📚 Documentation
-
-### 📖 Essential Guides
-
-| Document | Description | When to Use |
-|----------|-------------|-------------|
-| **[📋 Documentation Index](GOD_INDEX.md)** | Complete documentation map | Finding specific docs |
-| **[⚡ Quick Start](GOD_QUICK_START.md)** | Get started in 3 steps | First time setup |
-| **[📘 Server README](GOD_SERVER_README.md)** | Complete server guide | Understanding features |
-| **[🔄 Migration Guide](GOD_MIGRATION_GUIDE.md)** | Migrate from old servers | Upgrading from v1 |
-| **[🏗️ Architecture](GOD_ARCHITECTURE.md)** | System design & flow | Understanding structure |
-| **[📊 Summary](GOD_SERVER_SUMMARY.md)** | Implementation details | Technical overview |
-| **[🤖 AI Training Guide](docs/AI_TRAINING_GUIDE.md)** | Train AI with your data | Personalizing AI advice |
-| **[⚡ AI Quick Start](QUICK_START_AI_TRAINING.md)** | Train AI in 3 steps | Fast AI personalization |
-
----
-
-## 🤖 AI Training
-
-Train the AI with your personalized diet chart:
-
-```bash
-node scripts/train-diet-ai.js "path/to/your-diet-chart.xlsx"
-```
-
-The AI will learn your:
-- ✅ Meal plans and timings
-- ✅ Food preferences and portions
-- ✅ Nutritional targets
-- ✅ Dietary guidelines
-
-**Learn more:** [AI Training Guide](docs/AI_TRAINING_GUIDE.md) | [Quick Start](QUICK_START_AI_TRAINING.md)
-
----
-
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────────────┐
-│         GOD Server (Port 3000)                  │
-│                                                 │
-│  ┌───────────────────────────────────────────┐ │
-│  │  Frontend (React SPA from /dist)          │ │
-│  └───────────────────────────────────────────┘ │
-│                                                 │
-│  ┌───────────────────────────────────────────┐ │
-│  │  API Layer                                │ │
-│  │  ├── Authentication (/api/auth/*)         │ │
-│  │  ├── Database (/api/db/*)                 │ │
-│  │  ├── Health Records (/api/health/*)       │ │
-│  │  ├── AI Services (/api/ai/*)              │ │
-│  │  └── User & Community (/api/*)            │ │
-│  └───────────────────────────────────────────┘ │
-│                                                 │
-│  ┌───────────────────────────────────────────┐ │
-│  │  Services                                 │ │
-│  │  ├── Database Integrations (Multi-DB)    │ │
-│  │  ├── Database Manager (Prisma)           │ │
-│  │  ├── AI Manager (Multi-provider)         │ │
-│  │  └── Auth Manager (JWT + OAuth)          │ │
-│  └───────────────────────────────────────────┘ │
-│                                                 │
-└─────────────────────────────────────────────────┘
-         │
-    ┌────┴────┬────────┬────────┐
-    ▼         ▼        ▼        ▼
-[PostgreSQL] [MongoDB] [Redis] [AI APIs]
-```
-
----
-
-## 📡 API Endpoints
-
-### Core
-- `GET /api/health` - Server health check
-- `GET /api` - API information
-
-### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/google/verify` - Google Sign-In
-- `GET /api/auth/me` - Current user
-
-### Database API
-- `GET /api/db/status` - Connection status
-- `GET /api/db/health` - Health check
-- `GET /api/db/stats` - Database statistics
-
-### Health Records
-- `POST /api/health/records` - Create health record
-- `GET /api/health/records` - Get health records
-- `POST /api/weight/records` - Create weight record
-- `GET /api/weight/records` - Get weight records
-
-### AI Services
-- `POST /api/ai/chat` - AI health advice
-
-### User & Community
-- `GET /api/user/profile` - Get profile
-- `PUT /api/user/profile` - Update profile
-- `POST /api/goals` - Create goal
-- `GET /api/goals` - Get goals
-- `POST /api/community/posts` - Create post
-- `GET /api/community/posts` - Get posts
-
----
-
-## 🛠️ Commands
-
-```bash
-# Server
-npm start              # Start GOD server
-npm run dev            # Development mode (auto-reload)
-npm run god            # Alternative start
-npm run health         # Check server health
-
-# Database
-npm run db:migrate     # Run migrations
-npm run db:generate    # Generate Prisma client
-npm run db:studio      # Open Prisma Studio
-
-# Docker
-npm run docker:up      # Start databases
-npm run docker:down    # Stop databases
-npm run docker:status  # Check status
-```
-
----
-
-## 🔧 Configuration
-
-### Environment Variables
+Create a `.env` file in the root directory:
 
 ```env
-# Server
+# Server Configuration
 PORT=3000
 NODE_ENV=development
 
-# Databases
-DATABASE_URL=postgresql://user:pass@localhost:5432/wellsense
-MONGODB_URI=mongodb://localhost:27017/wellsense
-REDIS_URL=redis://localhost:6379
+# PostgreSQL Database
+DATABASE_URL="postgresql://postgres:Abhay%231709@localhost:5432/wellsense_ai"
 
-# Authentication
-JWT_SECRET=your-secret-key
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
+# MongoDB
+MONGODB_URI="mongodb://admin:Abhay%231709@localhost:27017/wellsense_ai?authSource=admin"
 
-# AI Services
-OPENAI_API_KEY=your-openai-key
-ANTHROPIC_API_KEY=your-anthropic-key
-GOOGLE_AI_API_KEY=your-google-ai-key
+# Redis
+REDIS_URL="redis://localhost:6379"
+
+# OpenAI API
+OPENAI_API_KEY="your_openai_api_key_here"
+
+# Firebase Configuration
+FIREBASE_PROJECT_ID="your_project_id"
+FIREBASE_PRIVATE_KEY="your_private_key"
+FIREBASE_CLIENT_EMAIL="your_client_email"
+
+# Session Secret
+SESSION_SECRET="your_secure_random_string_here"
+
+# CORS Origin
+CORS_ORIGIN="http://localhost:3000"
 ```
 
----
-
-## 🐳 Docker Support
-
-Start all databases with Docker:
+### 4. Start Docker Services
 
 ```bash
-npm run docker:up
+cd docker
+docker-compose up -d
 ```
 
-Access management tools:
-- **pgAdmin:** http://localhost:5050
-- **Mongo Express:** http://localhost:8081
+Wait 30-60 seconds for services to initialize.
 
----
-
-## 🔒 Security
-
-- ✅ Helmet.js security headers
-- ✅ CORS protection
-- ✅ Rate limiting (100 req/15min)
-- ✅ JWT authentication
-- ✅ Password hashing (bcrypt)
-- ✅ SQL injection protection (Prisma)
-- ✅ Input validation
-
----
-
-## 📊 Tech Stack
-
-### Backend
-- **Express.js** - Web framework
-- **Prisma** - Database ORM
-- **JWT** - Authentication
-- **bcrypt** - Password hashing
-
-### Databases
-- **PostgreSQL** - Primary database
-- **MongoDB** - Document store
-- **Redis** - Cache layer
-
-### AI Services
-- **OpenAI** - GPT models
-- **Anthropic** - Claude models
-- **Google AI** - Gemini models
-
-### Security
-- **Helmet** - Security headers
-- **CORS** - Cross-origin protection
-- **Rate Limiting** - Request throttling
-
----
-
-## 🎯 Project Structure
-
-```
-.
-├── god-server.js              # Main unified server
-├── package.json              # Root configuration
-│
-├── lib/                      # Core library modules
-│   ├── database.js          # Database Manager
-│   ├── database-integrations.js # Multi-DB integration
-│   ├── ai.js                # AI Manager
-│   └── auth.js              # Authentication
-│
-├── routes/                   # API routes
-│   ├── index.js             # Main API routes
-│   └── auth.js              # Auth routes
-│
-├── automations/              # Automation modules
-│   ├── index.js             # Automations manager
-│   ├── auto-database-sync.js
-│   ├── auto-cleanup.js
-│   ├── auto-integrate-all.js
-│   ├── auto-update-sync.js
-│   └── auto-restart.js
-│
-├── prisma/                   # Database schema
-│   └── schema.prisma        # Prisma schema
-│
-├── dist/                     # Frontend build
-├── docker/                   # Docker configurations
-├── docs/                     # Documentation
-└── firebase/                 # Firebase config
-```
-
----
-
-## 🚦 Health Monitoring
-
-Check server health:
+### 5. Initialize Database
 
 ```bash
-curl http://localhost:3000/api/health
+# Run Prisma migrations
+npx prisma migrate deploy
+
+# Generate Prisma client
+npx prisma generate
+
+# (Optional) Populate demo data
+node scripts/populate-data.js
 ```
 
-Response:
-```json
-{
-  "status": "healthy",
-  "service": "GOD (Ghar O Dev) - Unified Platform",
-  "port": 3000,
-  "services": {
-    "database": { "status": "healthy" },
-    "ai": { "available": ["openai", "anthropic"] }
-  }
-}
-```
+### 6. Start the Application
 
----
-
-## 🐛 Troubleshooting
-
-### Port already in use?
 ```bash
-netstat -ano | findstr :3000
-taskkill /PID <PID> /F
+# Development mode with hot reload
+npm run dev
+
+# Production mode
+npm start
 ```
 
-### Database connection error?
+The application will be available at **http://localhost:3000**
+
+## 📖 Usage
+
+### First Time Setup
+
+1. Open http://localhost:3000 in your browser
+2. Click "Sign in with Google" to create an account
+3. Complete your profile with health information
+4. Start tracking your health metrics!
+
+### Key Workflows
+
+**Track Health Metrics**
+- Navigate to Dashboard → Health Metrics
+- Log weight, vitals, or exercise data
+- View trends and progress charts
+
+**Get AI Nutrition Advice**
+- Open the AI Health Assistant chat
+- Ask questions about nutrition, fitness, or wellness
+- Receive personalized recommendations
+
+**Create Fitness Plans**
+- Go to Fitness Plans section
+- Generate AI-powered workout routines
+- Track your exercise progress
+
+**Join the Community**
+- Visit Community section
+- Share your progress and success stories
+- Engage with other users' posts
+
+## 🧪 Testing
+
 ```bash
-npm run docker:up
+# Run all tests
+npm test
+
+# Run specific test suite
+npm test -- scripts/__tests__/validate-health-metrics.test.js
+
+# Run with coverage
+npm test -- --coverage
 ```
 
-### Module not found?
+## 📊 Database Management
+
+### PostgreSQL (pgAdmin)
+- URL: http://localhost:5050
+- Email: admin@wellsense.ai
+- Password: Abhay#1709
+
+### MongoDB (Mongo Express)
+- URL: http://localhost:8081
+- Username: admin
+- Password: Abhay#1709
+
+## 🔧 Development
+
+### Project Structure
+
+```
+wellsense-ai/
+├── src/                    # React frontend source
+│   ├── components/         # React components
+│   ├── pages/             # Page components
+│   └── App.jsx            # Main app component
+├── lib/                   # Backend utilities
+│   ├── ai.js             # OpenAI integration
+│   ├── auth.js           # Authentication logic
+│   ├── database.js       # Database connections
+│   └── firebase.js       # Firebase setup
+├── routes/               # Express API routes
+├── middleware/           # Express middleware
+├── prisma/              # Database schema and migrations
+├── scripts/             # Utility scripts
+├── docker/              # Docker configuration
+└── public/              # Static assets
+```
+
+### Available Scripts
+
+- `npm start` - Start production server
+- `npm run dev` - Start development server with hot reload
+- `npm test` - Run test suite
+- `npm run build` - Build for production
+- `npx prisma studio` - Open Prisma database GUI
+- `node scripts/populate-data.js` - Generate demo data
+
+## 🐳 Docker Services
+
+The application uses Docker Compose to manage multiple services:
+
+- **PostgreSQL** (Port 5432) - Primary database
+- **MongoDB** (Port 27017) - Document store
+- **Redis** (Port 6379) - Cache
+- **pgAdmin** (Port 5050) - PostgreSQL GUI
+- **Mongo Express** (Port 8081) - MongoDB GUI
+
+To manage services:
+
 ```bash
-npm install
-cd AAP && npm install
+# Start all services
+docker-compose -f docker/docker-compose.yml up -d
+
+# Stop all services
+docker-compose -f docker/docker-compose.yml down
+
+# View logs
+docker-compose -f docker/docker-compose.yml logs -f
+
+# Restart a specific service
+docker-compose -f docker/docker-compose.yml restart postgres
 ```
 
-See [Migration Guide - Troubleshooting](GOD_MIGRATION_GUIDE.md#troubleshooting) for more.
+## 🔐 Security
 
----
+- All sensitive data is stored in environment variables
+- Passwords are hashed using bcrypt
+- Firebase handles authentication securely
+- API keys are never exposed to the client
+- CORS is configured to allow only trusted origins
+- Input validation on all user inputs
 
-## 📈 What's New?
+## 🤝 Team
 
-### ✅ Unified Server
-- Single server on port 3000
-- Frontend + Backend combined
-- Simplified deployment
+**Team GOD (Ghar O Dev)**
 
-### ❌ Removed
-- Old AAP server (Port 5000)
-- Separate startup scripts
-- Multiple configurations
+- **Abhay Harithas** - Lead Developer (Backend, AI Integration, DevOps)
+- **Yokesh** - Support Developer (Frontend, UI/UX, Testing)
 
-### 🎉 Benefits
-- Easier development
-- Simpler deployment
-- Better performance
-- Unified logging
-- Resource efficiency
+## 📝 License
 
----
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## 🙏 Acknowledgments
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
----
-
-## 📄 License
-
-MIT License - See LICENSE file for details
-
----
-
-## 👥 Team
-
-**ARUWELL PRENEURS**
-
----
-
-## 🎓 Learning Resources
-
-### Getting Started
-1. [Quick Start Guide](GOD_QUICK_START.md) - Start here
-2. [Server README](GOD_SERVER_README.md) - Complete guide
-3. [Architecture](GOD_ARCHITECTURE.md) - System design
-
-### Advanced
-1. [Implementation Summary](GOD_SERVER_SUMMARY.md) - Technical details
-2. [Deployment Guide](docs/DEPLOYMENT_GUIDE.md) - Production setup
-
----
-
-## 🌟 Features
-
-### Frontend
-- ✅ React SPA
-- ✅ Responsive design
-- ✅ Modern UI/UX
-
-### Backend
-- ✅ RESTful API
-- ✅ JWT authentication
-- ✅ Google OAuth
-- ✅ Rate limiting
-- ✅ Error handling
-
-### Database
-- ✅ Multi-database support
-- ✅ Automatic sync
-- ✅ Query optimization
-- ✅ Connection pooling
-
-### AI
-- ✅ Multiple providers
-- ✅ Automatic fallback
-- ✅ Context-aware responses
-- ✅ Health advice
-
----
+- OpenAI for GPT API
+- Firebase for authentication services
+- The open-source community for amazing tools and libraries
 
 ## 📞 Support
 
-Need help? Check these resources:
+For questions or issues:
+- Open an issue on GitHub
+- Contact: support@wellsense.ai
+- Documentation: [docs/](./docs/)
 
-1. **[Documentation Index](GOD_INDEX.md)** - Find all docs
-2. **[Quick Start](GOD_QUICK_START.md)** - Get started fast
-3. **[Troubleshooting](GOD_MIGRATION_GUIDE.md#troubleshooting)** - Common issues
-4. **Console Logs** - Check for errors
-5. **Health Endpoint** - Verify services
+## 🚀 Deployment
 
----
-
-<div align="center">
-
-## 🎉 Welcome to GOD!
-
-**One Server, All Features, Port 3000**
-
-[Get Started](GOD_QUICK_START.md) • [Documentation](GOD_INDEX.md) • [Architecture](GOD_ARCHITECTURE.md)
+For production deployment instructions, see [PRODUCTION_DEPLOYMENT_GUIDE.md](./docs/PRODUCTION_DEPLOYMENT_GUIDE.md)
 
 ---
 
-**GOD (Ghar O Dev)** - Unified, Powerful, Production-Ready 🌟
-
-Made with ❤️ by ARUWELL PRENEURS
-
-</div>
+**Built with ❤️ for Demo Day 2026**

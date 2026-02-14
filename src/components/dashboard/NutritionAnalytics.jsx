@@ -128,7 +128,10 @@ const NutritionAnalytics = ({ clients }) => {
               <option key={metric.value} value={metric.value}>{metric.label}</option>
             ))}
           </select>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center">
+          <button 
+            onClick={() => alert('Export nutrition analytics data')}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center"
+          >
             <Download className="h-4 w-4 mr-2" />
             Export
           </button>

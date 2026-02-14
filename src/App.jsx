@@ -25,6 +25,7 @@ import AuthPage from './pages/AuthPage';
 import AuthCallback from './pages/AuthCallback';
 import ConsultationPage from './pages/ConsultationPage';
 import DemoBanner from './components/demo/DemoBanner';
+import BackupVideoPlayer from './components/demo/BackupVideoPlayer';
 import OpenAIDemo from './components/ai/OpenAIDemo';
 import UserStatistics from './pages/UserStatistics';
 import MeditationCenter from './pages/MeditationCenter';
@@ -101,6 +102,7 @@ const AppLayout = ({ children }) => {
         </div>
         
         <DemoBanner />
+        <BackupVideoPlayer />
         <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
         <NotificationSystem enableDemoNotifications={import.meta.env.VITE_ENABLE_DEMO_NOTIFICATIONS === 'true'} />
         <UpdateNotification />

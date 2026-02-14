@@ -177,10 +177,16 @@ const ConsultationBooking = () => {
           Your consultation with Dr. {selectedProfessional?.name} has been scheduled for {selectedDate} at {selectedTime}.
         </p>
         <div className="space-y-3">
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+          <button 
+            onClick={() => alert('Joining video call...')}
+            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          >
             Join Video Call
           </button>
-          <button className="w-full bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 transition-colors">
+          <button 
+            onClick={() => alert('Viewing appointment details...')}
+            className="w-full bg-gray-100 text-gray-700 py-3 rounded-lg hover:bg-gray-200 transition-colors"
+          >
             View Appointment Details
           </button>
         </div>
@@ -251,7 +257,10 @@ const ConsultationBooking = () => {
                 />
               </div>
             </div>
-            <button className="flex items-center space-x-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50">
+            <button 
+              onClick={() => alert('Opening filters...')}
+              className="flex items-center space-x-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50"
+            >
               <Filter className="w-5 h-5" />
               <span>Filters</span>
             </button>

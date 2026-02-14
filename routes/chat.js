@@ -526,21 +526,4 @@ Identify patterns, improvements, concerns, and provide actionable insights based
   }
 });
 
-    const aiResponse = await ai.generateHealthAdvice(user, prompt);
-
-    res.json({
-      success: true,
-      content: aiResponse.content,
-      provider: aiResponse.provider,
-      model: aiResponse.model
-    });
-  } catch (error) {
-    console.error('[Chat] Analyze trends error:', error);
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
-  }
-});
-
 module.exports = router;

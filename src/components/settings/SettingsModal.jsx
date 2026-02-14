@@ -102,6 +102,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
           ].map((scheme) => (
             <button
               key={scheme.name}
+              onClick={() => alert(`Apply ${scheme.name} color scheme`)}
               className="p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
             >
               <div className={`w-8 h-8 ${scheme.color} rounded-full mx-auto mb-2`}></div>

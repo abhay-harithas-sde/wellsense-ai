@@ -3,7 +3,12 @@ import React from 'react';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null };
+    this.state = { 
+      hasError: false, 
+      error: null,
+      errorInfo: null,
+      errorCount: 0
+    };
   }
 
   static getDerivedStateFromError(error) {
@@ -11,11 +16,38 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
+    // Log error with context
     console.error('WellSense AI Error:', error, errorInfo);
+    
+    // Store error info for display
+    this.setState(prevState => ({
+      errorInfo,
+      errorCount: prevState.errorCount + 1
+    }));
+
+    // Log to error tracking service if available
+    if (window.errorTracker) {
+      window.errorTracker.logError(error, errorInfo);
+    }
+  }
+
+  handleReset = () => {
+    this.setState({ 
+      hasError: false, 
+      error: null,
+      errorInfo: null
+    });
+  }
+
+  handleReload = () => {
+    window.location.reload();
   }
 
   render() {
     if (this.state.hasError) {
+      const { error, errorCount } = this.state;
+      const isRecurringError = errorCount > 2;
+
       return (
         <div style={{
           minHeight: '100vh',
@@ -33,12 +65,13 @@ class ErrorBoundary extends React.Component {
             borderRadius: '12px',
             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
-            maxWidth: '500px'
+            maxWidth: '500px',
+            width: '100%'
           }}>
             <div style={{
               width: '64px',
               height: '64px',
-              backgroundColor: '#3b82f6',
+              backgroundColor: isRecurringError ? '#ef4444' : '#3b82f6',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
@@ -48,23 +81,28 @@ class ErrorBoundary extends React.Component {
               fontSize: '24px',
               fontWeight: 'bold'
             }}>
-              W
+              {isRecurringError ? '!' : 'W'}
             </div>
             <h1 style={{ 
               fontSize: '24px', 
               fontWeight: 'bold', 
               color: '#1f2937',
-              marginBottom: '1rem'
+              marginBottom: '0.5rem'
             }}>
-              WellSense AI
+              {isRecurringError ? 'Persistent Error Detected' : 'WellSense AI'}
             </h1>
             <p style={{ 
               color: '#6b7280', 
               marginBottom: '1.5rem',
-              lineHeight: '1.5'
+              lineHeight: '1.5',
+              fontSize: '14px'
             }}>
-              Something went wrong, but don't worry! This is likely a minor issue.
+              {isRecurringError 
+                ? 'We\'re experiencing recurring issues. Please try the solutions below or contact support.'
+                : 'Something went wrong, but don\'t worry! This is likely a minor issue.'}
             </p>
+
+            {/* User-friendly error message */}
             <div style={{
               backgroundColor: '#fef2f2',
               border: '1px solid #fecaca',
@@ -79,51 +117,97 @@ class ErrorBoundary extends React.Component {
                 fontWeight: '600',
                 marginBottom: '0.5rem'
               }}>
-                Quick Fixes:
+                {isRecurringError ? 'Troubleshooting Steps:' : 'Quick Fixes:'}
               </h3>
               <ul style={{ 
                 color: '#7f1d1d', 
-                fontSize: '14px',
-                paddingLeft: '1rem',
-                lineHeight: '1.4'
+                fontSize: '13px',
+                paddingLeft: '1.2rem',
+                lineHeight: '1.6',
+                margin: 0
               }}>
                 <li>Refresh the page (Ctrl+R or Cmd+R)</li>
+                <li>Clear browser cache and cookies</li>
+                {isRecurringError && (
+                  <>
+                    <li>Check your internet connection</li>
+                    <li>Try a different browser</li>
+                    <li>Disable browser extensions temporarily</li>
+                  </>
+                )}
                 <li>Check browser console for errors (F12)</li>
-                <li>Ensure Node.js 16+ is installed</li>
-                <li>Try running: npm install && npm run dev</li>
               </ul>
             </div>
-            <button
-              onClick={() => window.location.reload()}
-              style={{
-                backgroundColor: '#3b82f6',
-                color: 'white',
-                border: 'none',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '500',
-                cursor: 'pointer',
-                marginRight: '0.5rem'
-              }}
-            >
-              Refresh Page
-            </button>
-            <button
-              onClick={() => this.setState({ hasError: false, error: null })}
-              style={{
-                backgroundColor: '#f3f4f6',
-                color: '#374151',
-                border: '1px solid #d1d5db',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '500',
-                cursor: 'pointer'
-              }}
-            >
-              Try Again
-            </button>
+
+            {/* Action buttons */}
+            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={this.handleReload}
+                style={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
+                onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
+              >
+                Refresh Page
+              </button>
+              {!isRecurringError && (
+                <button
+                  onClick={this.handleReset}
+                  style={{
+                    backgroundColor: '#f3f4f6',
+                    color: '#374151',
+                    border: '1px solid #d1d5db',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#e5e7eb'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#f3f4f6'}
+                >
+                  Try Again
+                </button>
+              )}
+            </div>
+
+            {/* Error details (collapsed by default) */}
+            {process.env.NODE_ENV === 'development' && error && (
+              <details style={{ marginTop: '1.5rem', textAlign: 'left' }}>
+                <summary style={{ 
+                  cursor: 'pointer', 
+                  color: '#6b7280',
+                  fontSize: '13px',
+                  fontWeight: '500'
+                }}>
+                  Technical Details (Development Only)
+                </summary>
+                <pre style={{
+                  marginTop: '0.5rem',
+                  padding: '0.75rem',
+                  backgroundColor: '#f9fafb',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '6px',
+                  fontSize: '11px',
+                  overflow: 'auto',
+                  maxHeight: '200px',
+                  color: '#374151'
+                }}>
+                  {error.toString()}
+                  {this.state.errorInfo && `\n\n${this.state.errorInfo.componentStack}`}
+                </pre>
+              </details>
+            )}
           </div>
           <p style={{
             marginTop: '2rem',

@@ -42,6 +42,21 @@ const ProfessionalProfile = ({ professionalId }) => {
     window.location.href = `/consultation/book?professional=${professionalId}`;
   };
 
+  const handleVoiceCall = () => {
+    // Initiate voice call with professional
+    alert('Voice call feature coming soon!');
+  };
+
+  const handleSendMessage = () => {
+    // Open messaging interface
+    alert('Messaging feature coming soon!');
+  };
+
+  const handleSaveProfessional = () => {
+    // Save professional to favorites
+    alert('Professional saved to favorites!');
+  };
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto p-6">
@@ -130,15 +145,24 @@ const ProfessionalProfile = ({ professionalId }) => {
               <Video className="w-4 h-4" />
               <span>Book Video Consultation</span>
             </button>
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={handleVoiceCall}
+              className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            >
               <Phone className="w-4 h-4" />
               <span>Voice Call</span>
             </button>
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={handleSendMessage}
+              className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            >
               <MessageSquare className="w-4 h-4" />
               <span>Send Message</span>
             </button>
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+            <button 
+              onClick={handleSaveProfessional}
+              className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            >
               <Heart className="w-4 h-4" />
               <span>Save</span>
             </button>

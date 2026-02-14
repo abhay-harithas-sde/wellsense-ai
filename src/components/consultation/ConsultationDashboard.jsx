@@ -162,7 +162,10 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
             </button>
             
             {consultation.status === 'completed' && (
-              <button className="flex items-center space-x-1 text-sm text-green-600 hover:text-green-800">
+              <button 
+                onClick={() => alert('Leave a review for this consultation')}
+                className="flex items-center space-x-1 text-sm text-green-600 hover:text-green-800"
+              >
                 <MessageSquare className="w-4 h-4" />
                 <span>Leave Review</span>
               </button>

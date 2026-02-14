@@ -100,6 +100,16 @@ const ClientDetails = ({ client, onClose }) => {
     }
   };
 
+  const handleSendMessage = () => {
+    // Open messaging interface for client
+    alert('Messaging feature coming soon!');
+  };
+
+  const handleEditClient = () => {
+    // Open edit client dialog
+    alert('Edit client feature coming soon!');
+  };
+
   const macroDistribution = nutritionData.length > 0 ? [
     { name: 'Protein', value: nutritionData[nutritionData.length - 1].protein, color: '#3B82F6' },
     { name: 'Carbs', value: nutritionData[nutritionData.length - 1].carbs, color: '#10B981' },
@@ -164,10 +174,16 @@ const ClientDetails = ({ client, onClose }) => {
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <button className="p-2 hover:bg-white/10 rounded-lg">
+                <button 
+                  onClick={handleSendMessage}
+                  className="p-2 hover:bg-white/10 rounded-lg"
+                >
                   <MessageCircle className="h-5 w-5" />
                 </button>
-                <button className="p-2 hover:bg-white/10 rounded-lg">
+                <button 
+                  onClick={handleEditClient}
+                  className="p-2 hover:bg-white/10 rounded-lg"
+                >
                   <Edit className="h-5 w-5" />
                 </button>
                 <button
@@ -477,7 +493,10 @@ const ClientDetails = ({ client, onClose }) => {
                     <div className="bg-white border rounded-xl p-6">
                       <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg font-semibold">Session Notes</h3>
-                        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center">
+                        <button 
+                          onClick={() => alert('Add Note: Create a new session note for this client.')}
+                          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+                        >
                           <Plus className="h-4 w-4 mr-2" />
                           Add Note
                         </button>

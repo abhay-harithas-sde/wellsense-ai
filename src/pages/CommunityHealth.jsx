@@ -380,7 +380,10 @@ const CommunityHealth = () => {
             >
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900">Active Health Challenges</h3>
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                <button 
+                  onClick={() => alert('Create Challenge feature coming soon! You can design custom health challenges for the community.')}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                >
                   Create Challenge
                 </button>
               </div>

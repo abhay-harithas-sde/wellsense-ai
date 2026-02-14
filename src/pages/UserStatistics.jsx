@@ -62,6 +62,17 @@ const UserStatistics = () => {
     includeHealthRecords: true
   });
 
+  // Handler functions for export and share
+  const handleExport = () => {
+    // Export statistics data as CSV or PDF
+    alert('Exporting statistics... (Feature coming soon)');
+  };
+
+  const handleShare = () => {
+    // Share statistics via social media or email
+    alert('Sharing statistics... (Feature coming soon)');
+  };
+
   // Mock data - replace with real API calls
   const healthMetricsData = [
     { date: '2024-01-01', weight: 70, heartRate: 72, steps: 8500, sleep: 7.5, calories: 2200 },
@@ -189,12 +200,18 @@ const UserStatistics = () => {
               <option value="1y">Last year</option>
             </select>
             
-            <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <button 
+              onClick={handleExport}
+              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
               <Download className="w-4 h-4 mr-2" />
               Export
             </button>
             
-            <button className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+            <button 
+              onClick={handleShare}
+              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+            >
               <Share2 className="w-4 h-4 mr-2" />
               Share
             </button>

@@ -326,7 +326,10 @@ const VideoConsultation = ({ consultationId, userType = 'patient' }) => {
             <PhoneOff className="w-6 h-6" />
           </button>
 
-          <button className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white transition-colors">
+          <button 
+            onClick={() => alert('Video settings: Adjust camera, microphone, and video quality settings.')}
+            className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white transition-colors"
+          >
             <Settings className="w-6 h-6" />
           </button>
         </div>
