@@ -33,6 +33,13 @@
     "test:coverage": "jest --coverage",
     "test:validation": "node scripts/validate-features.js",
     "test:unit": "jest scripts/__tests__",
+    "test:property": "jest tests/property --testMatch='**/*.property.test.js'",
+    "test:security": "jest tests/unit/security tests/property/security",
+    "test:integration": "jest tests/integration",
+    "security:audit": "node scripts/security-audit.js",
+    "security:generate-secrets": "node scripts/generate-secrets.js",
+    "start:production": "NODE_ENV=production node god-server.js",
+    "start:https": "ENABLE_HTTPS=true node god-server.js",
     "demo:validate": "node scripts/validate-features.js",
     "demo:populate": "node scripts/populate-data.js",
     "demo:test-db": "node scripts/database/test-connection.js",
@@ -104,12 +111,15 @@
   "jest": {
     "testEnvironment": "node",
     "testMatch": [
-      "**/__tests__/**/*.test.js"
+      "**/__tests__/**/*.test.js",
+      "**/tests/**/*.test.js"
     ],
     "collectCoverageFrom": [
       "scripts/validate-features.js",
       "scripts/populate-data.js",
-      "!scripts/__tests__/**"
+      "lib/security/**/*.js",
+      "!scripts/__tests__/**",
+      "!tests/**"
     ],
     "coverageDirectory": "coverage",
     "testTimeout": 30000

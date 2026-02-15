@@ -4,8 +4,25 @@
 // ║  Port: 3000 (FIXED)                                                    ║
 // ╚════════════════════════════════════════════════════════════════════════╝
 
-require('dotenv').config();
+// ═══════════════════════════════════════════════════════════════════════════
+// ENVIRONMENT CONFIGURATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Determine NODE_ENV first (before loading .env)
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
+// Load environment file based on NODE_ENV
+const envFile = NODE_ENV === 'production' 
+  ? '.env.production' 
+  : NODE_ENV === 'test'
+  ? '.env.test'
+  : '.env';
+
+require('dotenv').config({ path: envFile });
+
 const express = require('express');
+const https = require('https');
+const http = require('http');
 const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -19,6 +36,11 @@ const { DatabaseIntegrations } = require('./lib/database-integrations');
 const { AIManager } = require('./lib/ai');
 const { initializeFirebase, getFirebaseStatus } = require('./lib/firebase');
 
+// Import security components
+const EnvironmentValidator = require('./lib/security/environment-validator');
+const CORSConfigurator = require('./lib/security/cors-configurator');
+const SSLManager = require('./lib/security/ssl-manager');
+
 // Import Automations Manager
 const { AutomationsManager } = require('./automations');
 
@@ -30,7 +52,6 @@ const crudRoutes = require('./routes/crud-api');
 // Initialize Express app
 const app = express();
 const PORT = 3000; // FIXED PORT - GOD server ALWAYS runs on 3000
-const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Initialize core services
 const prisma = new PrismaClient();
@@ -51,6 +72,40 @@ console.log('║' + ' '.repeat(78) + '║');
 console.log('═'.repeat(80) + '\n');
 
 // ═══════════════════════════════════════════════════════════════════════════
+// ENVIRONMENT VALIDATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+console.log(`📋 Environment: ${NODE_ENV}`);
+console.log(`📄 Config file: ${envFile}\n`);
+
+// Validate environment configuration
+const validator = new EnvironmentValidator();
+const validationResult = validator.validateAll(process.env, NODE_ENV);
+
+if (!validationResult.valid) {
+  if (NODE_ENV === 'production') {
+    console.error('❌ Configuration validation failed:\n');
+    validationResult.errors.forEach(err => console.error(`   - ${err}`));
+    console.error('\n💡 Fix these issues before starting in production mode.');
+    console.error('   Run: node scripts/generate-secrets.js to generate strong secrets\n');
+    process.exit(1);
+  } else {
+    console.warn('⚠️  Configuration warnings:\n');
+    validationResult.warnings.forEach(warn => console.warn(`   - ${warn}`));
+    console.warn('\n💡 These warnings are non-critical in development mode.');
+    console.warn('   For production, ensure all secrets are strong and properly configured.\n');
+  }
+} else if (validationResult.warnings.length > 0) {
+  console.warn('⚠️  Configuration warnings:\n');
+  validationResult.warnings.forEach(warn => console.warn(`   - ${warn}`));
+  console.warn('');
+} else {
+  if (NODE_ENV === 'development') {
+    console.log('✅ Configuration validation passed\n');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // MIDDLEWARE CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -64,41 +119,15 @@ app.use(helmet({
 app.use(compression());
 
 // CORS configuration
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin) return callback(null, true);
-    
-    // Development: Allow localhost
-    if (NODE_ENV === 'development') {
-      const allowedOrigins = [
-        'http://localhost:3000',
-        'http://localhost:5173',
-        'http://127.0.0.1:3000',
-        'http://127.0.0.1:5173'
-      ];
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-    }
-    
-    // Production: Use environment variable or specific domains
-    const allowedOrigins = process.env.CORS_ORIGIN 
-      ? process.env.CORS_ORIGIN.split(',')
-      : ['https://yourdomain.com', 'https://www.yourdomain.com'];
-    
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  exposedHeaders: ['Content-Range', 'X-Content-Range'],
-  maxAge: 600 // Cache preflight requests for 10 minutes
-};
+const corsConfigurator = new CORSConfigurator();
+const corsOptions = corsConfigurator.getCORSOptions(process.env, NODE_ENV);
+
+if (NODE_ENV === 'development') {
+  console.log('🔓 CORS: Development mode - localhost origins allowed');
+} else {
+  const allowedOrigins = corsConfigurator.parseAllowedOrigins(process.env.CORS_ORIGIN || '');
+  console.log(`🔒 CORS: Production mode - ${allowedOrigins.length} origin(s) whitelisted`);
+}
 
 app.use(cors(corsOptions));
 
@@ -651,18 +680,30 @@ const gracefulShutdown = async (signal) => {
     await prisma.$disconnect();
     console.log('✅ Prisma disconnected');
     
-    // Close server
+    // Close servers
+    const closePromises = [];
+    
     if (global.server) {
-      global.server.close(() => {
-        console.log('✅ Server closed');
-        process.exit(0);
-      });
-      
-      // Force close after 10 seconds
-      setTimeout(() => {
-        console.error('⚠️  Forced shutdown after timeout');
-        process.exit(1);
-      }, 10000);
+      closePromises.push(new Promise((resolve) => {
+        global.server.close(() => {
+          console.log('✅ Main server closed');
+          resolve();
+        });
+      }));
+    }
+    
+    if (global.httpRedirectServer) {
+      closePromises.push(new Promise((resolve) => {
+        global.httpRedirectServer.close(() => {
+          console.log('✅ HTTP redirect server closed');
+          resolve();
+        });
+      }));
+    }
+    
+    if (closePromises.length > 0) {
+      await Promise.all(closePromises);
+      process.exit(0);
     } else {
       process.exit(0);
     }
@@ -684,6 +725,78 @@ process.on('unhandledRejection', (reason, promise) => {
 // ═══════════════════════════════════════════════════════════════════════════
 // SERVER STARTUP
 // ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Log API endpoints and database connections
+ * @param {number} port - Server port
+ */
+async function logEndpointsAndDatabases(port) {
+  const protocol = global.server && global.server instanceof https.Server ? 'https' : 'http';
+  
+  console.log('📋 API Endpoints:');
+  console.log(`   - Health Check:    ${protocol}://localhost:${port}/api/health`);
+  console.log(`   - Authentication:  ${protocol}://localhost:${port}/api/auth/*`);
+  console.log(`   - Database:        ${protocol}://localhost:${port}/api/db/*`);
+  console.log(`   - Automations:     ${protocol}://localhost:${port}/api/automations/status`);
+  console.log(`   - User Profile:    ${protocol}://localhost:${port}/api/user/*`);
+  console.log(`   - Health Records:  ${protocol}://localhost:${port}/api/health/records`);
+  console.log(`   - AI Chat:         ${protocol}://localhost:${port}/api/ai/chat`);
+  console.log('');
+  
+  console.log('🗄️  Connected Databases:');
+  const connections = dbIntegrations.getConnectionStatus();
+  console.log(`   - PostgreSQL:      ${connections.postgresql.connected ? '✅ Connected' : '❌ Disconnected'} (Port ${connections.postgresql.port})`);
+  console.log(`   - MongoDB:         ${connections.mongodb.connected ? '✅ Connected' : '❌ Disconnected'} (Port ${connections.mongodb.port})`);
+  console.log(`   - Redis:           ${connections.redis.connected ? '✅ Connected' : '❌ Disconnected'} (Port ${connections.redis.port})`);
+  console.log('');
+  
+  console.log('🔗 Database Management:');
+  console.log('   - pgAdmin:         http://localhost:5050');
+  console.log('   - Mongo Express:   http://localhost:8081');
+  console.log('');
+  
+  // Initialize and start automations
+  try {
+    const godServer = {
+      db,
+      dbIntegrations,
+      ai,
+      prisma
+    };
+
+    automations = new AutomationsManager(godServer, {
+      enabled: true, // Always enabled
+      updateSync: {
+        enabled: true, // Always enabled
+        interval: 30000 // 30 seconds - continuous
+      },
+      databaseSync: {
+        enabled: true, // Always enabled
+        interval: 30000 // 30 seconds - continuous
+      },
+      integrateAll: {
+        enabled: true, // Always enabled
+        checkInterval: 30000 // 30 seconds - continuous
+      },
+      cleanup: {
+        enabled: true, // Always enabled
+        interval: 30000 // 30 seconds - continuous
+      },
+      restart: {
+        enabled: true, // Always enabled
+        healthCheckInterval: 30000 // 30 seconds - continuous
+      }
+    });
+
+    await automations.startAll();
+    console.log('✅ All automations running UNLIMITED - 30-second intervals (continuous)\n');
+  } catch (error) {
+    console.error('⚠️  Failed to start automations:', error.message);
+  }
+  
+  console.log('💡 Press Ctrl+C to stop the server\n');
+  console.log('═'.repeat(80) + '\n');
+}
 
 async function startGODServer() {
   try {
@@ -755,6 +868,55 @@ async function startGODServer() {
     }
 
     // Start Express server
+    const sslManager = new SSLManager();
+    const isSSLEnabled = sslManager.isSSLConfigured(process.env);
+    
+    if (isSSLEnabled) {
+      // HTTPS mode
+      try {
+        const httpsOptions = sslManager.getHTTPSOptions(process.env);
+        const HTTPS_PORT = parseInt(process.env.HTTPS_PORT) || 443;
+        const HTTP_PORT = parseInt(process.env.HTTP_PORT) || 80;
+        
+        // Create HTTPS server
+        const httpsServer = https.createServer(httpsOptions, app);
+        httpsServer.listen(HTTPS_PORT, () => {
+          console.log('\n' + '═'.repeat(80));
+          console.log('║' + ' '.repeat(78) + '║');
+          console.log('║' + '  ✅ GOD Server Started Successfully (HTTPS)'.padEnd(78) + '║');
+          console.log('║' + ' '.repeat(78) + '║');
+          console.log('═'.repeat(80) + '\n');
+          
+          console.log(`🔒 HTTPS URL:         https://localhost:${HTTPS_PORT}`);
+          console.log(`📡 Environment:       ${NODE_ENV}`);
+          console.log(`🔐 SSL:               Enabled`);
+          console.log('');
+          
+          logEndpointsAndDatabases(HTTPS_PORT);
+        });
+        
+        // Create HTTP redirect server
+        const httpApp = express();
+        httpApp.use((req, res) => {
+          res.redirect(301, `https://${req.headers.host}${req.url}`);
+        });
+        const httpServer = httpApp.listen(HTTP_PORT, () => {
+          console.log(`🔀 HTTP Redirect:     http://localhost:${HTTP_PORT} → https://localhost:${HTTPS_PORT}\n`);
+        });
+        
+        // Store both servers for graceful shutdown
+        global.server = httpsServer;
+        global.httpRedirectServer = httpServer;
+        
+        return httpsServer;
+      } catch (error) {
+        console.error('❌ Failed to start HTTPS server:', error.message);
+        console.error('   Falling back to HTTP mode...\n');
+        // Fall through to HTTP mode
+      }
+    }
+    
+    // HTTP mode (default or fallback)
     const server = app.listen(PORT, async () => {
       console.log('\n' + '═'.repeat(80));
       console.log('║' + ' '.repeat(78) + '║');
@@ -765,71 +927,12 @@ async function startGODServer() {
       console.log(`🌐 Server URL:        http://localhost:${PORT}`);
       console.log(`📡 Environment:       ${NODE_ENV}`);
       console.log(`🔒 Port:              ${PORT} (FIXED)`);
-      console.log('');
-      
-      console.log('📋 API Endpoints:');
-      console.log(`   - Health Check:    http://localhost:${PORT}/api/health`);
-      console.log(`   - Authentication:  http://localhost:${PORT}/api/auth/*`);
-      console.log(`   - Database:        http://localhost:${PORT}/api/db/*`);
-      console.log(`   - Automations:     http://localhost:${PORT}/api/automations/status`);
-      console.log(`   - User Profile:    http://localhost:${PORT}/api/user/*`);
-      console.log(`   - Health Records:  http://localhost:${PORT}/api/health/records`);
-      console.log(`   - AI Chat:         http://localhost:${PORT}/api/ai/chat`);
-      console.log('');
-      
-      console.log('🗄️  Connected Databases:');
-      const connections = dbIntegrations.getConnectionStatus();
-      console.log(`   - PostgreSQL:      ${connections.postgresql.connected ? '✅ Connected' : '❌ Disconnected'} (Port ${connections.postgresql.port})`);
-      console.log(`   - MongoDB:         ${connections.mongodb.connected ? '✅ Connected' : '❌ Disconnected'} (Port ${connections.mongodb.port})`);
-      console.log(`   - Redis:           ${connections.redis.connected ? '✅ Connected' : '❌ Disconnected'} (Port ${connections.redis.port})`);
-      console.log('');
-      
-      console.log('🔗 Database Management:');
-      console.log('   - pgAdmin:         http://localhost:5050');
-      console.log('   - Mongo Express:   http://localhost:8081');
-      console.log('');
-      
-      // Initialize and start automations
-      try {
-        const godServer = {
-          db,
-          dbIntegrations,
-          ai,
-          prisma
-        };
-
-        automations = new AutomationsManager(godServer, {
-          enabled: true, // Always enabled
-          updateSync: {
-            enabled: true, // Always enabled
-            interval: 30000 // 30 seconds - continuous
-          },
-          databaseSync: {
-            enabled: true, // Always enabled
-            interval: 30000 // 30 seconds - continuous
-          },
-          integrateAll: {
-            enabled: true, // Always enabled
-            checkInterval: 30000 // 30 seconds - continuous
-          },
-          cleanup: {
-            enabled: true, // Always enabled
-            interval: 30000 // 30 seconds - continuous
-          },
-          restart: {
-            enabled: true, // Always enabled
-            healthCheckInterval: 30000 // 30 seconds - continuous
-          }
-        });
-
-        await automations.startAll();
-        console.log('✅ All automations running UNLIMITED - 30-second intervals (continuous)\n');
-      } catch (error) {
-        console.error('⚠️  Failed to start automations:', error.message);
+      if (!isSSLEnabled && NODE_ENV === 'production') {
+        console.warn(`⚠️  SSL:               Not configured (recommended for production)`);
       }
+      console.log('');
       
-      console.log('💡 Press Ctrl+C to stop the server\n');
-      console.log('═'.repeat(80) + '\n');
+      await logEndpointsAndDatabases(PORT);
     });
 
     // Store server reference for graceful shutdown

@@ -4,12 +4,23 @@ package-lock.json
 yarn.lock
 
 # Environment variables
+# SECURITY: Never commit environment files containing production secrets
+# .env.production.template is tracked (contains placeholders only)
 .env
 .env.local
 .env.production
 .env.test.local
 
-# SSL Certificates (NEVER commit these!)
+# Docker environment files
+# SECURITY: Production Docker env files contain real database credentials
+# Development Docker files are tracked for team consistency
+docker/.env.docker.production
+
+# SSL Certificates
+# SECURITY: Private keys and certificates must NEVER be committed to version control
+# Use secure certificate management (Let's Encrypt, AWS Certificate Manager, etc.)
+# The ssl/ directory is for local development/testing only
+ssl/
 ssl/*.key
 ssl/*.crt
 ssl/*.pem
@@ -70,3 +81,4 @@ docker/mongodb/data/
 
 # Kiro IDE
 .kiro/
+.vercel

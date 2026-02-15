@@ -1,3 +1,53 @@
+# WellSense AI - Docker Compose Configuration
+#
+# This docker-compose file supports both development and production environments
+# through environment variable substitution.
+#
+# USAGE:
+#
+# Development (default):
+#   docker-compose --env-file .env.docker up
+#
+# Production:
+#   docker-compose --env-file .env.docker.production up
+#
+# Production without admin tools (recommended):
+#   docker-compose --env-file .env.docker.production up
+#   (pgAdmin and Mongo Express won't start without --profile admin-tools)
+#
+# Production with admin tools (if needed):
+#   docker-compose --env-file .env.docker.production --profile admin-tools up
+#
+# PASSING APPLICATION SECRETS:
+#
+# Application secrets (JWT_SECRET, GOOGLE_CLIENT_SECRET, OPENAI_API_KEY, etc.)
+# should NOT be stored in .env.docker files. Pass them using:
+#
+# Method 1: Environment variables at runtime
+#   JWT_SECRET=xxx GOOGLE_CLIENT_SECRET=yyy docker-compose up
+#
+# Method 2: Export environment variables
+#   export JWT_SECRET="your-jwt-secret"
+#   export GOOGLE_CLIENT_SECRET="your-google-secret"
+#   docker-compose up
+#
+# Method 3: Add to docker-compose.override.yml (not committed to git)
+#   services:
+#     app:
+#       environment:
+#         - JWT_SECRET=${JWT_SECRET}
+#         - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+#
+# Method 4: Docker secrets (production recommended)
+#   See documentation in .env.docker.production for details
+#
+# SECURITY NOTES:
+# - Admin tools (pgAdmin, Mongo Express) are disabled by default in production
+# - Use --profile admin-tools to enable them if needed
+# - Never expose admin tools to public internet
+# - Use strong passwords from .env.docker.production
+# - Enable Redis password authentication in production
+#
 name: wellsense-ai
 
 services:
@@ -7,20 +57,20 @@ services:
     container_name: wellsense-ai-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: wellsense_ai
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "Abhay#1709"
+      POSTGRES_DB: ${POSTGRES_DB:-wellsense_ai}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Abhay#1709}
       POSTGRES_HOST_AUTH_METHOD: trust
       PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/init:/docker-entrypoint-initdb.d
     networks:
       - wellsense-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d wellsense_ai"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-wellsense_ai}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,11 +81,11 @@ services:
     container_name: wellsense-ai-mongodb
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: "Abhay#1709"
-      MONGO_INITDB_DATABASE: wellsense_ai
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-Abhay#1709}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE:-wellsense_ai}
     ports:
-      - "27017:27017"
+      - "${MONGO_PORT:-27017}:27017"
     volumes:
       - mongodb_data:/data/db
       - ./mongodb/init:/docker-entrypoint-initdb.d
@@ -52,14 +102,27 @@ services:
     image: redis:7-alpine
     container_name: wellsense-ai-redis
     restart: unless-stopped
+    command: >
+      sh -c "if [ -n \"$REDIS_PASSWORD\" ]; then
+        redis-server --requirepass \"$REDIS_PASSWORD\";
+      else
+        redis-server;
+      fi"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - redis_data:/data
     networks:
       - wellsense-network
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: >
+        sh -c "if [ -n \"$REDIS_PASSWORD\" ]; then
+          redis-cli -a \"$REDIS_PASSWORD\" ping;
+        else
+          redis-cli ping;
+        fi"
       interval: 10s
       timeout: 5s
       retries: 5
@@ -70,17 +133,19 @@ services:
     container_name: wellsense-ai-pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@wellsense.ai
-      PGADMIN_DEFAULT_PASSWORD: "Abhay#1709"
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@wellsense.ai}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-Abhay#1709}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
-      - "5050:80"
+      - "${PGADMIN_PORT:-5050}:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
       - wellsense-network
     depends_on:
       - postgres
+    profiles:
+      - admin-tools  # Only start with --profile admin-tools
 
   # MongoDB Express for MongoDB Management
   mongo-express:
@@ -88,17 +153,19 @@ services:
     container_name: wellsense-ai-mongo-express
     restart: unless-stopped
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: "Abhay#1709"
-      ME_CONFIG_MONGODB_URL: mongodb://admin:Abhay%231709@mongodb:27017/
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: "Abhay#1709"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_CONFIG_MONGODB_ADMINUSERNAME:-admin}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD:-Abhay#1709}
+      ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL:-mongodb://admin:Abhay%231709@mongodb:27017/}
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME:-admin}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD:-Abhay#1709}
     ports:
-      - "8081:8081"
+      - "${ME_CONFIG_PORT:-8081}:8081"
     networks:
       - wellsense-network
     depends_on:
       - mongodb
+    profiles:
+      - admin-tools  # Only start with --profile admin-tools
 
 volumes:
   postgres_data:

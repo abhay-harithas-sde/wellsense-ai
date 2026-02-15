@@ -11,22 +11,34 @@ const notFoundHandler = (req, res, next) => {
 
 // Global Error Handler
 const errorHandler = (err, req, res, next) => {
-  // Log error
+  const isProduction = process.env.NODE_ENV === 'production';
+  
+  // Always log full error details server-side in all modes
   logger.error('Application Error', {
     error: err.message,
     stack: err.stack,
     method: req.method,
     url: req.url,
     body: req.body,
-    user: req.user?.id
+    user: req.user?.id,
+    code: err.code,
+    name: err.name
   });
+
+  // CORS errors - return 403 Forbidden
+  if (err.message && err.message.includes('CORS')) {
+    return res.status(403).json({
+      success: false,
+      message: isProduction ? 'Access forbidden' : 'CORS policy violation'
+    });
+  }
 
   // Prisma errors
   if (err.code === 'P2002') {
     return res.status(409).json({
       success: false,
-      message: 'Resource already exists',
-      field: err.meta?.target?.[0]
+      message: isProduction ? 'Resource conflict' : 'Resource already exists',
+      ...(isProduction ? {} : { field: err.meta?.target?.[0] })
     });
   }
 
@@ -41,8 +53,8 @@ const errorHandler = (err, req, res, next) => {
   if (err.name === 'ValidationError') {
     return res.status(400).json({
       success: false,
-      message: 'Validation failed',
-      errors: err.details
+      message: isProduction ? 'Invalid request data' : 'Validation failed',
+      ...(isProduction ? {} : { errors: err.details })
     });
   }
 
@@ -63,15 +75,22 @@ const errorHandler = (err, req, res, next) => {
 
   // Default error
   const statusCode = err.statusCode || 500;
-  const message = process.env.NODE_ENV === 'production' 
-    ? 'Internal server error' 
-    : err.message;
-
-  res.status(statusCode).json({
-    success: false,
-    message,
-    ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
-  });
+  
+  // Production mode: return generic error messages only, exclude stack traces
+  // Development mode: include full error details and stack traces
+  if (isProduction) {
+    res.status(statusCode).json({
+      success: false,
+      message: statusCode >= 500 ? 'Internal server error' : err.message || 'An error occurred'
+    });
+  } else {
+    res.status(statusCode).json({
+      success: false,
+      message: err.message || 'An error occurred',
+      stack: err.stack,
+      ...(err.details && { details: err.details })
+    });
+  }
 };
 
 module.exports = {

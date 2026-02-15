@@ -67,12 +67,17 @@ npm install
 
 ### 3. Set Up Environment Variables
 
+**Development:**
+
 Create a `.env` file in the root directory:
 
 ```env
 # Server Configuration
 PORT=3000
 NODE_ENV=development
+
+# CORS Configuration
+CORS_ORIGIN=http://localhost:3000,http://localhost:5173
 
 # PostgreSQL Database
 DATABASE_URL="postgresql://postgres:Abhay%231709@localhost:5432/wellsense_ai"
@@ -83,20 +88,40 @@ MONGODB_URI="mongodb://admin:Abhay%231709@localhost:27017/wellsense_ai?authSourc
 # Redis
 REDIS_URL="redis://localhost:6379"
 
+# JWT Configuration
+JWT_SECRET="your_jwt_secret_here"
+JWT_EXPIRES_IN=7d
+
 # OpenAI API
 OPENAI_API_KEY="your_openai_api_key_here"
 
-# Firebase Configuration
+# Firebase Configuration (Optional)
 FIREBASE_PROJECT_ID="your_project_id"
 FIREBASE_PRIVATE_KEY="your_private_key"
 FIREBASE_CLIENT_EMAIL="your_client_email"
-
-# Session Secret
-SESSION_SECRET="your_secure_random_string_here"
-
-# CORS Origin
-CORS_ORIGIN="http://localhost:3000"
 ```
+
+> **Note:** The secrets shown above are examples for development only. For production deployment, you must generate strong, cryptographically secure secrets.
+
+**Production:**
+
+For production deployment, use strong secrets and secure configuration:
+
+```bash
+# 1. Generate strong secrets
+npm run security:generate-secrets
+
+# 2. Create production environment file from template
+cp .env.production.template .env.production
+
+# 3. Edit .env.production with generated secrets
+# Replace all placeholder values with actual secrets
+
+# 4. Run security audit before deployment
+npm run security:audit
+```
+
+See the [Security Hardening Guide](./docs/SECURITY_HARDENING.md) and [Migration Guide](./docs/MIGRATION_GUIDE.md) for detailed production setup instructions.
 
 ### 4. Start Docker Services
 
@@ -163,6 +188,99 @@ The application will be available at **http://localhost:3000**
 - Share your progress and success stories
 - Engage with other users' posts
 
+## 🔐 Security
+
+WellSense AI implements comprehensive security hardening to protect user data and ensure safe production deployment.
+
+### Security Features
+
+- **Strong Secret Generation**: Cryptographically secure secrets for JWT, database passwords, and OAuth
+- **Environment Isolation**: Separate configurations for development, test, and production environments
+- **CORS Security**: Strict origin whitelisting in production to prevent unauthorized access
+- **SSL/TLS Support**: HTTPS encryption with automatic HTTP-to-HTTPS redirect
+- **Automated Validation**: Environment validation at startup prevents weak configurations
+- **Error Sanitization**: Production errors don't expose sensitive data or stack traces
+- **Security Auditing**: Pre-deployment security checks catch vulnerabilities
+
+### Production Deployment
+
+Before deploying to production, follow these steps:
+
+1. **Generate Strong Secrets:**
+```bash
+npm run security:generate-secrets
+```
+
+2. **Create Production Configuration:**
+```bash
+cp .env.production.template .env.production
+# Edit .env.production with generated secrets
+```
+
+3. **Run Security Audit:**
+```bash
+npm run security:audit
+```
+
+4. **Configure SSL/TLS:**
+   - Obtain SSL certificates (Let's Encrypt recommended)
+   - Configure SSL in `.env.production`
+   - See [SSL Setup Guide](./docs/SSL_SETUP.md)
+
+5. **Deploy with Security Checklist:**
+   - ✅ All secrets meet minimum strength requirements
+   - ✅ CORS_ORIGIN configured with production domains only
+   - ✅ NODE_ENV=production
+   - ✅ HTTPS enabled with valid certificates
+   - ✅ .env.production not committed to version control
+   - ✅ Security audit passes all checks
+
+### Security Documentation
+
+- **[Security Hardening Guide](./docs/SECURITY_HARDENING.md)** - Comprehensive security setup and best practices
+- **[Migration Guide](./docs/MIGRATION_GUIDE.md)** - Step-by-step migration to secure configuration
+- **[SSL Setup Guide](./docs/SSL_SETUP.md)** - HTTPS/TLS certificate configuration
+- **[API Documentation](./docs/API_DOCUMENTATION.md)** - API security requirements
+
+### Development Workflow with Security
+
+When developing, run security checks regularly:
+
+```bash
+# Before committing code
+npm run security:audit
+
+# Run tests including security tests
+npm test
+npm run test:security
+
+# Check for weak secrets in development
+npm run security:generate-secrets
+```
+
+### Security Best Practices
+
+**DO:**
+- ✅ Use strong, unique secrets for each environment
+- ✅ Enable HTTPS in production
+- ✅ Run security audit before deployment
+- ✅ Rotate secrets regularly (90-180 days)
+- ✅ Store production secrets in a secure vault (AWS Secrets Manager, HashiCorp Vault)
+- ✅ Monitor security logs and failed authentication attempts
+- ✅ Keep dependencies updated
+
+**DON'T:**
+- ❌ Commit `.env.production` to version control
+- ❌ Use weak, default, or placeholder secrets in production
+- ❌ Use wildcard (`*`) CORS in production
+- ❌ Disable SSL certificate verification
+- ❌ Share production credentials via insecure channels
+- ❌ Expose stack traces or detailed errors in production
+
+### Reporting Security Issues
+
+If you discover a security vulnerability, please email **security@wellsense.ai**. Do not create public GitHub issues for security vulnerabilities.
+
 ## 🧪 Testing
 
 ```bash
@@ -216,7 +334,11 @@ wellsense-ai/
 - `npm start` - Start production server
 - `npm run dev` - Start development server with hot reload
 - `npm test` - Run test suite
+- `npm run test:security` - Run security-specific tests
+- `npm run test:property` - Run property-based tests
 - `npm run build` - Build for production
+- `npm run security:audit` - Run security audit checks
+- `npm run security:generate-secrets` - Generate strong secrets
 - `npx prisma studio` - Open Prisma database GUI
 - `node scripts/populate-data.js` - Generate demo data
 
@@ -261,6 +383,72 @@ docker-compose -f docker/docker-compose.yml restart postgres
 
 - **Abhay Harithas** - Lead Developer (Backend, AI Integration, DevOps)
 - **Yokesh** - Support Developer (Frontend, UI/UX, Testing)
+
+## 🔒 Security
+
+### Production Deployment
+
+Before deploying to production:
+
+1. **Generate Strong Secrets:**
+```bash
+npm run security:generate-secrets
+```
+
+2. **Create Production Configuration:**
+```bash
+cp .env.production.template .env.production
+# Edit .env.production with generated secrets
+```
+
+3. **Run Security Audit:**
+```bash
+npm run security:audit
+```
+
+4. **Enable HTTPS:**
+   - Obtain SSL certificates (Let's Encrypt recommended)
+   - Configure SSL in `.env.production`
+   - See [SSL Setup Guide](./docs/SSL_SETUP.md)
+
+### Security Features
+
+- **Strong Secret Generation**: Cryptographically secure secrets (JWT, database passwords)
+- **Environment Isolation**: Separate configurations for dev/test/production
+- **CORS Security**: Strict origin whitelisting in production
+- **SSL/TLS Support**: HTTPS encryption with automatic HTTP redirect
+- **Input Validation**: All API inputs validated and sanitized
+- **Error Sanitization**: Production errors don't expose sensitive data
+- **Rate Limiting**: API rate limiting to prevent abuse
+- **Automated Security Audit**: Pre-deployment security checks
+
+### Security Documentation
+
+- [Security Hardening Guide](./docs/SECURITY_HARDENING.md) - Comprehensive security setup
+- [Migration Guide](./docs/MIGRATION_GUIDE.md) - Step-by-step migration to secure configuration
+- [SSL Setup Guide](./docs/SSL_SETUP.md) - HTTPS/TLS certificate configuration
+- [API Documentation](./docs/API_DOCUMENTATION.md) - API security requirements
+
+### Security Best Practices
+
+**DO:**
+- Use strong, unique secrets for each environment
+- Enable HTTPS in production
+- Run security audit before deployment
+- Rotate secrets regularly (90-180 days)
+- Store production secrets in a secure vault
+- Monitor security logs
+
+**DON'T:**
+- Commit `.env.production` to version control
+- Use weak or default secrets
+- Use wildcard CORS in production
+- Disable SSL certificate verification
+- Share production credentials
+
+### Reporting Security Issues
+
+If you discover a security vulnerability, please email security@wellsense.ai. Do not create public GitHub issues for security vulnerabilities.
 
 ## 📝 License
 
