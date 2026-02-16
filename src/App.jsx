@@ -286,6 +286,26 @@ const AppRoutes = () => {
           }
         />
         <Route
+          path="/consultation/:action"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <ConsultationPage />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/consultation/:action/:id"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <ConsultationPage />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/profile"
           element={
             <ProtectedRoute>

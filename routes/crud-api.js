@@ -1,10 +1,10 @@
 // Comprehensive CRUD API Routes
 // WellSense AI - All Database Operations
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { DatabaseCRUD } = require('../lib/database-crud');
-const { authenticateToken } = require('../lib/auth');
+import { DatabaseCRUD } from '../lib/database-crud.js';
+import { authenticateToken } from '../lib/auth.js';
 
 const db = new DatabaseCRUD();
 
@@ -662,4 +662,4 @@ router.get('/stats', authenticateToken, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

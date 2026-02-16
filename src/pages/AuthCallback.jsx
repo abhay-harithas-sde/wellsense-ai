@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
+import apiService from '../services/api';
 
 const AuthCallback = () => {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
 
   useEffect(() => {
     const handleAuthCallback = async () => {
@@ -15,52 +14,54 @@ const AuthCallback = () => {
         const provider = urlParams.get('provider');
         const error = urlParams.get('error');
 
+        console.log('🔄 Auth callback received:', { hasToken: !!token, provider, error });
+
         if (error) {
-          console.error('Authentication error:', error);
+          console.error('❌ Authentication error:', error);
           navigate('/auth?error=' + encodeURIComponent(error));
           return;
         }
 
         if (token) {
-          // Store the token
-          localStorage.setItem('wellsense_token', token);
+          console.log('✅ Token received, storing and verifying...');
+          
+          // Store the token using apiService
+          apiService.setToken(token);
 
-          // Fetch user data with the token
-          const serverURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-          const response = await fetch(`${serverURL}/api/auth/me`, {
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
-          });
+          // Verify the token by fetching user data
+          const result = await apiService.getCurrentUser();
 
-          if (response.ok) {
-            const result = await response.json();
-            if (result.success) {
-              setUser(result.data.user);
-              
-              // Clear auth intent from localStorage
-              localStorage.removeItem('wellsense_auth_intent');
-              localStorage.removeItem('wellsense_auth_provider');
-              
-              // Redirect to home (dashboard will be shown if logged in)
-              navigate('/');
-              return;
-            }
+          if (result.success) {
+            console.log('✅ User authenticated successfully:', result.data.user.email);
+            
+            // Clear auth intent from localStorage
+            localStorage.removeItem('wellsense_auth_intent');
+            localStorage.removeItem('wellsense_auth_provider');
+            
+            // Redirect to home - AuthContext will pick up the user automatically
+            console.log('🔄 Redirecting to home...');
+            navigate('/', { replace: true });
+            
+            // Force a page reload to ensure AuthContext picks up the new token
+            window.location.href = '/';
+            return;
+          } else {
+            console.error('❌ Failed to fetch user data:', result.message);
           }
         }
 
         // If we get here, something went wrong
+        console.error('❌ Authentication failed - no token or invalid response');
         navigate('/auth?error=Authentication failed');
 
       } catch (error) {
-        console.error('Auth callback error:', error);
+        console.error('❌ Auth callback error:', error);
         navigate('/auth?error=Authentication failed');
       }
     };
 
     handleAuthCallback();
-  }, [navigate, setUser]);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 flex items-center justify-center">

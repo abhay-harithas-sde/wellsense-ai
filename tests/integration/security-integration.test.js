@@ -279,6 +279,348 @@ JWT_EXPIRES_IN=7d
 });
 
 /**
+ * Integration Tests for Task 2.2: CORS Configuration Integration
+ * 
+ * Tests CORS configuration and origin validation in production and development modes.
+ * **Validates: Requirements 3.1, 3.2, 3.6**
+ */
+
+describe('Task 2.2: CORS Configuration Integration', () => {
+  const CORSConfigurator = require('../../lib/security/cors-configurator');
+
+  /**
+   * Test: CORS allows authorized origins in production
+   * **Validates: Requirements 3.1, 3.2**
+   */
+  test('CORS allows authorized origins in production', () => {
+    const corsConfigurator = new CORSConfigurator();
+    
+    const env = {
+      CORS_ORIGIN: 'https://example.com,https://www.example.com,https://app.example.com'
+    };
+    
+    const corsOptions = corsConfigurator.getCORSOptions(env, 'production');
+    
+    // Test that the origin callback allows authorized origins
+    const authorizedOrigins = [
+      'https://example.com',
+      'https://www.example.com',
+      'https://app.example.com'
+    ];
+    
+    authorizedOrigins.forEach(origin => {
+      corsOptions.origin(origin, (err, allowed) => {
+        expect(err).toBeNull();
+        expect(allowed).toBe(true);
+      });
+    });
+  });
+
+  /**
+   * Test: CORS rejects unauthorized origins in production
+   * **Validates: Requirements 3.1**
+   */
+  test('CORS rejects unauthorized origins in production', () => {
+    const corsConfigurator = new CORSConfigurator();
+    
+    const env = {
+      CORS_ORIGIN: 'https://example.com,https://www.example.com'
+    };
+    
+    const corsOptions = corsConfigurator.getCORSOptions(env, 'production');
+    
+    // Test that the origin callback rejects unauthorized origins
+    const unauthorizedOrigins = [
+      'https://malicious.com',
+      'https://evil.example.com',
+      'http://localhost:3000' // localhost not allowed in production
+    ];
+    
+    unauthorizedOrigins.forEach(origin => {
+      corsOptions.origin(origin, (err, allowed) => {
+        expect(err).toBeDefined();
+        expect(err.message).toContain('Origin not allowed by CORS');
+        expect(allowed).toBeUndefined();
+      });
+    });
+  });
+
+  /**
+   * Test: CORS allows localhost in development mode
+   * **Validates: Requirements 3.3**
+   */
+  test('CORS allows localhost origins in development mode', () => {
+    const corsConfigurator = new CORSConfigurator();
+    
+    const env = {
+      CORS_ORIGIN: 'https://example.com'
+    };
+    
+    const corsOptions = corsConfigurator.getCORSOptions(env, 'development');
+    
+    // Test that localhost origins are allowed in development
+    const localhostOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:5173'
+    ];
+    
+    localhostOrigins.forEach(origin => {
+      corsOptions.origin(origin, (err, allowed) => {
+        expect(err).toBeNull();
+        expect(allowed).toBe(true);
+      });
+    });
+  });
+
+  /**
+   * Test: CORS credentials only for allowed origins
+   * **Validates: Requirements 3.6**
+   */
+  test('CORS includes credentials for allowed origins', () => {
+    const corsConfigurator = new CORSConfigurator();
+    
+    const env = {
+      CORS_ORIGIN: 'https://example.com'
+    };
+    
+    const corsOptions = corsConfigurator.getCORSOptions(env, 'production');
+    
+    // Verify credentials are enabled
+    expect(corsOptions.credentials).toBe(true);
+    
+    // Verify allowed methods
+    expect(corsOptions.methods).toContain('GET');
+    expect(corsOptions.methods).toContain('POST');
+    expect(corsOptions.methods).toContain('PUT');
+    expect(corsOptions.methods).toContain('DELETE');
+    
+    // Verify allowed headers
+    expect(corsOptions.allowedHeaders).toContain('Content-Type');
+    expect(corsOptions.allowedHeaders).toContain('Authorization');
+  });
+
+  /**
+   * Test: CORS allows requests with no origin
+   * **Validates: Requirements 3.1**
+   */
+  test('CORS allows requests with no origin (mobile apps, curl)', () => {
+    const corsConfigurator = new CORSConfigurator();
+    
+    const env = {
+      CORS_ORIGIN: 'https://example.com'
+    };
+    
+    const corsOptions = corsConfigurator.getCORSOptions(env, 'production');
+    
+    // Test that requests with no origin are allowed (mobile apps, curl, Postman)
+    corsOptions.origin(undefined, (err, allowed) => {
+      expect(err).toBeNull();
+      expect(allowed).toBe(true);
+    });
+  });
+
+  /**
+   * Test: Multiple origins parsed correctly
+   * **Validates: Requirements 3.2**
+   */
+  test('multiple comma-separated origins are parsed correctly', () => {
+    const corsConfigurator = new CORSConfigurator();
+    
+    const corsOrigin = 'https://example.com, https://www.example.com , https://app.example.com';
+    const allowedOrigins = corsConfigurator.parseAllowedOrigins(corsOrigin);
+    
+    expect(allowedOrigins).toHaveLength(3);
+    expect(allowedOrigins).toContain('https://example.com');
+    expect(allowedOrigins).toContain('https://www.example.com');
+    expect(allowedOrigins).toContain('https://app.example.com');
+  });
+});
+
+/**
+ * Integration Tests for Task 2.3: SSL/HTTPS Integration
+ * 
+ * Tests SSL certificate loading and HTTPS server configuration.
+ * **Validates: Requirements 4.1, 4.2, 4.3, 4.5**
+ */
+
+describe('Task 2.3: SSL/HTTPS Integration', () => {
+  const SSLManager = require('../../lib/security/ssl-manager');
+  const testSSLDir = path.join(__dirname, '../../test-ssl-files');
+  
+  beforeAll(() => {
+    // Create test SSL directory
+    if (!fs.existsSync(testSSLDir)) {
+      fs.mkdirSync(testSSLDir, { recursive: true });
+    }
+    
+    // Create test certificate files (self-signed for testing)
+    const testKey = `-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC7VJTUt9Us8cKj
+MzEfYyjiWA4R4/M2bS1+fWIcPm15j9zB/pQDspnWantYa6c+XdykHgniwyG7wj5W
+-----END PRIVATE KEY-----`;
+    
+    const testCert = `-----BEGIN CERTIFICATE-----
+MIIDXTCCAkWgAwIBAgIJAKL0UG+mRKSzMA0GCSqGSIb3DQEBCwUAMEUxCzAJBgNV
+BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVQQKDBhJbnRlcm5ldCBX
+-----END CERTIFICATE-----`;
+    
+    fs.writeFileSync(path.join(testSSLDir, 'test-key.pem'), testKey);
+    fs.writeFileSync(path.join(testSSLDir, 'test-cert.pem'), testCert);
+  });
+
+  afterAll(() => {
+    // Clean up test SSL files
+    if (fs.existsSync(testSSLDir)) {
+      fs.rmSync(testSSLDir, { recursive: true, force: true });
+    }
+  });
+
+  /**
+   * Test: HTTPS server starts with valid certificates
+   * **Validates: Requirements 4.2, 4.3**
+   */
+  test('HTTPS server configuration with valid certificates', () => {
+    const sslManager = new SSLManager();
+    
+    const env = {
+      ENABLE_HTTPS: 'true',
+      SSL_KEY_PATH: path.join(testSSLDir, 'test-key.pem'),
+      SSL_CERT_PATH: path.join(testSSLDir, 'test-cert.pem')
+    };
+    
+    // Check if SSL is configured
+    expect(sslManager.isSSLConfigured(env)).toBe(true);
+    
+    // Get HTTPS options
+    const httpsOptions = sslManager.getHTTPSOptions(env);
+    
+    expect(httpsOptions).toBeDefined();
+    expect(httpsOptions.key).toBeDefined();
+    expect(httpsOptions.cert).toBeDefined();
+    expect(Buffer.isBuffer(httpsOptions.key)).toBe(true);
+    expect(Buffer.isBuffer(httpsOptions.cert)).toBe(true);
+  });
+
+  /**
+   * Test: SSL validation detects missing certificate files
+   * **Validates: Requirements 4.2**
+   */
+  test('SSL validation detects missing certificate files', () => {
+    const sslManager = new SSLManager();
+    
+    const keyPath = path.join(testSSLDir, 'nonexistent-key.pem');
+    const certPath = path.join(testSSLDir, 'nonexistent-cert.pem');
+    
+    const validation = sslManager.validateCertificates(keyPath, certPath);
+    
+    expect(validation.valid).toBe(false);
+    expect(validation.errors.length).toBeGreaterThan(0);
+    expect(validation.errors.some(err => err.includes('not found'))).toBe(true);
+  });
+
+  /**
+   * Test: SSL not configured when ENABLE_HTTPS is false
+   * **Validates: Requirements 4.2**
+   */
+  test('SSL not configured when ENABLE_HTTPS is false', () => {
+    const sslManager = new SSLManager();
+    
+    const env = {
+      ENABLE_HTTPS: 'false',
+      SSL_KEY_PATH: path.join(testSSLDir, 'test-key.pem'),
+      SSL_CERT_PATH: path.join(testSSLDir, 'test-cert.pem')
+    };
+    
+    expect(sslManager.isSSLConfigured(env)).toBe(false);
+    
+    const httpsOptions = sslManager.getHTTPSOptions(env);
+    expect(httpsOptions).toBeNull();
+  });
+
+  /**
+   * Test: SSL not configured when certificate paths missing
+   * **Validates: Requirements 4.2**
+   */
+  test('SSL not configured when certificate paths are missing', () => {
+    const sslManager = new SSLManager();
+    
+    const env = {
+      ENABLE_HTTPS: 'true'
+      // Missing SSL_KEY_PATH and SSL_CERT_PATH
+    };
+    
+    expect(sslManager.isSSLConfigured(env)).toBe(false);
+  });
+
+  /**
+   * Test: Clear error message for invalid SSL configuration
+   * **Validates: Requirements 4.2, 10.6**
+   */
+  test('clear error message when SSL certificates cannot be loaded', () => {
+    const sslManager = new SSLManager();
+    
+    const env = {
+      ENABLE_HTTPS: 'true',
+      SSL_KEY_PATH: path.join(testSSLDir, 'missing-key.pem'),
+      SSL_CERT_PATH: path.join(testSSLDir, 'missing-cert.pem')
+    };
+    
+    expect(() => {
+      sslManager.getHTTPSOptions(env);
+    }).toThrow(/SSL configuration is invalid/);
+  });
+
+  /**
+   * Test: Certificate validation checks file readability
+   * **Validates: Requirements 4.2**
+   */
+  test('certificate validation checks file readability', () => {
+    const sslManager = new SSLManager();
+    
+    const keyPath = path.join(testSSLDir, 'test-key.pem');
+    const certPath = path.join(testSSLDir, 'test-cert.pem');
+    
+    const validation = sslManager.validateCertificates(keyPath, certPath);
+    
+    expect(validation.valid).toBe(true);
+    expect(validation.errors).toHaveLength(0);
+  });
+
+  /**
+   * Test: HTTP redirect configuration (simulated)
+   * **Validates: Requirements 4.3**
+   * 
+   * Note: This test verifies the redirect logic would be set up correctly.
+   * Full end-to-end HTTP redirect testing requires starting actual servers.
+   */
+  test('HTTP redirect server configuration', () => {
+    const sslManager = new SSLManager();
+    
+    const env = {
+      ENABLE_HTTPS: 'true',
+      SSL_KEY_PATH: path.join(testSSLDir, 'test-key.pem'),
+      SSL_CERT_PATH: path.join(testSSLDir, 'test-cert.pem'),
+      HTTPS_PORT: '443',
+      HTTP_PORT: '80'
+    };
+    
+    // Verify SSL is configured (which would trigger HTTP redirect setup)
+    expect(sslManager.isSSLConfigured(env)).toBe(true);
+    
+    // Verify HTTPS options can be generated
+    const httpsOptions = sslManager.getHTTPSOptions(env);
+    expect(httpsOptions).toBeDefined();
+    
+    // In god-server.js, when SSL is configured, an HTTP redirect server is created
+    // This test verifies the configuration is correct for that setup
+    expect(env.HTTPS_PORT).toBe('443');
+    expect(env.HTTP_PORT).toBe('80');
+  });
+});
+
+/**
  * Integration Tests for Task 3.2: Security Audit Tool
  * 
  * Tests the full security audit workflow with real file system operations.

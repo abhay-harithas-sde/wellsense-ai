@@ -1,6 +1,9 @@
 // Auto Integrate All - Automatic Integration Manager
 // Ensures all components are properly integrated and connected
 
+import fs from 'fs';
+import path from 'path';
+
 class AutoIntegrateAll {
   constructor(godServer, options = {}) {
     this.godServer = godServer;
@@ -127,9 +130,6 @@ class AutoIntegrateAll {
    */
   async checkFrontend() {
     try {
-      const fs = require('fs');
-      const path = require('path');
-      
       const distPath = path.join(process.cwd(), 'dist');
       const indexPath = path.join(distPath, 'index.html');
 
@@ -245,4 +245,4 @@ class AutoIntegrateAll {
   }
 }
 
-module.exports = { AutoIntegrateAll };
+export { AutoIntegrateAll };

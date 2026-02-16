@@ -1,8 +1,8 @@
 // OpenAI Chat Routes
-const express = require('express');
-const { DatabaseManager } = require('../lib/database');
-const { AIManager } = require('../lib/ai');
-const { authenticateToken } = require('../lib/auth');
+import express from 'express';
+import { DatabaseManager } from '../lib/database.js';
+import { AIManager } from '../lib/ai.js';
+import { authenticateToken } from '../lib/auth.js';
 
 const router = express.Router();
 const db = new DatabaseManager();
@@ -399,34 +399,122 @@ router.post('/generate-plan', authenticateToken, async (req, res) => {
   try {
     const { userProfile, healthGoals, preferences } = req.body;
 
+    // Validate required fields
+    if (!userProfile || !healthGoals) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: userProfile and healthGoals are required'
+      });
+    }
+
     const user = await db.getUserById(req.user.id);
     
+    // Get recent health records for more personalized plan
+    const recentRecords = await db.getHealthRecords(req.user.id, 7); // Last 7 records
+    
     const prompt = `Generate a personalized health plan for a user with the following profile:
-Age: ${userProfile.age}
-Gender: ${userProfile.gender}
-Weight: ${userProfile.weight}kg
-Height: ${userProfile.height}cm
-Activity Level: ${userProfile.activityLevel}
 
-Health Goals: ${healthGoals.join(', ')}
-Preferences: ${JSON.stringify(preferences)}
+**User Profile:**
+- Age: ${userProfile.age || 'Not specified'}
+- Gender: ${userProfile.gender || 'Not specified'}
+- Weight: ${userProfile.weight || 'Not specified'}kg
+- Height: ${userProfile.height || 'Not specified'}cm
+- BMI: ${userProfile.bmi?.toFixed(1) || 'Not calculated'}
+- Activity Level: ${userProfile.activityLevel || 'Moderate'}
 
-Provide a comprehensive plan including nutrition, exercise, and lifestyle recommendations based on their current health data.`;
+**Current Health Status:**
+${userProfile.currentHealth ? `
+- Heart Rate: ${userProfile.currentHealth.heartRate || 'N/A'} bpm
+- Blood Pressure: ${userProfile.currentHealth.bloodPressure || 'N/A'}
+- Recent Symptoms: ${userProfile.currentHealth.recentSymptoms?.join(', ') || 'None reported'}
+` : '- No recent health data available'}
+
+**Health Goals:** ${healthGoals.join(', ')}
+**Preferences:** ${JSON.stringify(preferences)}
+
+**Recent Health Trends:**
+${recentRecords && recentRecords.length > 0 ? 
+  `- ${recentRecords.length} health records in the past week
+- Average mood: ${recentRecords.reduce((sum, r) => sum + (r.mood || 0), 0) / recentRecords.length}/10
+- Average energy: ${recentRecords.reduce((sum, r) => sum + (r.energyLevel || 0), 0) / recentRecords.length}/10` 
+  : '- No recent health records available'}
+
+Please provide a comprehensive, actionable health plan including:
+1. **Nutrition Plan** - Specific meal suggestions and dietary guidelines
+2. **Exercise Plan** - Weekly workout schedule with specific exercises
+3. **Lifestyle Recommendations** - Sleep, stress management, hydration
+4. **Progress Tracking** - Key metrics to monitor
+5. **Timeline** - 30-day action plan
+
+Make it personalized, realistic, and achievable based on their current health data.`;
 
     const aiResponse = await ai.generateHealthAdvice(user, prompt, db);
+
+    // Log successful generation
+    console.log('[Chat] Health plan generated successfully for user:', req.user.id);
 
     res.json({
       success: true,
       content: aiResponse.content,
       provider: aiResponse.provider,
       model: aiResponse.model,
-      usageStats: aiResponse.usageStats
+      usageStats: aiResponse.usageStats,
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('[Chat] Generate plan error:', error);
-    res.status(500).json({
-      success: false,
-      error: error.message
+    
+    // Provide fallback response if AI fails
+    const fallbackPlan = `# Personalized Health Plan
+
+## 🎯 Your Health Goals
+Based on your profile, here's a comprehensive plan to help you achieve your health goals.
+
+### 📊 Nutrition Plan
+- **Breakfast:** Oatmeal with fruits and nuts (300-400 calories)
+- **Lunch:** Grilled chicken/fish with vegetables and quinoa (400-500 calories)
+- **Dinner:** Lean protein with salad and sweet potato (400-500 calories)
+- **Snacks:** Greek yogurt, fruits, nuts (200-300 calories)
+- **Hydration:** 8-10 glasses of water daily
+
+### 💪 Exercise Plan
+**Weekly Schedule:**
+- Monday: 30 min cardio + 20 min strength training
+- Tuesday: 45 min yoga or stretching
+- Wednesday: 30 min HIIT workout
+- Thursday: Rest or light walk
+- Friday: 30 min cardio + 20 min core exercises
+- Weekend: Active recreation (hiking, swimming, cycling)
+
+### 🌙 Lifestyle Recommendations
+- Sleep: 7-9 hours per night
+- Stress Management: 10 min daily meditation
+- Screen Time: Limit to 2 hours before bed
+- Social Connection: Regular interaction with friends/family
+
+### 📈 Progress Tracking
+Monitor these weekly:
+- Weight and body measurements
+- Energy levels (1-10 scale)
+- Sleep quality
+- Mood and stress levels
+- Exercise completion rate
+
+### 🗓️ 30-Day Action Plan
+**Week 1-2:** Establish routine, focus on consistency
+**Week 3-4:** Increase intensity, refine nutrition
+**Month 2+:** Maintain habits, set new challenges
+
+💡 **Note:** This is a general plan. For best results, consult with healthcare professionals and adjust based on your progress.`;
+
+    res.json({
+      success: true,
+      content: fallbackPlan,
+      provider: 'fallback',
+      model: 'template',
+      usageStats: null,
+      timestamp: new Date().toISOString(),
+      note: 'AI service unavailable - using template plan'
     });
   }
 });
@@ -526,4 +614,4 @@ Identify patterns, improvements, concerns, and provide actionable insights based
   }
 });
 
-module.exports = router;
+export default router;

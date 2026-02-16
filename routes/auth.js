@@ -1,12 +1,12 @@
 // AAP Authentication Routes
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { OAuth2Client } = require('google-auth-library');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const { PrismaClient } = require('@prisma/client');
-const { userSchemas, validate } = require('../lib/validation');
-const { logger } = require('../lib/logger');
+import { OAuth2Client } from 'google-auth-library';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { PrismaClient } from '@prisma/client';
+import { userSchemas, validate } from '../lib/validation.js';
+import { logger } from '../lib/logger.js';
 
 const prisma = new PrismaClient();
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -422,7 +422,6 @@ router.get('/google/callback', async (req, res) => {
     console.log('🔄 Exchanging code for tokens...');
     
     // Exchange code for tokens
-    const { OAuth2Client } = require('google-auth-library');
     const oauth2Client = new OAuth2Client(
       process.env.GOOGLE_CLIENT_ID,
       process.env.GOOGLE_CLIENT_SECRET,
@@ -770,4 +769,4 @@ router.put('/profile', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

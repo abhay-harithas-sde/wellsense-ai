@@ -1,10 +1,10 @@
 // Auto Update Sync - Automatic Frontend/Backend Update Synchronization
 // Monitors for changes and syncs updates automatically
 
-const fs = require('fs');
-const path = require('path');
-const { exec } = require('child_process');
-const chokidar = require('chokidar');
+import fs from 'fs';
+import path from 'path';
+import { exec } from 'child_process';
+import chokidar from 'chokidar';
 
 class AutoUpdateSync {
   constructor(options = {}) {
@@ -115,4 +115,4 @@ class AutoUpdateSync {
   }
 }
 
-module.exports = { AutoUpdateSync };
+export { AutoUpdateSync };

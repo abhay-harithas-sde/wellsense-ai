@@ -1,11 +1,12 @@
 // Automations Manager - Central Hub for All Automations
 // Manages and coordinates all automation modules
 
-const { AutoUpdateSync } = require('./auto-update-sync');
-const { AutoDatabaseSync } = require('./auto-database-sync');
-const { AutoIntegrateAll } = require('./auto-integrate-all');
-const { AutoCleanup } = require('./auto-cleanup');
-const { AutoRestart } = require('./auto-restart');
+import { AutoUpdateSync } from './auto-update-sync.js';
+import { AutoDatabaseSync } from './auto-database-sync.js';
+import { AutoIntegrateAll } from './auto-integrate-all.js';
+import { AutoCleanup } from './auto-cleanup.js';
+import { AutoRestart } from './auto-restart.js';
+import { SyncWatchdog } from './sync-watchdog.js';
 
 class AutomationsManager {
   constructor(godServer, options = {}) {
@@ -17,7 +18,7 @@ class AutomationsManager {
       updateSync: new AutoUpdateSync(options.updateSync || {}),
       databaseSync: new AutoDatabaseSync(
         godServer.dbIntegrations,
-        options.databaseSync || {}
+        options.databaseSync || { interval: 1000 } // 1 second default
       ),
       integrateAll: new AutoIntegrateAll(
         godServer,
@@ -26,6 +27,12 @@ class AutomationsManager {
       cleanup: new AutoCleanup(options.cleanup || {}),
       restart: new AutoRestart(options.restart || {})
     };
+
+    // Initialize watchdog AFTER databaseSync
+    this.modules.watchdog = new SyncWatchdog(
+      this.modules.databaseSync,
+      options.watchdog || { enabled: true }
+    );
 
     this.startTime = null;
   }
@@ -74,7 +81,16 @@ class AutomationsManager {
         this.modules.restart.start(this.godServer);
       }
 
+      // Start Watchdog (monitors database sync)
+      if (this.modules.watchdog.enabled) {
+        this.modules.watchdog.start();
+      }
+
       console.log('\n✅ All automations started successfully\n');
+      console.log('═'.repeat(80) + '\n');
+      console.log('⚡ REAL-TIME MODE: Database syncing every 1 second');
+      console.log('🔒 CONTINUOUS MODE: Sync will never auto turn off');
+      console.log('🐕 WATCHDOG: Monitoring sync health and auto-restarting if needed\n');
       console.log('═'.repeat(80) + '\n');
 
     } catch (error) {
@@ -180,4 +196,4 @@ class AutomationsManager {
   }
 }
 
-module.exports = { AutomationsManager };
+export { AutomationsManager };

@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthContext';
  */
 const useHealthDataSync = (options = {}) => {
   const {
-    syncInterval = 10000, // Sync every 10 seconds
+    syncInterval = 1000, // Sync every 1 second - REAL-TIME
     autoSync = true,
     includeProfile = true,
     includeHealthRecords = true,

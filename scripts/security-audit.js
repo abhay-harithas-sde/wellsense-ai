@@ -71,9 +71,12 @@ class SecurityAuditor {
 
   /**
    * Run all security checks
+   * @param {boolean} silent - If true, suppress progress messages
    */
-  async runAllChecks() {
-    console.log('\n🔍 Running Security Audit...\n');
+  async runAllChecks(silent = false) {
+    if (!silent) {
+      console.log('\n🔍 Running Security Audit...\n');
+    }
     
     await this.checkWeakSecrets('.env');
     await this.checkWeakSecrets('.env.production');
@@ -435,8 +438,9 @@ async function main() {
     const auditor = new SecurityAuditor();
     
     if (options.reportOnly) {
-      console.log('Report-only mode not yet implemented');
-      process.exit(0);
+      // Run all checks silently and only show the report
+      const report = await auditor.runAllChecks(true);
+      process.exit(report.exitCode);
     }
 
     if (options.check) {

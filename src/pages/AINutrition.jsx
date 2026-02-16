@@ -27,7 +27,7 @@ const AINutrition = () => {
   const [showLogger, setShowLogger] = useState(false);
   const [nutritionRecords, setNutritionRecords] = useState([]);
   
-  // Real-time health data sync
+  // Real-time health data sync - OPTIMIZED: Reduced frequency
   const {
     latestVitals,
     profile,
@@ -39,9 +39,9 @@ const AINutrition = () => {
     error: syncError,
     syncNow
   } = useHealthDataSync({
-    syncInterval: 30000, // 30 seconds
+    syncInterval: 60000, // 60 seconds instead of 30
     autoSync: true,
-    includeHealthRecords: true,
+    includeHealthRecords: false, // Don't load all records initially
     includeProfile: true
   });
 
@@ -59,19 +59,36 @@ const AINutrition = () => {
   const [loading, setLoading] = useState(true);
   const [scanningFood, setScanningFood] = useState(false);
 
+  // OPTIMIZED: Only load when profile is available, not on every change
   useEffect(() => {
-    if (profile || latestVitals) {
+    if (profile && !nutritionPlan) {
       loadNutritionData();
     }
-  }, [profile, latestVitals, user]);
+  }, [profile?.id]); // Only trigger on profile ID change
 
+  // OPTIMIZED: Load nutrition records separately
   useEffect(() => {
-    loadNutritionRecords();
-  }, [user]);
+    if (user) {
+      loadNutritionRecords();
+    }
+  }, [user?.id]); // Only trigger on user ID change
 
   const loadNutritionData = async () => {
     try {
       setLoading(true);
+      
+      // OPTIMIZED: Use cached data if available
+      const cachedPlan = sessionStorage.getItem('nutritionPlan');
+      if (cachedPlan) {
+        const parsed = JSON.parse(cachedPlan);
+        const cacheAge = Date.now() - parsed.timestamp;
+        // Use cache if less than 5 minutes old
+        if (cacheAge < 5 * 60 * 1000) {
+          setNutritionPlan(parsed.data);
+          setLoading(false);
+          return;
+        }
+      }
       
       // Generate personalized nutrition plan based on real user data
       const userProfile = {
@@ -99,29 +116,13 @@ const AINutrition = () => {
       
       setNutritionPlan(plan);
       
-      // Calculate daily intake from recent health records
-      if (healthRecords && healthRecords.length > 0) {
-        const todayRecords = healthRecords.filter(record => {
-          const recordDate = new Date(record.timestamp || record.createdAt);
-          const today = new Date();
-          return recordDate.toDateString() === today.toDateString();
-        });
-        
-        // Estimate daily intake based on activity and weight
-        const estimatedCalories = Math.round(userProfile.weight * 30); // Rough estimate
-        const estimatedProtein = Math.round(userProfile.weight * 1.2); // 1.2g per kg
-        const estimatedCarbs = Math.round(estimatedCalories * 0.45 / 4); // 45% of calories
-        const estimatedFat = Math.round(estimatedCalories * 0.30 / 9); // 30% of calories
-        
-        setDailyIntake({
-          calories: estimatedCalories,
-          protein: estimatedProtein,
-          carbs: estimatedCarbs,
-          fat: estimatedFat,
-          fiber: 25,
-          water: latestVitals?.waterIntake || 2.0
-        });
-      }
+      // Cache the plan
+      sessionStorage.setItem('nutritionPlan', JSON.stringify({
+        data: plan,
+        timestamp: Date.now()
+      }));
+      
+      // OPTIMIZED: Don't calculate daily intake here, it's loaded separately
     } catch (error) {
       console.error('Failed to load nutrition data:', error);
     } finally {
@@ -225,10 +226,24 @@ const AINutrition = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-96">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">AI is analyzing your nutrition needs...</p>
+      <div className="space-y-6 animate-pulse">
+        {/* Header Skeleton */}
+        <div className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl p-6 h-32"></div>
+        
+        {/* Food Scanner Skeleton */}
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
+          <div className="h-12 bg-gray-200 rounded mb-4"></div>
+        </div>
+        
+        {/* Charts Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 h-64"></div>
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 h-64"></div>
+        </div>
+        
+        <div className="text-center text-gray-500 mt-4">
+          <p>Loading your personalized nutrition plan...</p>
         </div>
       </div>
     );

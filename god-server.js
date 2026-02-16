@@ -5,6 +5,45 @@
 // ╚════════════════════════════════════════════════════════════════════════╝
 
 // ═══════════════════════════════════════════════════════════════════════════
+// IMPORTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+import dotenv from 'dotenv';
+import express from 'express';
+import https from 'https';
+import http from 'http';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
+import { PrismaClient } from '@prisma/client';
+
+// Import core library components
+import { DatabaseManager } from './lib/database.js';
+import { DatabaseIntegrations } from './lib/database-integrations.js';
+import { AIManager } from './lib/ai.js';
+import { initializeFirebase, getFirebaseStatus } from './lib/firebase.js';
+
+// Import security components
+import EnvironmentValidator from './lib/security/environment-validator.js';
+import CORSConfigurator from './lib/security/cors-configurator.js';
+import SSLManager from './lib/security/ssl-manager.js';
+
+// Import Automations Manager
+import { AutomationsManager } from './automations/index.js';
+
+// Import routes
+import authRoutes from './routes/auth.js';
+import apiRoutes from './routes/index.js';
+import crudRoutes from './routes/crud-api.js';
+
+// ES module equivalents for __dirname and __filename
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ═══════════════════════════════════════════════════════════════════════════
 // ENVIRONMENT CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -18,36 +57,7 @@ const envFile = NODE_ENV === 'production'
   ? '.env.test'
   : '.env';
 
-require('dotenv').config({ path: envFile });
-
-const express = require('express');
-const https = require('https');
-const http = require('http');
-const path = require('path');
-const cors = require('cors');
-const helmet = require('helmet');
-const compression = require('compression');
-const rateLimit = require('express-rate-limit');
-const { PrismaClient } = require('@prisma/client');
-
-// Import core library components
-const { DatabaseManager } = require('./lib/database');
-const { DatabaseIntegrations } = require('./lib/database-integrations');
-const { AIManager } = require('./lib/ai');
-const { initializeFirebase, getFirebaseStatus } = require('./lib/firebase');
-
-// Import security components
-const EnvironmentValidator = require('./lib/security/environment-validator');
-const CORSConfigurator = require('./lib/security/cors-configurator');
-const SSLManager = require('./lib/security/ssl-manager');
-
-// Import Automations Manager
-const { AutomationsManager } = require('./automations');
-
-// Import routes
-const authRoutes = require('./routes/auth');
-const apiRoutes = require('./routes');
-const crudRoutes = require('./routes/crud-api');
+dotenv.config({ path: envFile });
 
 // Initialize Express app
 const app = express();
@@ -318,6 +328,8 @@ app.use('/api', apiRoutes);
 
 // Mount comprehensive CRUD API routes
 app.use('/api/v1', crudRoutes);
+import sessionAnalysisRoutes from './routes/session-analysis.js';
+app.use('/api/session-analysis', sessionAnalysisRoutes);
 
 // Legacy routes support (without /api prefix for backward compatibility)
 app.use('/', apiRoutes);
@@ -409,7 +421,7 @@ app.get('/api/firebase/status', (req, res) => {
 
 app.post('/api/firebase/notification', async (req, res) => {
   try {
-    const { sendPushNotification } = require('./lib/firebase');
+    const { sendPushNotification } = await import('./lib/firebase.js');
     const { token, title, body, imageUrl, data } = req.body;
 
     if (!token || !title || !body) {
@@ -581,7 +593,8 @@ app.get('/api/updates/check', (req, res) => {
   res.json({
     success: true,
     version: '1.0.0',
-    updateAvailable: false,
+    hasUpdate: false,
+    latestVersion: '1.0.0',
     message: 'You are running the latest version'
   });
 });
@@ -772,7 +785,7 @@ async function logEndpointsAndDatabases(port) {
       },
       databaseSync: {
         enabled: true, // Always enabled
-        interval: 30000 // 30 seconds - continuous
+        interval: 1000 // 1 SECOND - REAL-TIME SYNC
       },
       integrateAll: {
         enabled: true, // Always enabled
@@ -785,11 +798,20 @@ async function logEndpointsAndDatabases(port) {
       restart: {
         enabled: true, // Always enabled
         healthCheckInterval: 30000 // 30 seconds - continuous
+      },
+      watchdog: {
+        enabled: true, // Always enabled - monitors database sync
+        checkInterval: 5000, // Check every 5 seconds
+        maxRestarts: 10,
+        restartDelay: 2000
       }
     });
 
     await automations.startAll();
-    console.log('✅ All automations running UNLIMITED - 30-second intervals (continuous)\n');
+    console.log('✅ All automations running - Database sync: 1 second (REAL-TIME)\n');
+    console.log('⚡ REAL-TIME MODE: Database syncing every 1 second');
+    console.log('🔒 CONTINUOUS MODE: Sync will never auto turn off');
+    console.log('🐕 WATCHDOG: Monitoring and auto-restarting if needed\n');
   } catch (error) {
     console.error('⚠️  Failed to start automations:', error.message);
   }
@@ -947,8 +969,6 @@ async function startGODServer() {
 }
 
 // Start the server
-if (require.main === module) {
-  startGODServer();
-}
+startGODServer();
 
-module.exports = { app, startGODServer, db, dbIntegrations, ai, prisma, firebase, automations };
+export { app, startGODServer, db, dbIntegrations, ai, prisma, firebase, automations };

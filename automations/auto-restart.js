@@ -1,7 +1,7 @@
 // Auto Restart - Automatic Server Restart on Errors
 // Monitors server health and restarts on critical failures
 
-const EventEmitter = require('events');
+import EventEmitter from 'events';
 
 class AutoRestart extends EventEmitter {
   constructor(options = {}) {
@@ -222,4 +222,4 @@ class AutoRestart extends EventEmitter {
   }
 }
 
-module.exports = { AutoRestart };
+export { AutoRestart };

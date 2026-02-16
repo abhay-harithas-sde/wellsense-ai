@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Video, Phone, MessageSquare, Star, Filter, Search, Plus, Eye, Edit, Trash2, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 
 const ConsultationDashboard = ({ userType = 'patient' }) => {
+  const navigate = useNavigate();
   const [consultations, setConsultations] = useState([]);
   const [activeTab, setActiveTab] = useState('upcoming');
   const [searchQuery, setSearchQuery] = useState('');
@@ -14,13 +16,35 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
     fetchConsultations();
   }, [activeTab, filterStatus]);
 
+  useEffect(() => {
+    // Initialize with sample data on component mount
+    if (consultations.length === 0) {
+      setConsultations(getSampleConsultations());
+      setLoading(false);
+    }
+  }, []);
+
   const fetchConsultations = async () => {
     try {
       setLoading(true);
       const userId = 'demo-user-id'; // This would come from auth context
-      const response = await fetch(`/api/users/${userId}/consultations?status=${filterStatus}`);
-      const data = await response.json();
-      setConsultations(data);
+      
+      // Use the correct API endpoint based on filter status
+      let endpoint;
+      if (filterStatus === 'upcoming') {
+        endpoint = `/api/consultations/user/${userId}/upcoming`;
+      } else {
+        endpoint = `/api/consultations/user/${userId}`;
+      }
+      
+      const response = await fetch(endpoint);
+      const result = await response.json();
+      
+      if (result.success) {
+        setConsultations(Array.isArray(result.data) ? result.data : []);
+      } else {
+        throw new Error(result.error || 'Failed to fetch consultations');
+      }
     } catch (error) {
       console.error('Failed to fetch consultations:', error);
       // Set sample data for demo
@@ -31,21 +55,27 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
   };
 
   const handleJoinConsultation = (consultation) => {
-    // Navigate to external video consultation platform
-    window.open('http://meet.wellsense.in/', '_blank');
+    // Navigate to external video consultation platform with consultation ID
+    const meetingLink = `http://meet.wellsense.in/?room=${consultation.id}&name=${encodeURIComponent(consultation.professional?.name || 'User')}`;
+    window.open(meetingLink, '_blank');
   };
 
   const handleCancelConsultation = async (consultationId) => {
     try {
-      await fetch(`/api/consultations/${consultationId}/status`, {
-        method: 'PATCH',
+      const response = await fetch(`/api/consultations/${consultationId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ status: 'cancelled' })
       });
       
-      fetchConsultations(); // Refresh the list
+      const result = await response.json();
+      if (result.success) {
+        fetchConsultations(); // Refresh the list
+      } else {
+        console.error('Failed to cancel consultation:', result.error);
+      }
     } catch (error) {
       console.error('Failed to cancel consultation:', error);
     }
@@ -53,7 +83,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
 
   const handleReschedule = (consultation) => {
     // Navigate to booking page with pre-filled data
-    window.location.href = `/consultation/book?reschedule=${consultation.id}`;
+    navigate(`/consultation/book?reschedule=${consultation.id}`);
   };
 
   const getStatusColor = (status) => {
@@ -78,7 +108,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
     }
   };
 
-  const filteredConsultations = consultations.filter(consultation => {
+  const filteredConsultations = Array.isArray(consultations) ? consultations.filter(consultation => {
     const matchesSearch = consultation.professional?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          consultation.specialty?.toLowerCase().includes(searchQuery.toLowerCase());
     
@@ -91,7 +121,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
     }
     
     return matchesSearch;
-  });
+  }) : [];
 
   const ConsultationCard = ({ consultation }) => {
     const isUpcoming = consultation.status === 'scheduled';
@@ -114,7 +144,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
               <div className="flex items-center space-x-4 mt-1 text-sm text-gray-600">
                 <div className="flex items-center space-x-1">
                   <Calendar className="w-4 h-4" />
-                  <span>{new Date(consultation.date).toLocaleDateString()}</span>
+                  <span>{new Date(consultation.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <Clock className="w-4 h-4" />
@@ -145,6 +175,33 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
         {consultation.notes && (
           <div className="mb-4 p-3 bg-gray-50 rounded-lg">
             <p className="text-sm text-gray-700">{consultation.notes}</p>
+          </div>
+        )}
+
+        {isUpcoming && (
+          <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-blue-900 mb-1">Meeting Link</p>
+                <a 
+                  href={`http://meet.wellsense.in/?room=${consultation.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-600 hover:text-blue-800 underline break-all"
+                >
+                  meet.wellsense.in/?room={consultation.id}
+                </a>
+              </div>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(`http://meet.wellsense.in/?room=${consultation.id}`);
+                  alert('Meeting link copied to clipboard!');
+                }}
+                className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              >
+                Copy Link
+              </button>
+            </div>
           </div>
         )}
 
@@ -244,7 +301,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Date:</span>
-                    <span className="font-medium">{new Date(consultation.date).toLocaleDateString()}</span>
+                    <span className="font-medium">{new Date(consultation.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Time:</span>
@@ -273,7 +330,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Fee:</span>
-                    <span className="font-medium">${consultation.fee || 75}</span>
+                    <span className="font-medium">₹{consultation.fee || 1500}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Duration:</span>
@@ -288,6 +345,48 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
                 <h4 className="font-semibold text-gray-900 mb-3">Notes</h4>
                 <div className="p-3 bg-gray-50 rounded-lg">
                   <p className="text-sm text-gray-700">{consultation.notes}</p>
+                </div>
+              </div>
+            )}
+
+            {consultation.status === 'scheduled' && (
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-3">Meeting Information</h4>
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-sm font-medium text-blue-900 mb-1">Video Meeting Link</p>
+                      <a 
+                        href={`http://meet.wellsense.in/?room=${consultation.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-blue-600 hover:text-blue-800 underline break-all"
+                      >
+                        meet.wellsense.in/?room={consultation.id}
+                      </a>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(`http://meet.wellsense.in/?room=${consultation.id}`);
+                          alert('Meeting link copied to clipboard!');
+                        }}
+                        className="px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      >
+                        Copy Link
+                      </button>
+                      <button
+                        onClick={() => handleJoinConsultation(consultation)}
+                        className="px-3 py-2 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-1"
+                      >
+                        <Video className="w-4 h-4" />
+                        <span>Join Now</span>
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-600">
+                      💡 Tip: You can join the meeting 15 minutes before the scheduled time
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
@@ -342,38 +441,58 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
     return minutesDiff >= -30 && minutesDiff <= 15;
   };
 
-  const getSampleConsultations = () => [
-    {
-      id: 'cons-1',
-      professional: {
-        name: 'Dr. Sarah Johnson',
-        avatar: '/api/placeholder/60/60'
+  const getSampleConsultations = () => {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    return [
+      {
+        id: 'cons-1',
+        professional: {
+          name: 'Dr. Sarah Johnson',
+          avatar: '/api/placeholder/60/60'
+        },
+        specialty: 'General Practitioner',
+        date: today.toISOString().split('T')[0],
+        time: '14:30',
+        type: 'Video Consultation',
+        status: 'scheduled',
+        notes: 'Follow-up for blood pressure monitoring',
+        fee: 5000
       },
-      specialty: 'General Practitioner',
-      date: new Date().toISOString().split('T')[0],
-      time: '14:30',
-      type: 'Video Consultation',
-      status: 'scheduled',
-      notes: 'Follow-up for blood pressure monitoring',
-      fee: 75
-    },
-    {
-      id: 'cons-2',
-      professional: {
-        name: 'Dr. Michael Chen',
-        avatar: '/api/placeholder/60/60'
+      {
+        id: 'cons-2',
+        professional: {
+          name: 'Dr. Michael Chen',
+          avatar: '/api/placeholder/60/60'
+        },
+        specialty: 'Cardiology',
+        date: tomorrow.toISOString().split('T')[0],
+        time: '10:00',
+        type: 'Video Consultation',
+        status: 'scheduled',
+        notes: 'Cardiac health assessment',
+        fee: 8000
       },
-      specialty: 'Cardiology',
-      date: '2024-01-20',
-      time: '10:00',
-      type: 'Video Consultation',
-      status: 'completed',
-      rating: 5,
-      notes: 'Cardiac health assessment',
-      prescription: 'Continue current medication, follow-up in 3 months',
-      fee: 120
-    }
-  ];
+      {
+        id: 'cons-3',
+        professional: {
+          name: 'Dr. Emily Rodriguez',
+          avatar: '/api/placeholder/60/60'
+        },
+        specialty: 'Dermatology',
+        date: '2024-01-15',
+        time: '16:00',
+        type: 'Video Consultation',
+        status: 'completed',
+        rating: 5,
+        notes: 'Skin condition follow-up',
+        prescription: 'Continue current medication, follow-up in 3 months',
+        fee: 6500
+      }
+    ];
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -383,7 +502,10 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
           <p className="text-gray-600">Manage your healthcare appointments and consultations</p>
         </div>
         <button
-          onClick={() => window.location.href = '/consultation/book'}
+          onClick={() => {
+            console.log('Book New Consultation clicked');
+            navigate('/consultation/book');
+          }}
           className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Plus className="w-5 h-5" />
@@ -464,7 +586,11 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
               : `No ${activeTab} consultations found.`}
           </p>
           <button
-            onClick={() => window.location.href = '/consultation/book'}
+            onClick={() => {
+              console.log('Book Your First Consultation clicked');
+              console.log('Navigate function:', navigate);
+              navigate('/consultation/book');
+            }}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Book Your First Consultation

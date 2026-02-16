@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const DiagnosticPage = () => {
+  const navigate = useNavigate();
   const diagnostics = {
     timestamp: new Date().toISOString(),
     userAgent: navigator.userAgent,
@@ -178,7 +180,7 @@ const DiagnosticPage = () => {
           textAlign: 'center'
         }}>
           <button
-            onClick={() => window.location.href = '/auth'}
+            onClick={() => navigate('/auth')}
             style={{
               backgroundColor: '#3b82f6',
               color: 'white',

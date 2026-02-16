@@ -266,6 +266,8 @@ Same as Let's Encrypt steps 5-7.
 
 ### Environment Variables
 
+The application uses the SSL Manager component to handle certificate loading and validation. Configure the following environment variables:
+
 ```bash
 # Enable HTTPS
 ENABLE_HTTPS=true
@@ -281,6 +283,12 @@ HTTP_PORT=80
 SSL_KEY_PATH=./ssl/private.key
 SSL_CERT_PATH=./ssl/certificate.crt
 ```
+
+**How it works:**
+- The SSL Manager validates certificate paths before loading
+- Certificates are loaded at startup and validated for readability
+- If validation fails, the application provides clear error messages
+- If SSL is not configured, the application falls back to HTTP mode
 
 ### File Structure
 
@@ -530,6 +538,53 @@ curl -I http://yourdomain.com
 ```
 
 ## Best Practices
+
+### Production Deployment Checklist
+
+Before deploying to production with HTTPS:
+
+**Pre-Deployment:**
+- [ ] Domain DNS configured and propagated
+- [ ] Firewall allows ports 80 and 443
+- [ ] SSL certificates obtained (Let's Encrypt or CA)
+- [ ] Certificates copied to server with correct permissions
+- [ ] Environment variables configured in `.env.production`
+- [ ] ENABLE_HTTPS=true set
+- [ ] SSL_KEY_PATH and SSL_CERT_PATH point to valid files
+- [ ] Certificate expiration date verified (not expired)
+- [ ] Private key permissions set to 600
+- [ ] Certificate permissions set to 644
+
+**Deployment:**
+- [ ] Application started with NODE_ENV=production
+- [ ] HTTPS server listening on port 443
+- [ ] HTTP redirect server listening on port 80
+- [ ] No SSL-related errors in logs
+- [ ] Server starts successfully
+
+**Post-Deployment:**
+- [ ] HTTPS accessible: `https://yourdomain.com`
+- [ ] HTTP redirects to HTTPS: `http://yourdomain.com` → `https://yourdomain.com`
+- [ ] Certificate valid in browser (no warnings)
+- [ ] API endpoints accessible via HTTPS
+- [ ] SSL Labs test passes (A or A+ rating)
+- [ ] Certificate renewal automation configured
+- [ ] Monitoring alerts set up for certificate expiration
+
+**Testing Commands:**
+```bash
+# Test HTTPS endpoint
+curl -I https://yourdomain.com/api/health
+
+# Test HTTP redirect
+curl -I http://yourdomain.com
+
+# Verify certificate
+openssl s_client -connect yourdomain.com:443 -servername yourdomain.com
+
+# Check SSL Labs rating
+# Visit: https://www.ssllabs.com/ssltest/analyze.html?d=yourdomain.com
+```
 
 ### Security
 

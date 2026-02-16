@@ -1,18 +1,20 @@
 // Auto Database Sync - Real-time Database Synchronization
 // Automatically syncs data between PostgreSQL, MongoDB, and Redis
 
-const EventEmitter = require('events');
+import EventEmitter from 'events';
+import { execSync } from 'child_process';
 
 class AutoDatabaseSync extends EventEmitter {
   constructor(dbIntegrations, options = {}) {
     super();
     this.dbIntegrations = dbIntegrations;
     this.enabled = true;
-    this.interval = options.interval || 30000; // 30 seconds
+    this.interval = options.interval || 1000; // 1 second - REAL-TIME SYNC
     this.syncTables = options.syncTables || ['users', 'healthRecords', 'goals'];
     this.intervalId = null;
     this.lastSyncTime = null;
     this.syncCount = 0;
+    this.autoTurnOff = false; // NEVER AUTO TURN OFF
   }
 
   /**
@@ -25,8 +27,9 @@ class AutoDatabaseSync extends EventEmitter {
     }
 
     console.log('🔄 Auto Database Sync: Starting...');
-    console.log(`   Interval: ${this.interval / 1000}s`);
+    console.log(`   Interval: ${this.interval / 1000}s (REAL-TIME)`);
     console.log(`   Tables: ${this.syncTables.join(', ')}`);
+    console.log(`   Auto Turn Off: ${this.autoTurnOff ? 'YES' : 'NO - CONTINUOUS'}`);
     console.log(`   Schema Auto-Push: Enabled (checks every hour)`);
 
     // Check and push schema changes on startup
@@ -35,7 +38,7 @@ class AutoDatabaseSync extends EventEmitter {
     // Run initial sync
     this.performSync();
 
-    // Schedule periodic sync
+    // Schedule periodic sync - EVERY 1 SECOND
     this.intervalId = setInterval(() => {
       this.performSync();
     }, this.interval);
@@ -47,6 +50,8 @@ class AutoDatabaseSync extends EventEmitter {
 
     console.log('✅ Auto Database Sync: Started');
     console.log('   📋 Schema will be checked and pushed automatically');
+    console.log('   ⚡ REAL-TIME MODE: Syncing every 1 second');
+    console.log('   🔒 CONTINUOUS MODE: Will never auto turn off');
   }
 
   /**
@@ -58,8 +63,6 @@ class AutoDatabaseSync extends EventEmitter {
     console.log('════════════════════════════════════════════════════════════════');
     
     try {
-      const { execSync } = require('child_process');
-      
       // First, check if Prisma is available
       try {
         execSync('npx prisma --version', { stdio: 'pipe' });
@@ -140,16 +143,15 @@ class AutoDatabaseSync extends EventEmitter {
   }
 
   /**
-   * Perform database sync
+   * Perform database sync - Optimized for 1-second intervals
    */
   async performSync() {
     if (!this.dbIntegrations.connections.postgresql || 
         !this.dbIntegrations.connections.mongodb) {
-      console.log('⚠️  Sync skipped: Required databases not connected');
+      // Silent skip - don't log every second
       return;
     }
 
-    console.log('🔄 Starting database sync...');
     const startTime = Date.now();
     const results = {
       success: [],
@@ -157,14 +159,15 @@ class AutoDatabaseSync extends EventEmitter {
       timestamp: new Date().toISOString()
     };
 
+    // Sync all tables silently
     for (const table of this.syncTables) {
       try {
         await this.syncTable(table);
         results.success.push(table);
-        console.log(`   ✅ Synced: ${table}`);
       } catch (error) {
         results.failed.push({ table, error: error.message });
-        console.error(`   ❌ Failed: ${table} - ${error.message}`);
+        // Only log errors
+        console.error(`   ❌ Sync failed: ${table} - ${error.message}`);
       }
     }
 
@@ -172,8 +175,12 @@ class AutoDatabaseSync extends EventEmitter {
     this.lastSyncTime = new Date();
     this.syncCount++;
 
-    console.log(`✅ Sync completed in ${duration}ms`);
-    console.log(`   Success: ${results.success.length}, Failed: ${results.failed.length}`);
+    // Only log every 10 syncs (every 10 seconds) to reduce console spam
+    if (this.syncCount % 10 === 0) {
+      console.log(`🔄 Sync #${this.syncCount} completed in ${duration}ms`);
+      console.log(`   Success: ${results.success.length}, Failed: ${results.failed.length}`);
+      console.log(`   Last sync: ${this.lastSyncTime.toLocaleTimeString()}`);
+    }
 
     this.emit('sync-complete', results);
     return results;
@@ -328,4 +335,4 @@ class AutoDatabaseSync extends EventEmitter {
   }
 }
 
-module.exports = { AutoDatabaseSync };
+export { AutoDatabaseSync };

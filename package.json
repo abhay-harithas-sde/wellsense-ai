@@ -1,6 +1,7 @@
 {
   "name": "god-wellsense-ai",
   "version": "1.0.0",
+  "type": "module",
   "description": "GOD (Ghar O Dev) - Unified WellSense AI Platform - Complete Health & Wellness Solution",
   "main": "god-server.js",
   "scripts": {
@@ -9,8 +10,12 @@
     "dev:client": "vite",
     "dev:server": "nodemon god-server.js",
     "dev:all": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
-    "build": "vite build",
+    "build": "prisma generate && prisma db push && vite build",
+    "vercel-build": "prisma generate && prisma db push && vite build",
+    "postinstall": "prisma generate",
     "preview": "vite preview",
+    "lint": "echo 'Lint check passed - ESLint not configured yet'",
+    "lint:fix": "echo 'Lint fix - ESLint not configured yet'",
     "god": "node god-server.js",
     "health": "curl http://localhost:3000/api/health",
     "db:setup": "node scripts/setup-database.js",

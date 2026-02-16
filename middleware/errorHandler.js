@@ -1,5 +1,5 @@
 // Global Error Handler Middleware
-const { logger } = require('../lib/logger');
+import { logger } from '../lib/logger.js';
 
 // 404 Not Found Handler
 const notFoundHandler = (req, res, next) => {
@@ -93,7 +93,7 @@ const errorHandler = (err, req, res, next) => {
   }
 };
 
-module.exports = {
+export default {
   notFoundHandler,
   errorHandler
 };

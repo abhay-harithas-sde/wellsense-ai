@@ -1,7 +1,7 @@
 // Authentication Middleware
-const jwt = require('jsonwebtoken');
-const { PrismaClient } = require('@prisma/client');
-const { logger } = require('../lib/logger');
+import jwt from 'jsonwebtoken';
+import { PrismaClient } from '@prisma/client';
+import { logger } from '../lib/logger.js';
 
 const prisma = new PrismaClient();
 
@@ -98,7 +98,7 @@ const optionalAuth = async (req, res, next) => {
   next();
 };
 
-module.exports = {
+export default {
   authenticateToken,
   optionalAuth
 };

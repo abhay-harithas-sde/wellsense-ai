@@ -368,87 +368,12 @@ docker-compose -f docker/docker-compose.yml logs -f
 docker-compose -f docker/docker-compose.yml restart postgres
 ```
 
-## 🔐 Security
-
-- All sensitive data is stored in environment variables
-- Passwords are hashed using bcrypt
-- Firebase handles authentication securely
-- API keys are never exposed to the client
-- CORS is configured to allow only trusted origins
-- Input validation on all user inputs
-
 ## 🤝 Team
 
 **Team GOD (Ghar O Dev)**
 
 - **Abhay Harithas** - Lead Developer (Backend, AI Integration, DevOps)
 - **Yokesh** - Support Developer (Frontend, UI/UX, Testing)
-
-## 🔒 Security
-
-### Production Deployment
-
-Before deploying to production:
-
-1. **Generate Strong Secrets:**
-```bash
-npm run security:generate-secrets
-```
-
-2. **Create Production Configuration:**
-```bash
-cp .env.production.template .env.production
-# Edit .env.production with generated secrets
-```
-
-3. **Run Security Audit:**
-```bash
-npm run security:audit
-```
-
-4. **Enable HTTPS:**
-   - Obtain SSL certificates (Let's Encrypt recommended)
-   - Configure SSL in `.env.production`
-   - See [SSL Setup Guide](./docs/SSL_SETUP.md)
-
-### Security Features
-
-- **Strong Secret Generation**: Cryptographically secure secrets (JWT, database passwords)
-- **Environment Isolation**: Separate configurations for dev/test/production
-- **CORS Security**: Strict origin whitelisting in production
-- **SSL/TLS Support**: HTTPS encryption with automatic HTTP redirect
-- **Input Validation**: All API inputs validated and sanitized
-- **Error Sanitization**: Production errors don't expose sensitive data
-- **Rate Limiting**: API rate limiting to prevent abuse
-- **Automated Security Audit**: Pre-deployment security checks
-
-### Security Documentation
-
-- [Security Hardening Guide](./docs/SECURITY_HARDENING.md) - Comprehensive security setup
-- [Migration Guide](./docs/MIGRATION_GUIDE.md) - Step-by-step migration to secure configuration
-- [SSL Setup Guide](./docs/SSL_SETUP.md) - HTTPS/TLS certificate configuration
-- [API Documentation](./docs/API_DOCUMENTATION.md) - API security requirements
-
-### Security Best Practices
-
-**DO:**
-- Use strong, unique secrets for each environment
-- Enable HTTPS in production
-- Run security audit before deployment
-- Rotate secrets regularly (90-180 days)
-- Store production secrets in a secure vault
-- Monitor security logs
-
-**DON'T:**
-- Commit `.env.production` to version control
-- Use weak or default secrets
-- Use wildcard CORS in production
-- Disable SSL certificate verification
-- Share production credentials
-
-### Reporting Security Issues
-
-If you discover a security vulnerability, please email security@wellsense.ai. Do not create public GitHub issues for security vulnerabilities.
 
 ## 📝 License
 

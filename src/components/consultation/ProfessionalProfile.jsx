@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, MapPin, Calendar, Clock, Award, GraduationCap, Users, MessageSquare, Video, Phone, Heart, CheckCircle, ExternalLink } from 'lucide-react';
 
 const ProfessionalProfile = ({ professionalId }) => {
+  const navigate = useNavigate();
   const [professional, setProfessional] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [availability, setAvailability] = useState([]);
@@ -39,7 +41,7 @@ const ProfessionalProfile = ({ professionalId }) => {
 
   const handleBookConsultation = () => {
     // Navigate to booking page with pre-selected professional
-    window.location.href = `/consultation/book?professional=${professionalId}`;
+    navigate(`/consultation/book?professional=${professionalId}`);
   };
 
   const handleVoiceCall = () => {

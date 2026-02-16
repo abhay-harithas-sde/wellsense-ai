@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import VideoConsultation from '../components/consultation/VideoConsultation';
 import ConsultationBooking from '../components/consultation/ConsultationBooking';
 import ConsultationDashboard from '../components/consultation/ConsultationDashboard';
@@ -9,17 +9,25 @@ import { Video, Calendar, User, ArrowLeft, Stethoscope, Clock, Star, MapPin } fr
 const ConsultationPage = () => {
   const { action, id } = useParams();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState('dashboard');
 
   useEffect(() => {
     // Determine view based on URL parameters
+    console.log('ConsultationPage - action:', action, 'id:', id);
+    console.log('ConsultationPage - Full URL:', window.location.pathname);
+    
     if (action === 'video' && id) {
+      console.log('Setting view to: video');
       setCurrentView('video');
     } else if (action === 'book') {
+      console.log('Setting view to: booking');
       setCurrentView('booking');
     } else if (action === 'professional' && id) {
+      console.log('Setting view to: profile');
       setCurrentView('profile');
     } else {
+      console.log('Setting view to: dashboard');
       setCurrentView('dashboard');
     }
   }, [action, id]);
@@ -62,7 +70,7 @@ const ConsultationPage = () => {
           <div className="flex items-center space-x-4">
             {currentView !== 'dashboard' && (
               <button
-                onClick={() => window.history.back()}
+                onClick={() => navigate('/consultation')}
                 className="p-2 hover:bg-blue-700 rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-6 h-6" />
@@ -183,7 +191,7 @@ const ConsultationPage = () => {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-gray-900">Featured Professionals</h2>
             <button
-              onClick={() => setCurrentView('booking')}
+              onClick={() => navigate('/consultation/book')}
               className="text-blue-600 hover:text-blue-800 font-medium"
             >
               View All →
@@ -195,7 +203,7 @@ const ConsultationPage = () => {
               <div
                 key={professional.id}
                 className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => window.location.href = `/consultation/professional/${professional.id}`}
+                onClick={() => navigate(`/consultation/professional/${professional.id}`)}
               >
                 <div className="flex items-center space-x-3 mb-3">
                   <img

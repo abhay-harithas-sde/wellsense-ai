@@ -1,14 +1,14 @@
 // AAP Routes Module
 // Consolidated API routes
 
-const express = require('express');
-const { DatabaseManager } = require('../lib/database');
-const { AIManager } = require('../lib/ai');
-const { authenticateToken } = require('../lib/auth');
-const authRoutes = require('./auth');
-const chatRoutes = require('./chat');
-const nutritionRoutes = require('./nutrition');
-const behaviorRoutes = require('./behavior');
+import express from 'express';
+import { DatabaseManager } from '../lib/database.js';
+import { AIManager } from '../lib/ai.js';
+import { authenticateToken } from '../lib/auth.js';
+import authRoutes from './auth.js';
+import chatRoutes from './chat.js';
+import nutritionRoutes from './nutrition.js';
+import behaviorRoutes from './behavior.js';
 
 const router = express.Router();
 const db = new DatabaseManager();
@@ -268,4 +268,4 @@ router.get('/community/posts', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

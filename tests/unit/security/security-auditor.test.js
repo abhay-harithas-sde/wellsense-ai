@@ -368,5 +368,27 @@ SSL_CERT_PATH=./ssl/certificate.crt
       expect(report).toHaveProperty('exitCode');
       expect(report).toHaveProperty('results');
     });
+
+    it('should support silent mode for report-only functionality', async () => {
+      fs.existsSync.mockReturnValue(true);
+      fs.readFileSync.mockReturnValue('NODE_ENV=development');
+
+      // Spy on console.log to verify silent mode
+      const consoleSpy = jest.spyOn(console, 'log');
+
+      const report = await auditor.runAllChecks(true);
+
+      // In silent mode, should not log the "Running Security Audit..." message
+      // but will still log the report
+      const runningMessage = consoleSpy.mock.calls.find(
+        call => call[0] && call[0].includes('Running Security Audit')
+      );
+      expect(runningMessage).toBeUndefined();
+
+      expect(report).toHaveProperty('passed');
+      expect(report).toHaveProperty('exitCode');
+
+      consoleSpy.mockRestore();
+    });
   });
 });

@@ -88,22 +88,26 @@ class AutoUpdateService {
   setupVisibilityListener() {
     if (!this.settings.checkOnFocus) return;
     
-    document.addEventListener('visibilitychange', () => {
+    this.visibilityHandler = () => {
       if (!document.hidden) {
         console.log('🔄 Tab became visible, checking for updates...');
         this.checkForUpdates();
       }
-    });
+    };
+    
+    document.addEventListener('visibilitychange', this.visibilityHandler);
   }
 
   /**
    * Setup online listener to check updates when network reconnects
    */
   setupOnlineListener() {
-    window.addEventListener('online', () => {
+    this.onlineHandler = () => {
       console.log('🔄 Network reconnected, checking for updates...');
       this.checkForUpdates();
-    });
+    };
+    
+    window.addEventListener('online', this.onlineHandler);
   }
 
   /**
@@ -448,6 +452,15 @@ class AutoUpdateService {
    */
   destroy() {
     this.stopAutoUpdateCheck();
+    
+    // Remove event listeners
+    if (this.visibilityHandler) {
+      document.removeEventListener('visibilitychange', this.visibilityHandler);
+    }
+    if (this.onlineHandler) {
+      window.removeEventListener('online', this.onlineHandler);
+    }
+    
     this.updateCallbacks = [];
   }
 }

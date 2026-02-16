@@ -217,31 +217,51 @@ const UpdateSettings = ({ isOpen, onClose }) => {
 
           {/* Last Check Result */}
           {lastCheckResult && (
-            <div className={`p-3 rounded-lg ${
+            <div className={`p-4 rounded-lg ${
               lastCheckResult.error 
                 ? 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'
                 : lastCheckResult.hasUpdate
                 ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'
                 : 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
             }`}>
-              <div className="flex items-center">
+              <div className="flex items-start">
                 {lastCheckResult.error ? (
-                  <AlertTriangle className="h-4 w-4 text-red-500 mr-2" />
+                  <AlertTriangle className="h-5 w-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" />
+                ) : lastCheckResult.hasUpdate ? (
+                  <Download className="h-5 w-5 text-blue-500 mr-3 flex-shrink-0 mt-0.5" />
                 ) : (
-                  <Info className="h-4 w-4 text-blue-500 mr-2" />
+                  <Info className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
                 )}
-                <p className={`text-sm ${
-                  lastCheckResult.error 
-                    ? 'text-red-800 dark:text-red-200'
-                    : 'text-gray-800 dark:text-gray-200'
-                }`}>
-                  {lastCheckResult.error 
-                    ? `Error: ${lastCheckResult.error}`
-                    : lastCheckResult.hasUpdate
-                    ? `Update available: ${lastCheckResult.version}`
-                    : 'You are running the latest version'
-                  }
-                </p>
+                <div className="flex-1">
+                  <p className={`text-sm font-medium ${
+                    lastCheckResult.error 
+                      ? 'text-red-800 dark:text-red-200'
+                      : lastCheckResult.hasUpdate
+                      ? 'text-blue-800 dark:text-blue-200'
+                      : 'text-green-800 dark:text-green-200'
+                  }`}>
+                    {lastCheckResult.error 
+                      ? 'Update Check Failed'
+                      : lastCheckResult.hasUpdate
+                      ? `Update Available: ${lastCheckResult.version}`
+                      : 'Up to Date'
+                    }
+                  </p>
+                  <p className={`text-xs mt-1 ${
+                    lastCheckResult.error 
+                      ? 'text-red-600 dark:text-red-300'
+                      : lastCheckResult.hasUpdate
+                      ? 'text-blue-600 dark:text-blue-300'
+                      : 'text-green-600 dark:text-green-300'
+                  }`}>
+                    {lastCheckResult.error 
+                      ? `${lastCheckResult.error}. Please check your connection and try again.`
+                      : lastCheckResult.hasUpdate
+                      ? 'A new version is ready to install'
+                      : 'You are running the latest version'
+                    }
+                  </p>
+                </div>
               </div>
             </div>
           )}

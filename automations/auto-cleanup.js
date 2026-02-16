@@ -1,8 +1,8 @@
 // Auto Cleanup - Automatic Cleanup of Unwanted Files
 // Removes temporary files, old logs, and unused assets
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 class AutoCleanup {
   constructor(options = {}) {
@@ -387,4 +387,4 @@ class AutoCleanup {
   }
 }
 
-module.exports = { AutoCleanup };
+export { AutoCleanup };
