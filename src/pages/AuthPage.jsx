@@ -81,7 +81,8 @@ const AuthPage = () => {
     
     try {
       // Try to login with a dummy password to check if user exists
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/check-email`, {
+      const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3000');
+      const response = await fetch(`${apiUrl}/api/auth/check-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.email })

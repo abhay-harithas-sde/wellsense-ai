@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Video, Phone, MessageSquare, Star, Filter, Search, Plus, Eye, Edit, Trash2, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import config from '../../config/env';
 
 const ConsultationDashboard = ({ userType = 'patient' }) => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
 
   const handleJoinConsultation = (consultation) => {
     // Navigate to external video consultation platform with consultation ID
-    const meetingLink = `http://meet.wellsense.in/?room=${consultation.id}&name=${encodeURIComponent(consultation.professional?.name || 'User')}`;
+    const meetingLink = `${config.meetingUrl}/?room=${consultation.id}&name=${encodeURIComponent(consultation.professional?.name || 'User')}`;
     window.open(meetingLink, '_blank');
   };
 
@@ -184,7 +185,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
               <div>
                 <p className="text-sm font-medium text-blue-900 mb-1">Meeting Link</p>
                 <a 
-                  href={`http://meet.wellsense.in/?room=${consultation.id}`}
+                  href={`${config.meetingUrl}/?room=${consultation.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-blue-600 hover:text-blue-800 underline break-all"
@@ -194,7 +195,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
               </div>
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(`http://meet.wellsense.in/?room=${consultation.id}`);
+                  navigator.clipboard.writeText(`${config.meetingUrl}/?room=${consultation.id}`);
                   alert('Meeting link copied to clipboard!');
                 }}
                 className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
@@ -357,7 +358,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
                     <div>
                       <p className="text-sm font-medium text-blue-900 mb-1">Video Meeting Link</p>
                       <a 
-                        href={`http://meet.wellsense.in/?room=${consultation.id}`}
+                        href={`${config.meetingUrl}/?room=${consultation.id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm text-blue-600 hover:text-blue-800 underline break-all"
@@ -368,7 +369,7 @@ const ConsultationDashboard = ({ userType = 'patient' }) => {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => {
-                          navigator.clipboard.writeText(`http://meet.wellsense.in/?room=${consultation.id}`);
+                          navigator.clipboard.writeText(`${config.meetingUrl}/?room=${consultation.id}`);
                           alert('Meeting link copied to clipboard!');
                         }}
                         className="px-3 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"

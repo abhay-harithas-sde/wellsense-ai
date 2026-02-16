@@ -2,7 +2,8 @@
 class AICollaborationService {
   constructor() {
     this.apiKey = import.meta.env.VITE_OPENAI_API_KEY || 'demo-mode';
-    this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    // Use relative path in production, localhost in development
+    this.baseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3000');
     this.models = {
       gpt4: 'gpt-4',
       gpt35: 'gpt-3.5-turbo',

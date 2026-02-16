@@ -11,7 +11,7 @@ const MicrosoftAuthButton = ({ className = '', isSignUp = false }) => {
     
     try {
       // Redirect to Microsoft OAuth - production implementation
-      const serverURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const serverURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? window.location.origin : 'http://localhost:3000');
       const authType = isSignUp ? 'signup' : 'signin';
       
       // Store auth intent for callback handling

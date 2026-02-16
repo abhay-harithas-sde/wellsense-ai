@@ -9,7 +9,7 @@ const GoogleAuthButton = ({ className = '', onSuccess }) => {
     
     try {
       // Use redirect-based OAuth flow (no popups needed!)
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? window.location.origin : 'http://localhost:3000');
       window.location.href = `${apiUrl}/api/auth/google`;
     } catch (error) {
       console.error('Google authentication error:', error);

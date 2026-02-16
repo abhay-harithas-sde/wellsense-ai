@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, Video, User, Star, MapPin, DollarSign, CheckCircle, AlertCircle, Filter, Search } from 'lucide-react';
+import config from '../../config/env';
 
 const ConsultationBooking = () => {
   const navigate = useNavigate();
@@ -409,7 +410,7 @@ const ConsultationBooking = () => {
   );
 
   if (bookingStep === 4) {
-    const meetingLink = `http://meet.wellsense.in/?room=${bookingData.consultationId || bookingData.id}`;
+    const meetingLink = `${config.meetingUrl}/?room=${bookingData.consultationId || bookingData.id}`;
     const formattedDate = new Date(selectedDate).toLocaleDateString('en-IN', { 
       day: '2-digit', 
       month: 'short', 

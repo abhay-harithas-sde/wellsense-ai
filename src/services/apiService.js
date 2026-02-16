@@ -3,7 +3,8 @@ import demoApiService from './demoApi.js';
 
 class ApiService {
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    // Use relative path in production, localhost in development
+    this.baseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3000');
     this.token = localStorage.getItem('authToken') || localStorage.getItem('token');
     this.isMongoDBMode = localStorage.getItem('mongodbMode') === 'true';
   }

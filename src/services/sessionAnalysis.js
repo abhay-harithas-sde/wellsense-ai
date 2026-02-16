@@ -3,7 +3,8 @@
 
 class SessionAnalysisService {
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    // Use relative path in production, localhost in development
+    this.baseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3000');
   }
 
   // Get authentication headers

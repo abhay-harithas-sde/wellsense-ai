@@ -1,7 +1,8 @@
 // Frontend OpenAI Client Service
 class OpenAIClientService {
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+    // Use relative path in production, localhost in development
+    this.baseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3000');
     // Never check for API key in frontend - it should only be on backend
     this.isDemo = false; // Will be determined by backend health check
   }

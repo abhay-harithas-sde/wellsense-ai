@@ -1,6 +1,7 @@
 import demoApiService from './demoApi';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+// Use relative path in production, localhost in development
+const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:3000');
 
 class ApiService {
   constructor() {

@@ -118,7 +118,7 @@ const PhoneAuthModal = ({ isOpen, onClose, onSuccess }) => {
       const fullPhoneNumber = `${currentCountry.dialCode}${cleanPhone}`;
       
       // Send OTP request to backend
-      const serverURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const serverURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? window.location.origin : 'http://localhost:3000');
       const response = await fetch(`${serverURL}/api/auth/phone/send-code`, {
         method: 'POST',
         headers: {
@@ -176,7 +176,7 @@ const PhoneAuthModal = ({ isOpen, onClose, onSuccess }) => {
       const cleanPhone = phoneNumber.replace(/\D/g, '');
       const fullPhoneNumber = `${currentCountry.dialCode}${cleanPhone}`;
       
-      const serverURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const serverURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? window.location.origin : 'http://localhost:3000');
       const response = await fetch(`${serverURL}/api/auth/phone/verify-code`, {
         method: 'POST',
         headers: {
@@ -223,7 +223,7 @@ const PhoneAuthModal = ({ isOpen, onClose, onSuccess }) => {
       const cleanPhone = phoneNumber.replace(/\D/g, '');
       const fullPhoneNumber = `${currentCountry.dialCode}${cleanPhone}`;
       
-      const serverURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const serverURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? window.location.origin : 'http://localhost:3000');
       const response = await fetch(`${serverURL}/api/auth/phone/send-code`, {
         method: 'POST',
         headers: {
